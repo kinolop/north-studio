@@ -1,0 +1,348 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   NORTH STUDIO — DESIGN TOKENS
+   The only place raw values are allowed to exist. Everything downstream
+   consumes these as Tailwind utilities or var() references.
+   ========================================================================= */
+
+@theme {
+  /* --- Surface ---------------------------------------------------------
+     Never pure #000: pure black kills the fog's low-end gradient and smears
+     on OLED. The base carries a faint cool tint so chrome reads as metal
+     rather than as grey plastic. */
+  --color-void: #07080b;
+  --color-abyss: #0a0c10;
+  --color-plate: #0e1116;
+  --color-riser: #141821;
+
+  /* --- Ink -------------------------------------------------------------
+     Contrast on --color-void: bone 17.0:1, ash 7.7:1, slate 5.1:1.
+     --color-hairline is decorative only (never text). */
+  --color-bone: #ecedef;
+  --color-ash: #9ba1aa;
+  --color-slate: #7b818c;
+  --color-hairline: #262b34;
+
+  /* --- Signal ----------------------------------------------------------
+     ONE accent. Cold electric blue-violet. One focal moment per section.
+     --color-signal is 4.4:1 — use it for dots, rings, glows, borders and
+     display-size type (all clear the 3:1 graphics threshold).
+     --color-signal-lift is 8.4:1 — use it whenever accent-coloured text
+     has to be read at body size. */
+  --color-signal: #6d5cff;
+  --color-signal-lift: #a79bff;
+  --color-signal-deep: #2b2470;
+
+  /* --- Type ------------------------------------------------------------
+     Display is Archivo with the variable `wdth` axis pushed wide: an
+     expanded grotesk reads machined at large sizes and separates the
+     display voice from the body voice by width rather than by genre. */
+  --font-display: var(--font-archivo), var(--font-golos), "Helvetica Neue",
+    Arial, sans-serif;
+  --font-sans: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), "SFMono-Regular", Consolas, monospace;
+
+  /* Fluid scale. Every heading has a tuned line-height and tracking —
+     no default leading anywhere on this site. */
+  /* Sized against the measure, not picked by eye: the longest authored line
+     in the hero is 23 characters, which at this face's ~0.59em average
+     advance is 13.6em. 6.1vw keeps that inside the container at every width
+     from 768 up, so the authored line breaks survive instead of rewrapping. */
+  --text-hero: clamp(1.85rem, 6.1vw, 6.2rem);
+  --text-hero--line-height: 0.88;
+  --text-hero--letter-spacing: -0.042em;
+
+  --text-display: clamp(1.9rem, 3.6vw, 3.5rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.034em;
+
+  --text-title: clamp(1.5rem, 2.2vw, 2rem);
+  --text-title--line-height: 1;
+  --text-title--letter-spacing: -0.028em;
+
+  --text-lead: clamp(1.125rem, 1.6vw, 1.5rem);
+  --text-lead--line-height: 1.5;
+  --text-lead--letter-spacing: -0.015em;
+
+  --text-body: clamp(1rem, 1.05vw, 1.0625rem);
+  --text-body--line-height: 1.65;
+  --text-body--letter-spacing: -0.005em;
+
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.5;
+
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: 0.2em;
+
+  /* --- Rhythm ----------------------------------------------------------
+     Spacious end of the scale: this is a marketing page, not a dashboard. */
+  --spacing-gutter: clamp(1.25rem, 5vw, 5rem);
+  --spacing-section: clamp(7rem, 16vh, 13rem);
+  --spacing-section-tight: clamp(5rem, 10vh, 8rem);
+
+  /* --- Material --------------------------------------------------------
+     Small radii on purpose: machined edges, not soft SaaS cards. */
+  --radius-plate: 4px;
+  --radius-control: 3px;
+
+  --shadow-plate: 0 1px 0 0 rgb(255 255 255 / 0.045) inset,
+    0 24px 60px -20px rgb(0 0 0 / 0.85), 0 2px 12px -4px rgb(0 0 0 / 0.6);
+  --shadow-lift: 0 1px 0 0 rgb(255 255 255 / 0.08) inset,
+    0 40px 90px -24px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(109 92 255 / 0.14);
+
+  /* --- Motion ----------------------------------------------------------
+     One easing vocabulary for the whole site. `north` is expo.out — slow
+     out, weighted, never bouncy. Nothing on this site uses linear. */
+  --ease-north: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-glide: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-mask: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --duration-tap: 180ms;
+  --duration-state: 320ms;
+  --duration-reveal: 900ms;
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================= */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    /* Lenis owns scrolling; native smooth-scroll would fight it. */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    letter-spacing: var(--text-body--letter-spacing);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  /* Lenis is applied to <html>; it needs the page to be a normal flow. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    /* Push the variable width axis wide — this is the display voice. */
+    font-variation-settings: "wdth" 112;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal-lift);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  /* Focus rings are never removed — only re-styled per control. */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  button,
+  a {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* ============================================================================
+   PRIMITIVES
+   ========================================================================= */
+
+@utility container-north {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+/* Real glass: a tinted plate + a lit top edge + a soft drop.
+   Not a milky rectangle — the inset highlight is what sells the material.
+
+   No backdrop-filter here, deliberately. Ten of these were each running a
+   blur-and-saturate pass over whatever sat behind them, and behind almost
+   every one of them is near-uniform dark: the effect cost real frames and
+   showed almost nothing. The plate gradient below carries the material on
+   its own. Blur is kept only where content genuinely scrolls behind glass —
+   the header and the channel overlay, which set it themselves. */
+@utility glass {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.055) 0%,
+    rgb(255 255 255 / 0.018) 42%,
+    rgb(255 255 255 / 0.034) 100%
+  );
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-plate);
+  box-shadow: var(--shadow-plate);
+}
+
+/* The lit top edge, drawn separately so it can fade in on hover. */
+@utility glass-edge {
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgb(236 237 239 / 0.28) 30%,
+      rgb(167 155 255 / 0.55) 50%,
+      rgb(236 237 239 / 0.28) 70%,
+      transparent 100%
+    );
+    opacity: 0.35;
+    transition: opacity var(--duration-state) var(--ease-north);
+    pointer-events: none;
+  }
+
+  &:hover::before,
+  &:focus-within::before {
+    opacity: 1;
+  }
+}
+
+/* Polished-metal text fill. Used once per page, on the wordmark. */
+@utility text-chrome {
+  background: linear-gradient(
+    166deg,
+    #ffffff 0%,
+    #a8afbb 22%,
+    #5c626e 38%,
+    #eef0f4 52%,
+    #8990a0 68%,
+    #d7dbe3 84%,
+    #6c7280 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Prices are a decision datum, not a caption. Set larger than a label, with
+   normal tracking and tabular figures — at label tracking the ₽ crossbar
+   falls below a pixel and the mark reads as a Latin P. */
+@utility price-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+  font-variant-numeric: tabular-nums;
+}
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: var(--text-label--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-slate);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mask-based line reveal. The line sits below its own overflow window and
+   is lifted out by GSAP/Framer — reads as printing rather than fading. */
+@utility line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+/* A single light falling down the scroll hint, on the same easing as
+   everything else. It runs once every 2.6s rather than continuously, so it
+   reads as a cue rather than as a loading bar. */
+@keyframes railFall {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(300%);
+    opacity: 0;
+  }
+}
+
+/* Sound-toggle level meter. Height only, so it stays off the layout path. */
+@keyframes soundBar {
+  0%,
+  100% {
+    height: 4px;
+  }
+  50% {
+    height: 11px;
+  }
+}
+
+/* ============================================================================
+   REDUCED MOTION
+   Kill parallax, scrub, idle 3D and ambient drift. The page stays fully
+   legible and every reveal-based element resolves to its final state.
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
