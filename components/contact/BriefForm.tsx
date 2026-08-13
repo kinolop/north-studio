@@ -31,7 +31,6 @@ export function BriefForm({
   const [channel, setChannel] = useState<ChannelId>("telegram");
   const [handle, setHandle] = useState("");
   const [need, setNeed] = useState(prefill);
-  const [budget, setBudget] = useState("");
   /** Bots fill every field they find; humans never see this one. */
   const [company, setCompany] = useState("");
 
@@ -58,7 +57,7 @@ export function BriefForm({
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, channel, handle, need, budget, company, locale }),
+        body: JSON.stringify({ name, channel, handle, need, company, locale }),
       });
       setStatus(response.ok ? "sent" : "error");
     } catch {
@@ -177,28 +176,6 @@ export function BriefForm({
             aria-describedby={errors.need ? `${uid}-need-error` : undefined}
             className={`${fieldClass} resize-y`}
           />
-        </Field>
-
-        <Field
-          id={`${uid}-budget`}
-          label={copy.form.budget}
-          hint={copy.form.optional}
-        >
-          <select
-            id={`${uid}-budget`}
-            value={budget}
-            onChange={(e) => setBudget(e.target.value)}
-            className={`${fieldClass} appearance-none`}
-          >
-            <option value="" className="bg-riser">
-              {copy.form.budgetNone}
-            </option>
-            {copy.engagements.tiers.map((tier) => (
-              <option key={tier.key} value={tier.name} className="bg-riser">
-                {tier.name} · {tier.from}
-              </option>
-            ))}
-          </select>
         </Field>
 
         {/* Honeypot. Off-screen rather than display:none, which some bots skip. */}

@@ -23,8 +23,6 @@ interface WorkCardProps {
   variant?: "lead" | "stacked";
   delay?: number;
   className?: string;
-  /** "engagement" / "формат" — the noun after the tier name. */
-  engagementSuffix: string;
 }
 
 export function WorkCard({
@@ -32,7 +30,6 @@ export function WorkCard({
   variant = "stacked",
   delay = 0,
   className = "",
-  engagementSuffix,
 }: WorkCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -76,11 +73,13 @@ export function WorkCard({
 
       <p className="label-mono mt-4 text-signal-lift">{project.discipline}</p>
 
-      <p className={`mt-6 max-w-[46ch] text-ash ${lead ? "text-lead" : "text-body"}`}>
+      <p className={`mt-auto pt-6 max-w-[46ch] text-ash ${lead ? "text-lead" : "text-body"}`}>
         {project.summary}
       </p>
 
-      <p className="label-mono mt-auto pt-8">{project.engagement} {engagementSuffix}</p>
+      {/* The tier line that used to sit here named a priced package. With
+          the tiers gone it named nothing, and all three cases are sites
+          anyway — repeating the word three times was noise. */}
     </div>
   );
 

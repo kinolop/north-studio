@@ -88,11 +88,18 @@ Everything lives in **`lib/i18n/ru.ts`**.
 | Manifesto, para 3 | the AI-pipeline paragraph — the most sensitive claim on the site |
 | Founder section | «За студией - один человек.» + two paragraphs |
 | FAQ | all six answers, especially «с участием ИИ» and the pricing one |
+| Services | the three direction names, summaries and bullet lists |
+| Agent demo | the six scripted chat turns and the canned reply |
 | Configurator | four prompts and twelve choice labels |
 | Contact / channels | the three channel one-liners |
 | Form | labels, placeholders, success and error text |
 
-**Two notes:**
+**Three notes:**
+
+- **The site quotes no prices.** If you ever want a figure back on the page,
+  it has to go in deliberately — nothing is left commented out waiting to be
+  switched on.
+
 
 - **`founder.body`** is an honest draft in your voice. It asserts no name, no
   dates, no employers and no numbers — only that the studio is one person.

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    The tab icon is the same letter as the hero object: these coordinates are
+    lib/../components/scene/nGlyph.ts's N_POLYGON mapped into a 32px box
+    (y flipped, since SVG counts downward). Drawing a second, approximate N
+    here would eventually drift from the real one.
+  -->
+  <defs>
+    <linearGradient id="n-chrome" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="28%" stop-color="#a8afbb"/>
+      <stop offset="46%" stop-color="#eef0f4"/>
+      <stop offset="68%" stop-color="#7a8190"/>
+      <stop offset="100%" stop-color="#d7dbe3"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="#07080b"/>
+  <polygon
+    fill="url(#n-chrome)"
+    points="7.75,27 11.74,27 11.74,12.49 20.26,27 24.25,27 24.25,5 20.26,5 20.26,19.51 11.74,5 7.75,5"/>
+</svg>

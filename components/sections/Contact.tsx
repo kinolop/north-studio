@@ -9,9 +9,9 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
-import { SECTIONS } from "@/lib/sections";
+import { sectionById } from "@/lib/sections";
 
-const meta = SECTIONS[9];
+const meta = sectionById("start");
 
 /**
  * The close. Centred, because it is the one moment on the page that should

@@ -5,44 +5,44 @@ import { useMemo, useState } from "react";
 
 import { DitherLayer } from "@/components/atmosphere/DitherLayer";
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
-import { useCopy, useLocale } from "@/components/i18n/CopyProvider";
+import { useCopy } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { GhostWord } from "@/components/ui/GhostWord";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
-import { estimate, formatRoubles, type Answers } from "@/lib/estimate";
 import { DURATION, EASE } from "@/lib/motion";
-import { SECTIONS } from "@/lib/sections";
+import { recommend, type Answers } from "@/lib/recommend";
+import { sectionById } from "@/lib/sections";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-const meta = SECTIONS[4];
+const meta = sectionById("configurator");
 
 /**
- * Task J — the estimator.
+ * The router, not the quoter.
  *
- * Four segmented controls and a readout. It is deliberately not a wizard:
- * every question is on screen at once, answers can be changed in any order,
- * and the result updates live. A four-step wizard for four questions would
- * be three more screens than the information deserves.
+ * This used to end on a rouble range. It now ends on a direction, a rough
+ * timeline and one line of what that involves — because the studio's whole
+ * promise is that the number is settled in conversation, and a page that
+ * guesses at it first contradicts the promise it is trying to make.
  *
- * The result carries the answers into the brief form, so the first thing
- * the studio receives is a summary the visitor already agreed with.
+ * Still not a wizard: four questions, all on screen, answerable in any
+ * order, result updating live.
  */
 export function Configurator() {
   const copy = useCopy();
-  const { locale } = useLocale();
   const { open } = useChannelOverlay();
   const reduced = useReducedMotion();
   const [answers, setAnswers] = useState<Answers>({});
 
   const answered = Object.keys(answers).length;
   const complete = answered === copy.configurator.questions.length;
-  const result = useMemo(() => estimate(answers), [answers]);
+  const result = useMemo(() => recommend(answers), [answers]);
 
-  const tier = copy.engagements.tiers.find((t) => t.key === result.tier);
+  const service = copy.services.items.find((s) => s.key === result.direction);
 
-  /** A one-paragraph summary in the visitor's own words, for the brief. */
+  /** The visitor's own answers, carried into the brief so the studio's
+   *  first message already contains something they agreed with. */
   function summarise(): string {
     const lines = copy.configurator.questions.map((question) => {
       const chosen = question.choices.find(
@@ -53,8 +53,8 @@ export function Configurator() {
     return [
       ...lines,
       "",
-      `${copy.configurator.matchLabel}: ${tier?.name ?? ""}`,
-      `${copy.configurator.rangeLabel}: ${formatRoubles(result.low, locale)} – ${formatRoubles(result.high, locale)}`,
+      `${copy.configurator.matchLabel}: ${service?.name ?? ""}`,
+      `${copy.configurator.timelineLabel}: ${copy.configurator.timelines[result.timeline]}`,
     ].join("\n");
   }
 
@@ -134,7 +134,7 @@ export function Configurator() {
 
               {/* Readout */}
               <div className="relative overflow-hidden border-t border-hairline p-7 lg:col-span-5 lg:border-t-0 lg:border-l lg:p-9">
-                <GhostWord>{tier?.name ?? ""}</GhostWord>
+                <GhostWord>{service?.short ?? ""}</GhostWord>
 
                 <div className="relative flex items-center justify-between gap-4">
                   <p className="label-mono">{copy.configurator.progress}</p>
@@ -163,11 +163,9 @@ export function Configurator() {
                       transition={{ duration: DURATION.state * 1.5, ease: EASE.north }}
                       className="relative mt-10"
                     >
-                      <p className="label-mono">{copy.configurator.rangeLabel}</p>
-                      <p className="text-chrome mt-3 font-display text-[clamp(1.6rem,3vw,2.4rem)] leading-none font-semibold [font-variation-settings:'wdth'_112]">
-                        {formatRoubles(result.low, locale)}
-                        <span className="mx-2 text-slate">–</span>
-                        {formatRoubles(result.high, locale)}
+                      <p className="label-mono">{copy.configurator.matchLabel}</p>
+                      <p className="text-chrome mt-3 font-display text-[clamp(1.5rem,2.6vw,2.1rem)] leading-[1.05] font-semibold [font-variation-settings:'wdth'_112]">
+                        {service?.name}
                       </p>
 
                       <dl className="mt-8 space-y-5 border-t border-hairline pt-8">
@@ -180,8 +178,12 @@ export function Configurator() {
                           </dd>
                         </div>
                         <div>
-                          <dt className="label-mono">{copy.configurator.matchLabel}</dt>
-                          <dd className="mt-2 text-body text-bone">{tier?.name}</dd>
+                          <dt className="label-mono">
+                            {copy.configurator.includesLabel}
+                          </dt>
+                          <dd className="mt-2 text-body text-bone">
+                            {service?.configuratorLine}
+                          </dd>
                         </div>
                       </dl>
 

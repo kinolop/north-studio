@@ -5,11 +5,11 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
-import { SECTIONS } from "@/lib/sections";
+import { sectionById } from "@/lib/sections";
 
 import { WorkCard } from "./WorkCard";
 
-const meta = SECTIONS[5];
+const meta = sectionById("work");
 
 export function Work() {
   const copy = useCopy();
@@ -39,11 +39,7 @@ export function Work() {
             one to look at first". */}
         <div className="mt-20 space-y-5">
           {featured && (
-            <WorkCard
-              project={featured}
-              variant="lead"
-              engagementSuffix={copy.work.engagementSuffix}
-            />
+            <WorkCard project={featured} variant="lead" />
           )}
 
           <div className="grid gap-5 lg:grid-cols-2">
@@ -52,7 +48,6 @@ export function Work() {
                 key={project.key}
                 project={project}
                 delay={0.08 * (index + 1)}
-                engagementSuffix={copy.work.engagementSuffix}
               />
             ))}
           </div>

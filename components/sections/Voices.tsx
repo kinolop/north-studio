@@ -5,9 +5,9 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
-import { SECTIONS } from "@/lib/sections";
+import { sectionById } from "@/lib/sections";
 
-const meta = SECTIONS[7];
+const meta = sectionById("voices");
 
 /** Each card sits a little lower than the last — a row reads as a table. */
 const OFFSETS = ["lg:mt-0", "lg:mt-16", "lg:mt-32"] as const;

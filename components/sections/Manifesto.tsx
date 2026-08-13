@@ -5,9 +5,9 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
-import { SECTIONS } from "@/lib/sections";
+import { sectionById } from "@/lib/sections";
 
-const meta = SECTIONS[1];
+const meta = sectionById("studio");
 
 /**
  * Asymmetric on purpose. The title column sticks while the argument scrolls

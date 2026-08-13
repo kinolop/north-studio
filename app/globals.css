@@ -263,10 +263,12 @@
   color: transparent;
 }
 
-/* Prices are a decision datum, not a caption. Set larger than a label, with
-   normal tracking and tabular figures — at label tracking the ₽ crossbar
-   falls below a pixel and the mark reads as a Latin P. */
-@utility price-mono {
+/* Machine-readable data — handles, numbers, addresses — set larger than a
+   label with normal tracking and tabular figures, so it can actually be
+   read and copied rather than merely glanced at. (This was `price-mono`
+   until the site stopped quoting prices; the treatment outlived its
+   original job.) */
+@utility data-mono {
   font-family: var(--font-mono);
   font-size: 0.9375rem;
   line-height: 1.2;
@@ -321,6 +323,31 @@
   }
   50% {
     height: 11px;
+  }
+}
+
+/* Agent demo: a message arriving, and the agent thinking. Both transform
+   and opacity only, so they stay on the compositor. */
+@keyframes bubbleIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes thinkPulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
   }
 }
 

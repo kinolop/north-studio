@@ -170,7 +170,7 @@ export function ChannelOverlay({
                         <span className="block font-display text-[1.35rem] leading-none font-medium tracking-[-0.02em] text-bone">
                           {copy.channels.labels[channel.id]}
                         </span>
-                        <span className="price-mono mt-3 block truncate text-signal-lift">
+                        <span className="data-mono mt-3 block truncate text-signal-lift">
                           {channel.handle}
                         </span>
                         <span className="mt-3 block text-meta text-ash">

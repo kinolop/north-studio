@@ -10,11 +10,11 @@ import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { remeasureSections } from "@/lib/scroll";
-import { SECTIONS } from "@/lib/sections";
+import { sectionById } from "@/lib/sections";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const meta = SECTIONS[6];
+const meta = sectionById("process");
 
 /**
  * The page's only pinned section.

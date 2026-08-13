@@ -30,7 +30,6 @@ interface Payload {
   channel?: unknown;
   handle?: unknown;
   need?: unknown;
-  budget?: unknown;
   company?: unknown;
   locale?: unknown;
 }
@@ -65,7 +64,6 @@ export async function POST(request: Request) {
   const name = clean(body.name);
   const handle = clean(body.handle);
   const need = clean(body.need);
-  const budget = clean(body.budget);
   const locale = clean(body.locale) === "ru" ? "ru" : "en";
 
   const channelId = clean(body.channel);
@@ -86,7 +84,6 @@ export async function POST(request: Request) {
   const rows: [string, string][] = [
     ["Name", name],
     ["Reply on", `${channel.id} — ${handle}`],
-    ["Budget", budget || "—"],
     ["Locale", locale],
   ];
 

@@ -9,10 +9,10 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
-import { SECTIONS } from "@/lib/sections";
+import { sectionById } from "@/lib/sections";
 import { useReveal } from "@/lib/useReveal";
 
-const meta = SECTIONS[2];
+const meta = sectionById("founder");
 
 /** Slat count. Odd numbers avoid a seam landing dead centre. */
 const SLATS = 9;

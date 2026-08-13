@@ -45,7 +45,7 @@ export function ChannelPanel() {
                   </span>
                 </span>
 
-                <span className="price-mono w-full truncate text-signal-lift">
+                <span className="data-mono w-full truncate text-signal-lift">
                   {channel.handle}
                 </span>
 

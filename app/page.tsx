@@ -1,8 +1,9 @@
 import { Configurator } from "@/components/sections/Configurator";
 import { Contact } from "@/components/sections/Contact";
-import { Engagements } from "@/components/sections/Engagements";
+import { AgentDemo } from "@/components/sections/AgentDemo";
 import { Founder } from "@/components/sections/Founder";
 import { Hero } from "@/components/sections/Hero";
+import { Services } from "@/components/sections/Services";
 import { Manifesto } from "@/components/sections/Manifesto";
 import { Process } from "@/components/sections/Process";
 import { Questions } from "@/components/sections/Questions";
@@ -12,7 +13,7 @@ import { Work } from "@/components/sections/Work";
 import { SectionSeam } from "@/components/ui/Section";
 
 /**
- * One descent, ten movements. Seams appear only where the argument
+ * One descent, eleven movements. Seams appear only where the argument
  * genuinely changes register — never between sections that are still
  * making the same point.
  *
@@ -26,7 +27,8 @@ export default function Page() {
       <Manifesto />
       <Founder />
       <SectionSeam />
-      <Engagements />
+      <Services />
+      <AgentDemo />
       <Configurator />
       <Work />
       <SectionSeam />

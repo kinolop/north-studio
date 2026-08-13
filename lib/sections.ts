@@ -23,10 +23,13 @@ export const SECTIONS = [
   { id: "origin", bearing: "000°", degrees: 0 },
   { id: "studio", bearing: "032°", degrees: 32 },
   { id: "founder", bearing: "058°", degrees: 58 },
-  { id: "engagements", bearing: "078°", degrees: 78 },
-  { id: "configurator", bearing: "100°", degrees: 100 },
-  { id: "work", bearing: "124°", degrees: 124 },
-  { id: "process", bearing: "190°", degrees: 190 },
+  { id: "services", bearing: "078°", degrees: 78 },
+  // The agent demo sits immediately after the services that names it:
+  // the claim and its proof should not be separated by anything.
+  { id: "agent", bearing: "104°", degrees: 104 },
+  { id: "configurator", bearing: "128°", degrees: 128 },
+  { id: "work", bearing: "152°", degrees: 152 },
+  { id: "process", bearing: "196°", degrees: 196 },
   { id: "voices", bearing: "246°", degrees: 246 },
   { id: "questions", bearing: "302°", degrees: 302 },
   { id: "start", bearing: "355°", degrees: 355 },
@@ -37,11 +40,31 @@ export type SectionId = (typeof SECTIONS)[number]["id"];
 /** The four carried in the header. The footer indexes all of them. */
 export const NAV_IDS = [
   "studio",
-  "engagements",
+  "services",
   "work",
   "process",
 ] as const satisfies readonly SectionId[];
 
 export function sectionAt(index: number): (typeof SECTIONS)[number] {
   return SECTIONS[index] ?? SECTIONS[0];
+}
+
+const BY_ID = new Map(SECTIONS.map((section) => [section.id, section]));
+
+/**
+ * Look a section up by name, never by position.
+ *
+ * Sections used to reach for `SECTIONS[4]` and friends. Inserting the agent
+ * demo in the middle shifted every index after it, and the failure was
+ * silent and ugly: the closing section rendered `id="questions"`, so the
+ * page carried a duplicate id and `#start` did not exist at all — which
+ * broke the footer link, the header CTA and the compass readout at once.
+ *
+ * The id is a `SectionId`, so a typo here is a compile error rather than
+ * another missing anchor.
+ */
+export function sectionById(id: SectionId): (typeof SECTIONS)[number] {
+  const section = BY_ID.get(id);
+  if (!section) throw new Error(`Unknown section: ${id}`);
+  return section;
 }

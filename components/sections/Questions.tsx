@@ -9,12 +9,12 @@ import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import type { QuestionCopy } from "@/lib/i18n/types";
-import { SECTIONS } from "@/lib/sections";
+import { sectionById } from "@/lib/sections";
 import { DURATION, EASE } from "@/lib/motion";
 import { remeasureSections } from "@/lib/scroll";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-const meta = SECTIONS[8];
+const meta = sectionById("questions");
 
 function Row({
   item,

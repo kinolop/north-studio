@@ -147,6 +147,34 @@ face covering both — which would cost the width axis the whole display voice
 is built on — the stack layers: Latin resolves to Archivo, Cyrillic falls
 through to Golos, a grotesk actually drawn for Cyrillic.
 
+## No prices, anywhere
+
+The site never quotes a number. Pricing is settled privately in the first
+conversation, and a page that guesses at a figure before that conversation
+undercuts the promise it is trying to make.
+
+That is enforced rather than intended: there is no currency symbol, no
+numeral group and no "from …" line in either dictionary, and the
+configurator was rewritten to output a *direction* instead of a range.
+The one allowed framing is "Price on the first call".
+
+What replaced the three priced tiers is **Services** — three directions,
+equally weighted, no badges: landing pages & sites, AI agents, automation.
+Each card ends in a single "Discuss" that opens the same channel chooser
+every other call to action uses.
+
+## Proving the agent
+
+`components/sections/AgentDemo.tsx` plays a scripted conversation and then
+lets the visitor type. Describing an assistant convinces nobody; watching
+one qualify a lead is the argument.
+
+It is labelled a script, on the panel, in both locales — a "live AI" that
+is really six hard-coded strings is the kind of small lie that costs a
+studio the client it was trying to win. The seam for making it real is one
+function: replace `respond()` with a fetch and nothing else in the file
+changes.
+
 ## Reaching the studio
 
 Three channels — Telegram, WhatsApp, email — defined once in
@@ -166,14 +194,13 @@ pretending to have sent.
 
 Four questions, all on screen at once, answers changeable in any order — a
 wizard for four questions would be three more screens than the information
-deserves. `lib/estimate.ts` holds the arithmetic, anchored to the same three
-tier floors published two sections above, so the estimate can never drift
-away from the prices. It outputs a **range**, labelled as an estimate
-everywhere: the studio's whole pitch is a fixed price on the first call, and
-implying a firm number here would undercut that.
+deserves. `lib/recommend.ts` maps the answers to one of the three services
+and to a rough timeline, which shifts one step slower when the job is large
+or when we are writing the copy, because both are real work.
 
-Finishing carries the answers into the brief form, so the first thing the
-studio receives is a summary the visitor already agreed with.
+It deliberately produces no number. Finishing carries the answers into the
+brief form, so the first thing the studio receives is a summary the visitor
+already agreed with.
 
 ## Structure
 
@@ -190,13 +217,13 @@ components/
   contact/          channel chooser, channel panel, brief form
   i18n/             CopyProvider + locale switch
   motion/           Lenis + GSAP wiring
-  sections/         the ten movements
+  sections/         the eleven movements
   ui/               Reveal, SplitLines, MagneticButton, Eyebrow, GhostWord
 lib/
   i18n/             types.ts (the contract) + en.ts + ru.ts
   channels.ts       Telegram / WhatsApp / email — one source of truth
   sections.ts       ids and compass bearings (language-neutral)
-  estimate.ts       the configurator's arithmetic
+  recommend.ts      maps configurator answers to a service + timeline
   dither.ts         the Bayer matrix, shared by every use of the motif
   sound.ts          synthesised drone and transients
   pointer.ts        one damped pointer signal

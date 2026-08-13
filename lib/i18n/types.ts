@@ -11,15 +11,15 @@ import type { SectionId } from "@/lib/sections";
  * other is a build error, not a blank space someone finds in production.
  */
 
-export interface Tier {
-  readonly key: string;
+export interface Service {
+  readonly key: "sites" | "agents" | "automation";
   readonly name: string;
-  readonly from: string;
-  readonly tagline: string;
-  readonly forWhom: string;
+  /** Short form, for the work cards' footer. */
+  readonly short: string;
+  readonly summary: string;
   readonly includes: readonly string[];
-  readonly duration: string;
-  readonly outcome: string;
+  /** One line the configurator prints under its recommendation. */
+  readonly configuratorLine: string;
 }
 
 export interface ProjectCopy {
@@ -28,8 +28,6 @@ export interface ProjectCopy {
   readonly discipline: string;
   readonly summary: string;
   readonly year: string;
-  /** Names the tier this was delivered under. */
-  readonly engagement: string;
 }
 
 export interface StepCopy {
@@ -96,22 +94,36 @@ export interface Copy {
     readonly portraitNote: string;
   };
 
-  readonly engagements: {
+  readonly services: {
     readonly title: readonly string[];
     readonly lede: string;
-    readonly anchorLine: string;
-    readonly mostPopular: string;
-    readonly runsLabel: string;
-    readonly tiers: readonly Tier[];
+    /** The huge low-opacity word behind the trio. */
+    readonly ghost: string;
+    readonly discuss: string;
+    readonly items: readonly Service[];
+  };
+
+  readonly agent: {
+    readonly title: readonly string[];
+    readonly lede: string;
+    readonly demoLabel: string;
+    readonly visitorRole: string;
+    readonly agentRole: string;
+    readonly script: readonly { readonly from: "visitor" | "agent"; readonly text: string }[];
+    readonly reply: string;
+    readonly placeholder: string;
+    readonly send: string;
+    readonly cta: string;
+    readonly replaying: string;
   };
 
   readonly configurator: {
     readonly title: readonly string[];
     readonly lede: string;
     readonly questions: readonly ConfiguratorQuestion[];
-    readonly rangeLabel: string;
     readonly timelineLabel: string;
     readonly matchLabel: string;
+    readonly includesLabel: string;
     readonly disclaimer: string;
     readonly cta: string;
     readonly reset: string;
@@ -123,7 +135,6 @@ export interface Copy {
     readonly title: readonly string[];
     readonly lede: string;
     readonly placeholderNote: string;
-    readonly engagementSuffix: string;
     readonly projects: readonly ProjectCopy[];
   };
 
@@ -178,8 +189,6 @@ export interface Copy {
     readonly handlePlaceholder: string;
     readonly need: string;
     readonly needPlaceholder: string;
-    readonly budget: string;
-    readonly budgetNone: string;
     readonly submit: string;
     readonly sending: string;
     readonly success: string;

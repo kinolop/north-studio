@@ -4,7 +4,7 @@ export const en = {
   localeName: "English",
 
   studio: {
-    availability: "Two engagement slots open",
+    availability: "Two project slots open",
     startProject: "Start a project",
     languageLabel: "Language",
   },
@@ -13,7 +13,8 @@ export const en = {
     origin: "Origin",
     studio: "Studio",
     founder: "Founder",
-    engagements: "Engagements",
+    services: "Services",
+    agent: "Live agent",
     configurator: "Configurator",
     work: "Work",
     process: "Process",
@@ -58,82 +59,108 @@ export const en = {
       "NORTH — FOUNDER PORTRAIT · REPLACE THIS · recommended 4:5, dark cinematic",
   },
 
-  engagements: {
-    title: ["Three ways to work", "with the studio."],
-    lede: "Scoped on the first call and quoted as one fixed number. No hourly billing, no scope creep, no invoice you didn't expect.",
-    anchorLine: "Engagements start from 60 000 ₽",
-    mostPopular: "Most engagements",
-    runsLabel: "Runs",
-    tiers: [
+  services: {
+    title: ["What we", "do."],
+    lede: "Three directions, one outcome: clients arrive on their own and the busywork runs without you.",
+    ghost: "SERVICES",
+    discuss: "Discuss",
+    items: [
       {
-        key: "signal",
-        name: "Signal",
-        from: "from 60 000 ₽",
-        tagline: "For a single, sharp message.",
-        forWhom: "A launch, one product, one offer. When one page has to do one job perfectly.",
+        key: "sites",
+        name: "Landing pages & sites",
+        short: "Site",
+        summary:
+          "Cinematic selling pages and whole sites — concept, copy, design and build in a single pass.",
         includes: [
-          "One long-form landing page",
-          "Art direction and full copy",
+          "Art direction and the words",
           "Motion and interaction design",
-          "Deployed, measured, handed over",
+          "Built, deployed, handed over",
         ],
-        duration: "2 weeks",
-        outcome: "A first screen people finish reading.",
+        configuratorLine:
+          "Direction, copy and build in one pass, deployed and handed to you.",
       },
       {
-        key: "studio",
-        name: "Studio",
-        from: "from 140 000 ₽",
-        tagline: "The full presence.",
-        forWhom: "An established business whose website stopped matching what it has become.",
+        key: "agents",
+        name: "AI agents",
+        short: "Agent",
+        summary:
+          "Assistants that answer your clients around the clock, qualify the job, and hand it over warm.",
         includes: [
-          "Six to nine section site",
-          "Identity direction and full copy",
-          "Custom motion system",
-          "CMS for the parts you'll change",
-          "Analytics, SEO, handover",
+          "Trained on how you actually sell",
+          "Qualifies before it hands over",
+          "Lives where your clients already are",
         ],
-        duration: "4–5 weeks",
-        outcome: "A company that reads as three times its size.",
+        configuratorLine:
+          "An assistant that answers instantly, qualifies, and passes a warm lead to you.",
       },
       {
-        key: "bespoke",
-        name: "Bespoke",
-        from: "from 320 000 ₽",
-        tagline: "Whatever it needs to be.",
-        forWhom: "Real-time 3D, generative work, product interfaces, or a standing studio relationship.",
+        key: "automation",
+        name: "Automation",
+        short: "Automation",
+        summary:
+          "Lead handling, service integrations and reporting that run with no manual work and nothing lost.",
         includes: [
-          "Scoped from a blank page",
-          "Shader and real-time 3D work",
-          "A design system you keep",
-          "Retained availability",
+          "Leads routed the moment they land",
+          "Your tools wired to each other",
+          "Reports that arrive without asking",
         ],
-        duration: "By conversation",
-        outcome: "The thing your competitors get shown as a reference.",
+        configuratorLine:
+          "Your tools wired together so leads route themselves and nothing is retyped.",
       },
     ],
   },
 
+  agent: {
+    title: ["It answers at 03:00.", "You read it at nine."],
+    lede: "A scripted demonstration of the kind of agent we build. It replies instantly, collects the contact, works out what the job actually is, and hands a warm lead to a person.",
+    demoLabel: "Demo — a script, not a live model",
+    visitorRole: "Visitor",
+    agentRole: "North agent",
+    script: [
+      { from: "visitor", text: "Hi — what does a landing page cost?" },
+      {
+        from: "agent",
+        text: "That depends on the scope, and we settle the number on a call rather than guess at it here. Two quick questions and you'll have a real answer today. What's the page for?",
+      },
+      { from: "visitor", text: "We're launching a coffee subscription." },
+      {
+        from: "agent",
+        text: "Good — one page, one action, nothing in the way of it. Roughly when would you want it live?",
+      },
+      { from: "visitor", text: "Some time next month." },
+      {
+        from: "agent",
+        text: "That's comfortable. Leave me a Telegram handle or an email and the founder comes back today with the scope and a fixed price.",
+      },
+    ],
+    reply:
+      "Noted. In the real agent this is where I'd check the calendar and offer you two times. Here, the button below is faster.",
+    placeholder: "Type anything…",
+    send: "Send",
+    cta: "Build me one of these",
+    replaying: "Replay",
+  },
+
   configurator: {
-    title: ["Build your", "project."],
-    lede: "Four questions. You get an estimated range and a rough timeline in about twenty seconds.",
+    title: ["Point us at", "the problem."],
+    lede: "Four questions. You get the direction your job belongs to and roughly how long it takes.",
     questions: [
       {
-        key: "purpose",
-        prompt: "What is it for?",
+        key: "need",
+        prompt: "What do you need?",
         choices: [
-          { value: "launch", label: "A launch or one offer" },
-          { value: "presence", label: "The whole company" },
-          { value: "bespoke", label: "Something unusual" },
+          { value: "sites", label: "A page or a site" },
+          { value: "agents", label: "An AI agent" },
+          { value: "automation", label: "Automation" },
         ],
       },
       {
         key: "scope",
-        prompt: "How much of it?",
+        prompt: "How big is it?",
         choices: [
-          { value: "one", label: "One page" },
-          { value: "few", label: "A few sections" },
-          { value: "many", label: "Many sections" },
+          { value: "one", label: "One page, one job" },
+          { value: "few", label: "A few moving parts" },
+          { value: "system", label: "A whole system" },
         ],
       },
       {
@@ -141,7 +168,7 @@ export const en = {
         prompt: "Do you have the words?",
         choices: [
           { value: "yes", label: "Written and ready" },
-          { value: "partly", label: "Some of it" },
+          { value: "partly", label: "Some of them" },
           { value: "no", label: "Write them for me" },
         ],
       },
@@ -155,17 +182,17 @@ export const en = {
         ],
       },
     ],
-    rangeLabel: "Estimated range",
     timelineLabel: "Rough timeline",
-    matchLabel: "Closest engagement",
-    disclaimer: "An estimate. The final price is fixed on the call and does not move after.",
+    matchLabel: "Recommended direction",
+    includesLabel: "What that includes",
+    disclaimer: "Scope and price are settled on the first call, not here.",
     cta: "Take this to a conversation",
     reset: "Start over",
     progress: "Answered",
     timelines: {
       fast: "2–3 weeks, prioritised",
       standard: "3–5 weeks",
-      relaxed: "4–7 weeks, unhurried",
+      relaxed: "5–8 weeks, unhurried",
     },
   },
 
@@ -173,7 +200,6 @@ export const en = {
     title: ["Proof, not", "promises."],
     lede: "Three pieces, chosen because each one solved a different problem. The rest is available on the call.",
     placeholderNote: "Visuals are placeholder plates in this build — see README.md to swap in captures.",
-    engagementSuffix: "engagement",
     projects: [
       {
         key: "meridian",
@@ -181,7 +207,6 @@ export const en = {
         discipline: "Roastery / Direct-to-consumer",
         summary: "A twelve-year-old roastery that read online like a market stall. Rebuilt around the one thing it had that nobody else did: the roast log.",
         year: "2026",
-        engagement: "Studio",
       },
       {
         key: "halden",
@@ -189,7 +214,6 @@ export const en = {
         discipline: "Architecture practice",
         summary: "Sixty projects, no way to see them. A single scrolling plan-view replaced the portfolio grid entirely.",
         year: "2025",
-        engagement: "Bespoke",
       },
       {
         key: "aster",
@@ -197,7 +221,6 @@ export const en = {
         discipline: "Private clinic",
         summary: "Trust before information. One page, one booking action, and every claim on it independently verifiable.",
         year: "2025",
-        engagement: "Signal",
       },
     ],
   },
@@ -266,7 +289,7 @@ export const en = {
       {
         key: "speed",
         q: "How fast is fast?",
-        a: "Signal runs two weeks. Studio runs four to five. Bespoke is scoped per project. The clock starts when the content exists — and since waiting on content is the single biggest cause of delay, we write it for you unless you'd rather not.",
+        a: "A page runs about two weeks, a full site four to five, and anything unusual is scoped on its own. Agents and automations are usually quicker than either. The clock starts when the content exists — and since waiting on content is the single biggest cause of delay, we write it for you unless you'd rather not.",
       },
       {
         key: "ai",
@@ -303,7 +326,7 @@ export const en = {
     items: [
       "Founder-led",
       "Weeks, not quarters",
-      "Fixed price on the first call",
+      "Price on the first call",
       "Two slots open",
     ],
   },
@@ -344,8 +367,6 @@ export const en = {
     handlePlaceholder: "@handle, +7…, or you@company.com",
     need: "What do you need?",
     needPlaceholder: "What the site is for, and what has to change.",
-    budget: "Budget",
-    budgetNone: "Not sure yet",
     submit: "Send the brief",
     sending: "Sending…",
     success: "Sent. I'll reply on the channel you gave me.",

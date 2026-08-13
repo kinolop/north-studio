@@ -10,7 +10,7 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
 import { DURATION, EASE } from "@/lib/motion";
-import { SECTIONS } from "@/lib/sections";
+import { sectionById } from "@/lib/sections";
 
 /**
  * The whole 3D layer is deferred: three, R3F and drei are ~400kB and none
@@ -30,7 +30,7 @@ const HeroScene = dynamic(
   },
 );
 
-const meta = SECTIONS[0];
+const meta = sectionById("origin");
 
 export function Hero() {
   const copy = useCopy();
