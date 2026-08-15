@@ -21,6 +21,12 @@ export const en = {
     voices: "Voices",
     questions: "Questions",
     start: "Start",
+    "agent-hero": "North Agent",
+    "agent-chat": "Live dialog",
+    "agent-capabilities": "Capabilities",
+    "agent-deploy": "Deployment",
+    "agent-numbers": "Numbers",
+    "agent-start": "Start",
   },
 
   hero: {
@@ -141,6 +147,119 @@ export const en = {
     replaying: "Replay",
   },
 
+  agentCase: {
+    demoTag: "Demo concept",
+    backToWork: "All work",
+    productName: "North Agent",
+    promise: [
+      "The assistant that talks to your clients",
+      "for you — instantly, around the clock.",
+    ],
+    heroCta: "Want North Agent working for you?",
+    brand: "LEKTA",
+    brandNote:
+      "The school below is invented, and so is every figure on this page. It exists so the agent can be shown doing its job on something concrete rather than in the abstract.",
+
+    chat: {
+      title: ["Watch it close", "an enrolment."],
+      lede: "Deployed here as the assistant for LEKTA, a made-up online school. Course dates, payment, instalments, holding the seat — the questions a real school answers forty times a day.",
+      demoLabel: "Scripted demo",
+      studentRole: "Student",
+      agentRole: "LEKTA assistant",
+      script: [
+        { from: "student", text: "Hi! When does the next Python cohort start?" },
+        {
+          from: "agent",
+          text: "Hello! The next one starts on the 3rd. There are still seats in the morning and the evening group. Want me to match one to your schedule?",
+        },
+        { from: "student", text: "Evening. Do you do instalments?" },
+        {
+          from: "agent",
+          text: "We do — six months, no interest added. I can hold a seat for you in the evening group and send the payment link right here.",
+        },
+        { from: "student", text: "Yes, please." },
+        {
+          from: "agent",
+          text: "Done — the seat is held for 24 hours. I have sent the link and the first module's syllabus. Any questions about the course, I am here at any hour.",
+        },
+      ],
+      placeholder: "Ask it something…",
+      send: "Send",
+      replay: "Replay",
+    },
+
+    capabilities: {
+      title: ["What it does", "all day."],
+      items: [
+        {
+          key: "answers",
+          name: "Answers instantly, 24/7",
+          body: "No question waits until morning. Nights, weekends, the hour your ads run hottest — it replies in seconds, every time.",
+          slotLabel: "CAPABILITY · ANSWERS · REPLACE · 4:5",
+        },
+        {
+          key: "knows",
+          name: "Knows your programme cold",
+          body: "Trained on your courses, your terms and your FAQ, answering in your brand's voice rather than a generic assistant's.",
+          slotLabel: "CAPABILITY · KNOWS · REPLACE · 4:5",
+        },
+        {
+          key: "enroll",
+          name: "Drives to enrolment",
+          body: "Qualifies, handles the usual objections, holds the seat and sends the link. Anything it should not decide alone goes to a person.",
+          slotLabel: "CAPABILITY · ENROL · REPLACE · 4:5",
+        },
+      ],
+    },
+
+    deploy: {
+      title: ["How it lands", "on your site."],
+      items: [
+        {
+          key: "widget",
+          name: "One line of code",
+          body: "A widget on your site, or inside the chat your clients already use.",
+        },
+        {
+          key: "trained",
+          name: "Trained on your data",
+          body: "Courses, terms, policies — the answers you already repeat every day.",
+        },
+        {
+          key: "handoff",
+          name: "Hands off cleanly",
+          body: "Straight into your CRM and Telegram, with the whole thread attached.",
+        },
+        {
+          key: "analytics",
+          name: "Dialogue analytics",
+          body: "What people actually ask, where they hesitate, what wins the seat.",
+        },
+      ],
+    },
+
+    numbers: {
+      title: ["The shape of", "the result."],
+      disclaimer: "Demo concept — illustrative figures, not measured client results.",
+      items: [
+        { key: "reply", value: 2, suffix: " sec", label: "Average reply" },
+        { key: "hours", value: null, suffix: "", literal: "24/7", label: "Always answering" },
+        { key: "missed", value: 0, suffix: "", label: "Missed enquiries" },
+      ],
+    },
+
+    cta: {
+      title: ["Want North Agent", "working for you?"],
+      lede: "Tell us what your clients keep asking. We will show you this trained on your own answers.",
+      action: "Start a project",
+    },
+
+    slots: {
+      hero: "HERO BG · REPLACE · 16:9 · hero.mp4 overrides if present",
+      mascot: "NORTH AGENT MASCOT · REPLACE · ~1:1 · dark chrome",
+    },
+  },
+
   configurator: {
     title: ["Point us at", "the problem."],
     lede: "Four questions. You get the direction your job belongs to and roughly how long it takes.",
@@ -199,8 +318,17 @@ export const en = {
   work: {
     title: ["Proof, not", "promises."],
     lede: "Three pieces, chosen because each one solved a different problem. The rest is available on the call.",
+    caseCta: "Open the case",
     placeholderNote: "Visuals are placeholder plates in this build — see README.md to swap in captures.",
     projects: [
+      {
+        key: "north-agent",
+        name: "North Agent",
+        discipline: "Our own product / AI agent",
+        summary:
+          "The assistant we build for clients, shown working end to end: it answers, qualifies and closes an enrolment while you read it. A demo concept you can talk to.",
+        year: "2026",
+      },
       {
         key: "meridian",
         name: "Meridian",

@@ -39,10 +39,15 @@ export function Work() {
             one to look at first". */}
         <div className="mt-20 space-y-5">
           {featured && (
-            <WorkCard project={featured} variant="lead" />
+            <WorkCard
+              project={featured}
+              variant="lead"
+              href="/work/north-agent"
+              cta={copy.work.caseCta}
+            />
           )}
 
-          <div className="grid gap-5 lg:grid-cols-2">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {rest.map((project, index) => (
               <WorkCard
                 key={project.key}

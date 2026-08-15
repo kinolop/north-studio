@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { scrollToSection } from "@/components/motion/SmoothScroll";
 import { CHANNELS, FOUNDER_EMAIL } from "@/lib/channels";
@@ -16,6 +19,7 @@ import { STUDIO } from "@/lib/studio";
  */
 export function Footer() {
   const copy = useCopy();
+  const atHome = usePathname() === "/";
   const year = new Date().getFullYear();
 
   return (
@@ -42,9 +46,10 @@ export function Footer() {
             <ul className="mt-7 grid grid-cols-2 gap-x-8 gap-y-3.5">
               {SECTIONS.map((section) => (
                 <li key={section.id}>
-                  <a
-                    href={`#${section.id}`}
+                  <Link
+                    href={`/#${section.id}`}
                     onClick={(event) => {
+                      if (!atHome) return;
                       event.preventDefault();
                       scrollToSection(section.id);
                     }}
@@ -54,7 +59,7 @@ export function Footer() {
                       {section.bearing}
                     </span>
                     {copy.sections[section.id]}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

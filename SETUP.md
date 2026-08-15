@@ -59,6 +59,29 @@ page's light rather than punching a bright rectangle through it. Around
 The same instruction is printed inside the empty frame on the live site, so
 there is no way to ship without noticing it.
 
+### North Agent page assets
+
+`/work/north-agent` renders a labelled placeholder in every frame until the
+file exists. **Dropping the file is the only step** — no code change, and a
+missing file never shows a broken image. All of them go in
+`public/work/north-agent/assets/`:
+
+| File | Ratio | Where |
+| --- | --- | --- |
+| `hero.jpg` | 16:9 | Hero background, slow Ken-Burns drift |
+| `hero.mp4` | 16:9 | Optional; replaces `hero.jpg` when present |
+| `mascot.png` | ~1:1 | The mascot in the hero. Transparent or dark background |
+| `cap-answers.jpg` | 4:5 | Capability card 1 |
+| `cap-knows.jpg` | 4:5 | Capability card 2 |
+| `cap-enroll.jpg` | 4:5 | Capability card 3 |
+
+There is a copy of this table in that folder's `README.md` too.
+
+**To make the agent actually think:** `lib/northAgent.ts` has one function,
+`getAgentReply`. Replace its body with a fetch to a route handler holding
+your API key server-side and the page is live — nothing else changes, and
+the file documents the exact shape.
+
 ### Case-study screenshots
 
 Same idea, in `lib/studio.ts`:

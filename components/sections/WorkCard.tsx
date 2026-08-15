@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import Link from "next/link";
 import { useRef } from "react";
 
 import { Reveal } from "@/components/ui/Reveal";
@@ -23,6 +24,10 @@ interface WorkCardProps {
   variant?: "lead" | "stacked";
   delay?: number;
   className?: string;
+  /** When set the whole card becomes a link to the case page. */
+  href?: string;
+  /** Shown as the card's action when it links somewhere. */
+  cta?: string;
 }
 
 export function WorkCard({
@@ -30,6 +35,8 @@ export function WorkCard({
   variant = "stacked",
   delay = 0,
   className = "",
+  href,
+  cta,
 }: WorkCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -77,9 +84,20 @@ export function WorkCard({
         {project.summary}
       </p>
 
-      {/* The tier line that used to sit here named a priced package. With
-          the tiers gone it named nothing, and all three cases are sites
-          anyway — repeating the word three times was noise. */}
+      {href && cta && (
+        <p className="mt-auto flex items-center gap-3 pt-8 text-meta text-bone">
+          {cta}
+          <svg aria-hidden viewBox="0 0 24 10" className="h-[10px] w-6 text-signal-lift">
+            <path
+              d="M0 5h21M17 1l4 4-4 4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.25"
+              className="transition-transform duration-[var(--duration-state)] ease-[var(--ease-north)] group-hover:translate-x-1"
+            />
+          </svg>
+        </p>
+      )}
     </div>
   );
 
@@ -102,6 +120,7 @@ export function WorkCard({
               "radial-gradient(340px circle at var(--px, -20%) var(--py, -20%), rgb(167 155 255 / 0.5), var(--color-hairline) 62%)",
           }}
         >
+          <Shell href={href} name={project.name}>
           <article
             className={`relative h-full overflow-hidden rounded-[3px] bg-abyss ${lead ? "grid lg:grid-cols-12" : "flex flex-col"}`}
           >
@@ -117,8 +136,31 @@ export function WorkCard({
 
             {lead ? <div className="lg:col-span-5">{copy}</div> : copy}
           </article>
+          </Shell>
         </div>
       </motion.div>
     </Reveal>
+  );
+}
+
+/**
+ * A case with a page behind it becomes one big link; a placeholder stays
+ * inert. Wrapping rather than adding an anchor inside keeps the whole plate
+ * clickable, which is what a card this size implies.
+ */
+function Shell({
+  href,
+  name,
+  children,
+}: {
+  href?: string;
+  name: string;
+  children: React.ReactNode;
+}) {
+  if (!href) return <>{children}</>;
+  return (
+    <Link href={href} aria-label={name} className="block h-full">
+      {children}
+    </Link>
   );
 }

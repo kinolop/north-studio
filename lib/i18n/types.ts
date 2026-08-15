@@ -1,5 +1,5 @@
 import type { ChannelId } from "@/lib/channels";
-import type { SectionId } from "@/lib/sections";
+import type { AgentSectionId, SectionId } from "@/lib/sections";
 
 /**
  * The shape every locale must fill.
@@ -70,8 +70,12 @@ export interface Copy {
     readonly languageLabel: string;
   };
 
-  /** Human-readable name per section id, for nav, footer index and compass. */
-  readonly sections: Readonly<Record<SectionId, string>>;
+  /**
+   * Human-readable name per section id, for nav, footer index and compass.
+   * Covers both pages' sweeps so the compass can label whichever set the
+   * current page registered.
+   */
+  readonly sections: Readonly<Record<SectionId | AgentSectionId, string>>;
 
   readonly hero: {
     readonly headline: readonly string[];
@@ -117,6 +121,68 @@ export interface Copy {
     readonly replaying: string;
   };
 
+  /** The North Agent product case page at /work/north-agent. */
+  readonly agentCase: {
+    readonly demoTag: string;
+    readonly backToWork: string;
+    readonly productName: string;
+    readonly promise: readonly string[];
+    readonly heroCta: string;
+    /** The fictional brand the demo agent is deployed for. */
+    readonly brand: string;
+    readonly brandNote: string;
+
+    readonly chat: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly demoLabel: string;
+      readonly studentRole: string;
+      readonly agentRole: string;
+      readonly script: readonly { readonly from: "student" | "agent"; readonly text: string }[];
+      readonly placeholder: string;
+      readonly send: string;
+      readonly replay: string;
+    };
+
+    readonly capabilities: {
+      readonly title: readonly string[];
+      readonly items: readonly {
+        readonly key: "answers" | "knows" | "enroll";
+        readonly name: string;
+        readonly body: string;
+        readonly slotLabel: string;
+      }[];
+    };
+
+    readonly deploy: {
+      readonly title: readonly string[];
+      readonly items: readonly { readonly key: string; readonly name: string; readonly body: string }[];
+    };
+
+    readonly numbers: {
+      readonly title: readonly string[];
+      readonly disclaimer: string;
+      readonly items: readonly {
+        readonly key: string;
+        readonly value: number | null;
+        readonly suffix: string;
+        readonly literal?: string;
+        readonly label: string;
+      }[];
+    };
+
+    readonly cta: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly action: string;
+    };
+
+    readonly slots: {
+      readonly hero: string;
+      readonly mascot: string;
+    };
+  };
+
   readonly configurator: {
     readonly title: readonly string[];
     readonly lede: string;
@@ -134,6 +200,7 @@ export interface Copy {
   readonly work: {
     readonly title: readonly string[];
     readonly lede: string;
+    readonly caseCta: string;
     readonly placeholderNote: string;
     readonly projects: readonly ProjectCopy[];
   };

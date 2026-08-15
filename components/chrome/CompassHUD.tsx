@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { subscribeScroll } from "@/lib/scroll";
-import { SECTIONS, sectionAt } from "@/lib/sections";
+import { useActiveSections } from "@/lib/useActiveSections";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 const SIZE = 64;
@@ -59,6 +59,7 @@ export function CompassHUD() {
   const needleRef = useRef<SVGGElement>(null);
   const [index, setIndex] = useState(0);
   const reduced = useReducedMotion();
+  const sections = useActiveSections();
 
   useEffect(() => {
     let rendered = -1;
@@ -111,7 +112,7 @@ export function CompassHUD() {
       rendered = next;
       setIndex(next);
 
-      target = sectionAt(next).degrees;
+      target = (sections[next] ?? sections[0]!).degrees;
       if (reduced) {
         current = target;
         apply(current);
@@ -124,10 +125,10 @@ export function CompassHUD() {
       unsubscribe();
       window.cancelAnimationFrame(rafId);
     };
-  }, [reduced]);
+  }, [reduced, sections]);
 
   const copy = useCopy();
-  const section = sectionAt(index);
+  const section = sections[index] ?? sections[0]!;
 
   return (
     <div
@@ -187,11 +188,16 @@ export function CompassHUD() {
 
       <div className="leading-none">
         <p className="label-mono text-signal-lift">{section.bearing}</p>
-        <p className="label-mono mt-1.5 text-slate">{copy.sections[section.id]}</p>
+        {/* `SectionMeta.id` is a plain string because two different page
+            sweeps share the type, so the label lookup is narrowed here. The
+            fallback means a section someone forgets to label shows its id
+            rather than the word "undefined". */}
+        <p className="label-mono mt-1.5 text-slate">
+          {copy.sections[section.id as keyof typeof copy.sections] ?? section.id}
+        </p>
       </div>
     </div>
   );
 }
 
 /** Exported for the preloader's calibration sweep. */
-export const COMPASS_TERMINUS = SECTIONS[0].degrees;

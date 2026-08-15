@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
@@ -11,6 +13,11 @@ import { subscribeScroll } from "@/lib/scroll";
 import { STUDIO } from "@/lib/studio";
 
 export function Header() {
+  const pathname = usePathname();
+  // Anchors only resolve on the page that owns them. Off the home page the
+  // nav has to navigate rather than scroll, and nothing should read as the
+  // "current" section, because none of them is.
+  const atHome = pathname === "/";
   const [lifted, setLifted] = useState(false);
   const [activeId, setActiveId] = useState<string>(SECTIONS[0].id);
   const copy = useCopy();
@@ -46,9 +53,10 @@ export function Header() {
       ].join(" ")}
     >
       <div className="container-north flex h-[72px] items-center justify-between gap-6">
-        <a
-          href="#origin"
+        <Link
+          href="/#origin"
           onClick={(event) => {
+            if (!atHome) return;
             event.preventDefault();
             scrollToSection("origin");
           }}
@@ -61,16 +69,17 @@ export function Header() {
           <span className="label-mono transition-colors duration-[var(--duration-state)] group-hover:text-ash">
             Studio
           </span>
-        </a>
+        </Link>
 
         <nav aria-label={copy.footer.index} className="hidden items-center gap-9 lg:flex">
           {NAV_IDS.map((id) => {
-            const active = activeId === id;
+            const active = atHome && activeId === id;
             return (
-              <a
+              <Link
                 key={id}
-                href={`#${id}`}
+                href={`/#${id}`}
                 onClick={(event) => {
+                  if (!atHome) return;
                   event.preventDefault();
                   scrollToSection(id);
                 }}
@@ -90,7 +99,7 @@ export function Header() {
                     active ? "scale-x-100" : "scale-x-0",
                   ].join(" ")}
                 />
-              </a>
+              </Link>
             );
           })}
         </nav>

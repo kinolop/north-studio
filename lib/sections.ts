@@ -37,6 +37,30 @@ export const SECTIONS = [
 
 export type SectionId = (typeof SECTIONS)[number]["id"];
 
+/**
+ * The North Agent case page has its own compass sweep. It starts at 310°,
+ * the bearing the studio files the product under, and turns to just short
+ * of north — the page is the last leg of the journey, not a detour.
+ */
+export const AGENT_SECTIONS = [
+  { id: "agent-hero", bearing: "310°", degrees: 310 },
+  { id: "agent-chat", bearing: "320°", degrees: 320 },
+  { id: "agent-capabilities", bearing: "330°", degrees: 330 },
+  { id: "agent-deploy", bearing: "340°", degrees: 340 },
+  { id: "agent-numbers", bearing: "350°", degrees: 350 },
+  { id: "agent-start", bearing: "358°", degrees: 358 },
+] as const satisfies readonly SectionMeta[];
+
+export type AgentSectionId = (typeof AGENT_SECTIONS)[number]["id"];
+
+const AGENT_BY_ID = new Map(AGENT_SECTIONS.map((s) => [s.id, s]));
+
+export function agentSectionById(id: AgentSectionId): (typeof AGENT_SECTIONS)[number] {
+  const section = AGENT_BY_ID.get(id);
+  if (!section) throw new Error(`Unknown agent section: ${id}`);
+  return section;
+}
+
 /** The four carried in the header. The footer indexes all of them. */
 export const NAV_IDS = [
   "studio",

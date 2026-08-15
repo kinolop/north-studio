@@ -1,4 +1,4 @@
-import { SECTIONS } from "./sections";
+import { getActiveSections } from "./activeSections";
 
 /**
  * One scroll signal for the whole site, for the same reason as the pointer
@@ -45,7 +45,9 @@ let lastTime = 0;
 let offsets: number[] = [];
 
 function measure() {
-  offsets = SECTIONS.map(({ id }) => document.getElementById(id)?.offsetTop ?? 0);
+  offsets = getActiveSections().map(
+    ({ id }) => document.getElementById(id)?.offsetTop ?? 0,
+  );
 }
 
 function frame(time: number) {

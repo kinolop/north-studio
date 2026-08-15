@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { subscribeScroll } from "@/lib/scroll";
-import { SECTIONS } from "@/lib/sections";
+import { useActiveSections } from "@/lib/useActiveSections";
 
 const RAIL_TOP = 14;
 const RAIL_HEIGHT = 268;
@@ -29,6 +29,7 @@ const COLUMN_W = 7;
  * one instrument too many.
  */
 export function ScrollRail() {
+  const sections = useActiveSections();
   const columnRef = useRef<SVGRectElement>(null);
   const headRef = useRef<SVGCircleElement>(null);
   const dropletRef = useRef<SVGEllipseElement>(null);
@@ -161,11 +162,11 @@ export function ScrollRail() {
           />
 
           {/* Section ticks — decorative, so no keyboard target to strand. */}
-          {SECTIONS.map((section, index) => (
+          {sections.map((section, index) => (
             <rect
               key={section.id}
               x={RAIL_X + 5}
-              y={RAIL_TOP + (index / (SECTIONS.length - 1)) * RAIL_HEIGHT - 0.5}
+              y={RAIL_TOP + (index / Math.max(sections.length - 1, 1)) * RAIL_HEIGHT - 0.5}
               width="4"
               height="1"
               fill="currentColor"

@@ -351,6 +351,17 @@
   }
 }
 
+/* Hero plate drift. Transform only, and slow enough to read as a camera
+   rather than as an animation. */
+@keyframes kenBurns {
+  from {
+    transform: scale(1.04) translate3d(-1%, -0.5%, 0);
+  }
+  to {
+    transform: scale(1.13) translate3d(1.5%, 1%, 0);
+  }
+}
+
 /* ============================================================================
    REDUCED MOTION
    Kill parallax, scrub, idle 3D and ambient drift. The page stays fully
