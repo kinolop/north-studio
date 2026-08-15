@@ -1,6 +1,5 @@
 "use client";
 
-import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -101,9 +100,7 @@ export function Services() {
   const { open } = useChannelOverlay();
 
   return (
-    <Section id={meta.id} className="overflow-hidden">
-      <CodedBackdrop tone="machine" className="-z-10" />
-
+    <Section id={meta.id}>
       <div className="container-north">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-6">

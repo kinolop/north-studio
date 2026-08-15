@@ -1,7 +1,6 @@
 "use client";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
-import { AssetSlot } from "@/components/ui/AssetSlot";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { GhostWord } from "@/components/ui/GhostWord";
 import { Reveal } from "@/components/ui/Reveal";
@@ -11,14 +10,6 @@ import { agentSectionById } from "@/lib/sections";
 import { useLitPanel } from "@/lib/useLitPanel";
 
 const meta = agentSectionById("agent-capabilities");
-const ASSETS = "/work/north-agent/assets";
-
-/** Image file per capability, in the order the dictionary lists them. */
-const IMAGE: Record<string, string> = {
-  answers: "cap-answers.png",
-  knows: "cap-knows.png",
-  enroll: "cap-enroll.png",
-};
 
 type Capability = ReturnType<typeof useCopy>["agentCase"]["capabilities"]["items"][number];
 
@@ -30,17 +21,9 @@ function CapabilityCard({ item, index }: { item: Capability; index: number }) {
       <article
         ref={lit.ref}
         {...lit.props}
-        className="glass glass-edge lit-panel group flex h-full flex-col overflow-hidden hover:border-signal/30 hover:shadow-lift"
+        className="glass glass-edge lit-panel group flex h-full flex-col overflow-hidden p-7 hover:border-signal/30 hover:shadow-lift lg:p-8"
       >
-        <AssetSlot
-          src={`${ASSETS}/${IMAGE[item.key]}`}
-          label={item.slotLabel}
-          alt={item.name}
-          ratio="4 / 5"
-          className="rounded-none border-x-0 border-t-0"
-        />
-
-        <div className="flex flex-1 flex-col p-7 lg:p-8">
+        <div className="flex flex-1 flex-col">
           <p className="label-mono text-signal-lift">
             {String(index + 1).padStart(2, "0")}
           </p>

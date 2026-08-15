@@ -192,7 +192,6 @@ export interface Copy {
         readonly key: "answers" | "knows" | "enroll";
         readonly name: string;
         readonly body: string;
-        readonly slotLabel: string;
       }[];
     };
 
@@ -214,7 +213,6 @@ export interface Copy {
     };
 
     readonly slots: {
-      readonly hero: string;
       readonly mascot: string;
     };
   };
@@ -302,14 +300,7 @@ export interface Copy {
     };
 
     readonly slots: {
-      readonly hero: string;
       readonly mascot: string;
-      /**
-       * Optional richer plates behind two sections. Absent is the normal
-       * state: the coded backdrop stands in, and nothing looks unfinished.
-       */
-      readonly bgConveyor: string;
-      readonly bgCta: string;
     };
   };
 
@@ -421,9 +412,6 @@ export interface Copy {
       readonly action: string;
     };
 
-    readonly slots: {
-      readonly hero: string;
-    };
   };
 
   readonly configurator: {

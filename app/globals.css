@@ -452,57 +452,6 @@
 }
 
 /* ============================================================================
-   SECTION BACKDROPS
-   Two slow drifts, offset in period so the pair never visibly repeats. The
-   room is lit by gradients rather than by a shader here: a radial gradient
-   moved on the compositor costs a fraction of a full-screen noise pass, and
-   at these opacities nobody can tell the difference. Transform only — never
-   size, position or filter, all of which would repaint a full-section layer
-   every frame.
-   ========================================================================= */
-
-@keyframes driftA {
-  0%,
-  100% {
-    transform: translate3d(-3%, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(4%, -3%, 0) scale(1.09);
-  }
-}
-
-/* Ambient motes. One keyframe, nine elements, all of them on different
-   durations and negative delays so the field never pulses in unison. Two
-   properties animate and both are composited; the whole field costs less
-   than one repaint. */
-@keyframes moteDrift {
-  0% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0;
-  }
-  18% {
-    opacity: 0.5;
-  }
-  82% {
-    opacity: 0.34;
-  }
-  100% {
-    transform: translate3d(16px, -44px, 0);
-    opacity: 0;
-  }
-}
-
-@keyframes driftB {
-  0%,
-  100% {
-    transform: translate3d(3%, 2%, 0) scale(1.06);
-  }
-  50% {
-    transform: translate3d(-4%, -2%, 0) scale(1);
-  }
-}
-
-/* ============================================================================
    NORTH FLOW — THE CONVEYOR
    One timeline, written once. Every animation on the line shares the same
    duration, so a chip, the tags written onto it and the station it is

@@ -1,6 +1,5 @@
 "use client";
 
-import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { ChannelPanel } from "@/components/contact/ChannelPanel";
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
@@ -21,9 +20,6 @@ export function OrbitaCta() {
 
   return (
     <Section id={meta.id} className="overflow-hidden">
-      {/* Violet again: the page has handed the microphone back to North. */}
-      <CodedBackdrop tone="close" className="-z-10" />
-
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-[-30%] h-[70%] bg-[radial-gradient(50%_50%_at_50%_100%,rgb(109_92_255/0.16),transparent_72%)]"

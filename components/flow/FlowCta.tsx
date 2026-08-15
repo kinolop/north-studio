@@ -1,6 +1,5 @@
 "use client";
 
-import { SectionBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { ChannelPanel } from "@/components/contact/ChannelPanel";
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
@@ -13,7 +12,6 @@ import { SplitLines } from "@/components/ui/SplitLines";
 import { flowSectionById } from "@/lib/sections";
 
 const meta = flowSectionById("flow-start");
-const ASSETS = "/work/north-flow/assets";
 
 export function FlowCta() {
   const copy = useCopy();
@@ -22,12 +20,6 @@ export function FlowCta() {
 
   return (
     <Section id={meta.id} className="overflow-hidden">
-      <SectionBackdrop
-        tone="close"
-        src={`${ASSETS}/bg-cta.png`}
-        label={copy.flowCase.slots.bgCta}
-      />
-
       {/* The close's own pool of light, kept: it sits under the button
           rather than behind the section, and the backdrop is what the
           section stands in. */}

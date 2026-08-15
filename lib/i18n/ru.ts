@@ -218,19 +218,16 @@ export const ru = {
           key: "answers",
           name: "Отвечает мгновенно, 24/7",
           body: "Ни один вопрос не ждёт до утра. Ночью, в выходные, в час, когда реклама льёт сильнее всего, ответ приходит за секунды.",
-          slotLabel: "ВОЗМОЖНОСТЬ · ОТВЕЧАЕТ · ЗАМЕНИТЬ · 4:5",
         },
         {
           key: "knows",
           name: "Знает вашу программу назубок",
           body: "Обучен на ваших курсах, условиях и частых вопросах и отвечает голосом вашего бренда, а не безликого ассистента.",
-          slotLabel: "ВОЗМОЖНОСТЬ · ЗНАЕТ · ЗАМЕНИТЬ · 4:5",
         },
         {
           key: "enroll",
           name: "Доводит до оплаты",
           body: "Квалифицирует, снимает привычные возражения, держит место и присылает ссылку. Всё, что нельзя решать самому, уходит человеку.",
-          slotLabel: "ВОЗМОЖНОСТЬ · ОПЛАТА · ЗАМЕНИТЬ · 4:5",
         },
       ],
     },
@@ -278,7 +275,6 @@ export const ru = {
     },
 
     slots: {
-      hero: "HERO BG · REPLACE · 16:9 · hero.mp4 overrides if present",
       mascot: "NORTH AGENT MASCOT · REPLACE · ~1:1 · dark chrome",
     },
   },
@@ -547,11 +543,8 @@ export const ru = {
     },
 
     slots: {
-      hero: "HERO BG · hero.png · REPLACE · 16:9 · hero.mp4 overrides if present",
       mascot:
         "REUSES THE NORTH AGENT MASCOT · /work/north-agent/assets/mascot.png · ~1:1",
-      bgConveyor: "SECTION BG · bg-conveyor.png · OPTIONAL · 16:9 · dark, low-key",
-      bgCta: "SECTION BG · bg-cta.png · OPTIONAL · 16:9 · dark, low-key",
     },
   },
 
@@ -696,9 +689,6 @@ export const ru = {
       action: "Начать проект",
     },
 
-    slots: {
-      hero: "ORBITA HERO BG · REPLACE · 16:9 · hero.mp4 overrides if present",
-    },
   },
 
   configurator: {

@@ -61,23 +61,13 @@ there is no way to ship without noticing it.
 
 ### North Agent page assets
 
-`/work/north-agent` renders a labelled placeholder in every frame until the
-file exists. **Dropping the file is the only step** — no code change, and a
-missing file never shows a broken image. All of them go in
-`public/work/north-agent/assets/`, and all five are now filled:
+The case pages carry no background plates and no image panels inside cards.
+The one image `/work/north-agent` reads is the mascot, in
+`public/work/north-agent/assets/`:
 
 | File | Ratio | Where |
 | --- | --- | --- |
-| `hero.png` | 16:9 | Hero background, slow Ken-Burns drift |
-| `hero.mp4` | 16:9 | Optional; replaces `hero.png` when present |
-| `mascot.png` | ~1:1 | The mascot in the hero. Transparent or dark background |
-| `cap-answers.png` | 4:5 | Capability card 1 |
-| `cap-knows.png` | 4:5 | Capability card 2 |
-| `cap-enroll.png` | 4:5 | Capability card 3 |
-
-Replacing one with a different format means renaming it or editing the path
-in `components/agent/AgentHero.tsx` / `AgentCapabilities.tsx` — the code
-looks for exactly these names.
+| `mascot.png` | ~1:1 | The chrome figure in the hero. Also read by the North Flow hero |
 
 There is a copy of this table in that folder's `README.md` too.
 

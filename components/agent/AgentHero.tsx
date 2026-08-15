@@ -24,23 +24,9 @@ export function AgentHero() {
 
   return (
     <Section id={meta.id} flush className="relative overflow-hidden pt-[104px] pb-section">
-      {/* Background plate. A slow Ken-Burns drift on the image; drop
-          hero.mp4 beside it and the video takes over with no code change. */}
-      <div aria-hidden className="absolute inset-0">
-        <AssetSlot
-          src={`${ASSETS}/hero.png`}
-          videoSrc={`${ASSETS}/hero.mp4`}
-          label={agent.slots.hero}
-          alt=""
-          fill
-          kenBurns
-          priority
-          className="border-0"
-        />
-        {/* The plate has to sit under type, so it is graded down hard. */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(7_8_11/0.72),rgb(7_8_11/0.88)_55%,var(--color-void))]" />
-      </div>
-
+      {/* No background plate. The hero stands on the site's own near-black
+          and the fixed atmosphere behind it — which is also what lets the
+          cursor light reach this section at all. */}
       <div className="container-north relative">
         <motion.div
           className="flex flex-wrap items-center gap-5"

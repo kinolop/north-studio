@@ -2,7 +2,6 @@
 
 import { useEffect, useReducer, useRef, type CSSProperties } from "react";
 
-import { SectionBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useCopy, useLocale } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Figure } from "@/components/ui/Figure";
@@ -30,7 +29,6 @@ import { FlowChip } from "./FlowChip";
 import { FlowJournal } from "./FlowJournal";
 
 const meta = flowSectionById("flow-conveyor");
-const ASSETS = "/work/north-flow/assets";
 
 /**
  * Where each of the four cells begins. A cell is a quarter of the lane in
@@ -110,14 +108,6 @@ export function FlowConveyor() {
 
   return (
     <Section id={meta.id} className="overflow-hidden">
-      {/* The machine's own light. Coded by default; `bg-conveyor.png` takes
-          over if the founder ever drops one in. */}
-      <SectionBackdrop
-        tone="machine"
-        src={`${ASSETS}/bg-conveyor.png`}
-        label={flow.slots.bgConveyor}
-      />
-
       <div className="container-north">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-6">

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { AssetSlot } from "@/components/ui/AssetSlot";
@@ -15,8 +14,6 @@ import { DURATION, EASE } from "@/lib/motion";
 import { flowSectionById } from "@/lib/sections";
 
 const meta = flowSectionById("flow-hero");
-
-const ASSETS = "/work/north-flow/assets";
 
 /**
  * The mascot is the agent case's file, referenced where it already lives.
@@ -32,25 +29,9 @@ export function FlowHero() {
 
   return (
     <Section id={meta.id} flush className="relative overflow-hidden pt-[104px] pb-section">
-      {/* Background plate. A slow Ken-Burns drift on the image; drop
-          hero.mp4 beside it and the video takes over with no code change.
-          With neither file present it lights itself — an empty hero is the
-          one place a case cannot afford to look unfinished. */}
-      <div aria-hidden className="absolute inset-0">
-        <AssetSlot
-          src={`${ASSETS}/hero.png`}
-          videoSrc={`${ASSETS}/hero.mp4`}
-          label={flow.slots.hero}
-          alt=""
-          fill
-          kenBurns
-          priority
-          className="border-0"
-          fallback={<CodedBackdrop tone="hero" />}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(7_8_11/0.72),rgb(7_8_11/0.88)_55%,var(--color-void))]" />
-      </div>
-
+      {/* No background plate. The hero stands on the site's own near-black
+          and the fixed atmosphere behind it — which is also what lets the
+          cursor light reach this section at all. */}
       <div className="container-north relative">
         <motion.div
           className="flex flex-wrap items-center gap-5"

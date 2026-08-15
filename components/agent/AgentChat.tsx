@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useCopy, useLocale } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
@@ -123,9 +122,7 @@ export function AgentChat() {
   }
 
   return (
-    <Section id={meta.id} className="overflow-hidden">
-      <CodedBackdrop tone="machine" className="-z-10" />
-
+    <Section id={meta.id}>
       <div className="container-north grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-10">
         <div className="lg:col-span-5">
           <Eyebrow bearing={meta.bearing} label={copy.sections[meta.id]} />

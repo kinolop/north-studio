@@ -1,6 +1,5 @@
 "use client";
 
-import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
@@ -27,9 +26,7 @@ export function Work() {
   const [featured, second, third, ...rest] = copy.work.projects;
 
   return (
-    <Section id={meta.id} className="overflow-hidden">
-      <CodedBackdrop tone="faint" className="-z-10" />
-
+    <Section id={meta.id}>
       <div className="container-north">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-6">
@@ -47,9 +44,8 @@ export function Work() {
           </Reveal>
         </div>
 
-        {/* The three cases with a page behind them get the full width,
-            alternating sides so the run reads as a spread rather than a
-            list. The client work sits below, three up. */}
+        {/* The three cases with a page behind them get the full width; the
+            client work sits below, three up. */}
         <div className="mt-20 space-y-5">
           {featured && (
             <WorkCard
@@ -64,7 +60,6 @@ export function Work() {
             <WorkCard
               project={second}
               variant="lead"
-              mirrored
               delay={0.06}
               href={CASE_PAGES[second.key]}
               cta={copy.work.caseCta}

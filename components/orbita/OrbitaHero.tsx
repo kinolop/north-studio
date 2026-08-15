@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useCopy } from "@/components/i18n/CopyProvider";
-import { AssetSlot } from "@/components/ui/AssetSlot";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
@@ -16,7 +14,6 @@ import { OrbitaMark } from "./OrbitaMark";
 import { OrbitaOrbit } from "./OrbitaOrbit";
 
 const meta = orbitaSectionById("orbita-hero");
-const ASSETS = "/work/orbita/assets";
 
 /**
  * ORBITA's own hero — and the first thing on the page that has to prove the
@@ -37,24 +34,9 @@ export function OrbitaHero() {
 
   return (
     <Section id={meta.id} flush className="relative overflow-hidden pt-[104px] pb-section">
-      <div aria-hidden className="absolute inset-0">
-        <AssetSlot
-          src={`${ASSETS}/hero.png`}
-          videoSrc={`${ASSETS}/hero.mp4`}
-          label={orbita.slots.hero}
-          alt=""
-          fill
-          kenBurns
-          priority
-          className="border-0"
-          fallback={<CodedBackdrop tone="hero" hue="orbita" />}
-        />
-        {/* Graded colder than the other two cases: the plate underneath is
-            ORBITA's, so the light on it should be ORBITA's too. */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(7_8_11/0.74),rgb(8_18_22/0.86)_52%,var(--color-void))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(70%_50%_at_72%_28%,rgb(78_201_220/0.12),transparent_70%)]" />
-      </div>
-
+      {/* No background plate. The hero stands on the site's own near-black
+          and the fixed atmosphere behind it — which is also what lets the
+          cursor light reach this section at all. */}
       <div className="container-north relative">
         {/* The case frame. Studio voice, said once, quietly, and then out of
             the way for the rest of the page. */}

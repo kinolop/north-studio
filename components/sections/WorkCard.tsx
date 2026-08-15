@@ -8,25 +8,17 @@ import { Reveal } from "@/components/ui/Reveal";
 import type { ProjectCopy } from "@/lib/i18n/types";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-import { ProjectPlate } from "./ProjectPlate";
-
 /** Maximum lean, in degrees. Past about six this stops reading as depth. */
 const TILT = 5;
 
 interface WorkCardProps {
   project: ProjectCopy;
   /**
-   * "lead" runs the plate and the copy side by side across the full width;
-   * "stacked" puts the copy under the plate. The lead piece gets the
-   * different shape so the grid says "start here" rather than "we have
-   * exactly three".
+   * "lead" runs the name and the prose side by side across the full width;
+   * "stacked" is a single column. The lead piece gets the different shape so
+   * the grid says "start here" rather than "we have exactly three".
    */
   variant?: "lead" | "stacked";
-  /**
-   * Flips a lead card so the plate sits on the right. Two full-width cases
-   * stacked identically read as a list; alternating them reads as a spread.
-   */
-  mirrored?: boolean;
   delay?: number;
   className?: string;
   /** When set the whole card becomes a link to the case page. */
@@ -38,7 +30,6 @@ interface WorkCardProps {
 export function WorkCard({
   project,
   variant = "stacked",
-  mirrored = false,
   delay = 0,
   className = "",
   href,
@@ -73,12 +64,48 @@ export function WorkCard({
 
   const lead = variant === "lead";
 
-  const copy = (
-    <div className={lead ? "flex flex-col justify-center p-9 lg:p-12" : "flex flex-1 flex-col p-7 lg:p-8"}>
+  const action = href && cta && (
+    <p className="flex items-center gap-3 text-meta text-bone">
+      {cta}
+      <svg aria-hidden viewBox="0 0 24 10" className="h-[10px] w-6 text-signal-lift">
+        <path
+          d="M0 5h21M17 1l4 4-4 4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.25"
+          className="transition-transform duration-[var(--duration-state)] ease-[var(--ease-north)] group-hover:translate-x-1"
+        />
+      </svg>
+    </p>
+  );
+
+  /**
+   * With the plate gone the lead card would otherwise be one tall column of
+   * text across the full width, so it splits: the name holds the left, the
+   * prose and the action the right. The stacked cards stay a single column.
+   */
+  const copy = lead ? (
+    <div className="grid gap-8 p-9 lg:grid-cols-12 lg:items-end lg:gap-10 lg:p-12">
+      <div className="lg:col-span-6">
+        <div className="flex items-baseline justify-between gap-6">
+          <h3 className="text-display font-display font-medium text-bone">
+            {project.name}
+          </h3>
+          <p className="label-mono shrink-0 lg:hidden">{project.year}</p>
+        </div>
+        <p className="label-mono mt-5 text-signal-lift">{project.discipline}</p>
+      </div>
+
+      <div className="lg:col-span-5 lg:col-start-8">
+        <p className="label-mono hidden lg:mb-6 lg:block">{project.year}</p>
+        <p className="max-w-[46ch] text-lead text-ash">{project.summary}</p>
+        {action && <div className="mt-10">{action}</div>}
+      </div>
+    </div>
+  ) : (
+    <div className="flex flex-1 flex-col p-7 lg:p-8">
       <div className="flex items-baseline justify-between gap-6">
-        <h3
-          className={`font-display font-medium text-bone ${lead ? "text-display" : "text-title"}`}
-        >
+        <h3 className="text-title font-display font-medium text-bone">
           {project.name}
         </h3>
         <p className="label-mono shrink-0">{project.year}</p>
@@ -86,24 +113,11 @@ export function WorkCard({
 
       <p className="label-mono mt-4 text-signal-lift">{project.discipline}</p>
 
-      <p className={`mt-auto pt-6 max-w-[46ch] text-ash ${lead ? "text-lead" : "text-body"}`}>
+      <p className="mt-auto max-w-[46ch] pt-6 text-body text-ash">
         {project.summary}
       </p>
 
-      {href && cta && (
-        <p className="mt-auto flex items-center gap-3 pt-8 text-meta text-bone">
-          {cta}
-          <svg aria-hidden viewBox="0 0 24 10" className="h-[10px] w-6 text-signal-lift">
-            <path
-              d="M0 5h21M17 1l4 4-4 4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              className="transition-transform duration-[var(--duration-state)] ease-[var(--ease-north)] group-hover:translate-x-1"
-            />
-          </svg>
-        </p>
-      )}
+      {action && <div className="mt-auto pt-8">{action}</div>}
     </div>
   );
 
@@ -127,34 +141,12 @@ export function WorkCard({
           }}
         >
           <Shell href={href} name={project.name}>
-          <article
-            className={`relative h-full overflow-hidden rounded-[3px] bg-abyss ${lead ? "grid lg:grid-cols-12" : "flex flex-col"}`}
-          >
-            <div
-              className={`relative overflow-hidden ${lead ? "aspect-[16/10] lg:col-span-7 lg:aspect-auto" : "aspect-[16/10]"} ${mirrored ? "lg:order-2" : ""}`}
-            >
-              <ProjectPlate project={project} />
-              {/* Graded scrim so type never fights the plate — falling away
-                  from whichever side the copy is on. */}
-              <div
-                className={`absolute inset-0 ${
-                  lead
-                    ? mirrored
-                      ? "bg-[linear-gradient(to_left,transparent_55%,var(--color-abyss))]"
-                      : "bg-[linear-gradient(to_right,transparent_55%,var(--color-abyss))]"
-                    : "top-auto h-2/5 bg-[linear-gradient(to_top,var(--color-abyss),transparent)]"
-                }`}
-              />
-            </div>
-
-            {lead ? (
-              <div className={`lg:col-span-5 ${mirrored ? "lg:order-1" : ""}`}>
-                {copy}
-              </div>
-            ) : (
-              copy
-            )}
-          </article>
+            {/* No plate. The card is a flat dark panel with a hairline and
+                the pointer's light on its edge — the work is named, not
+                illustrated, and nothing here pretends to be a screenshot. */}
+            <article className="relative h-full overflow-hidden rounded-[3px] bg-abyss">
+              {copy}
+            </article>
           </Shell>
         </div>
       </motion.div>
