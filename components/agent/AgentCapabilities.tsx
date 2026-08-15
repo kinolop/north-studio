@@ -14,9 +14,9 @@ const ASSETS = "/work/north-agent/assets";
 
 /** Image file per capability, in the order the dictionary lists them. */
 const IMAGE: Record<string, string> = {
-  answers: "cap-answers.jpg",
-  knows: "cap-knows.jpg",
-  enroll: "cap-enroll.jpg",
+  answers: "cap-answers.png",
+  knows: "cap-knows.png",
+  enroll: "cap-enroll.png",
 };
 
 export function AgentCapabilities() {

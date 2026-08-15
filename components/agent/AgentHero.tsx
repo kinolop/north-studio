@@ -28,7 +28,7 @@ export function AgentHero() {
           hero.mp4 beside it and the video takes over with no code change. */}
       <div aria-hidden className="absolute inset-0">
         <AssetSlot
-          src={`${ASSETS}/hero.jpg`}
+          src={`${ASSETS}/hero.png`}
           videoSrc={`${ASSETS}/hero.mp4`}
           label={agent.slots.hero}
           alt=""
