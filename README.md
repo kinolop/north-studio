@@ -175,6 +175,25 @@ studio the client it was trying to win. The seam for making it real is one
 function: replace `respond()` with a fetch and nothing else in the file
 changes.
 
+## The panel that knows where you are
+
+`lib/useLitPanel.ts` plus the `lit-panel` utility are the site's one
+"it reacts to me" surface, shared by every card family — services,
+capabilities, features, trust. A pool of light follows the pointer across
+the panel and the panel leans up to three degrees toward it.
+
+The hook writes four custom properties straight to the element; the CSS does
+everything visible. No springs, no animation frame, and the handler only
+runs while a pointer is actually over the card, so a dozen of them cost
+nothing until one is touched. Smoothing is a CSS transition, which is why
+the lean has the same weight as the rest of the site.
+
+`--lit-hue` carries the accent, so ORBITA's cards light in its cyan without
+a second copy of any of this. Capability is *watched*, not sampled once: a
+tablet that gains a mouse, or a visitor who turns reduced motion on
+mid-visit, changes the answer, and a panel that went dead at mount would
+never come back.
+
 ## Lighting a section
 
 `Atmosphere` lights the page, but it is `fixed`: it stays put while the page

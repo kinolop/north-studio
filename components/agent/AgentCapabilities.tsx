@@ -8,6 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
 import { agentSectionById } from "@/lib/sections";
+import { useLitPanel } from "@/lib/useLitPanel";
 
 const meta = agentSectionById("agent-capabilities");
 const ASSETS = "/work/north-agent/assets";
@@ -18,6 +19,40 @@ const IMAGE: Record<string, string> = {
   knows: "cap-knows.png",
   enroll: "cap-enroll.png",
 };
+
+type Capability = ReturnType<typeof useCopy>["agentCase"]["capabilities"]["items"][number];
+
+function CapabilityCard({ item, index }: { item: Capability; index: number }) {
+  const lit = useLitPanel<HTMLElement>();
+
+  return (
+    <Reveal delay={index * 0.08} className="h-full">
+      <article
+        ref={lit.ref}
+        {...lit.props}
+        className="glass glass-edge lit-panel group flex h-full flex-col overflow-hidden hover:border-signal/30 hover:shadow-lift"
+      >
+        <AssetSlot
+          src={`${ASSETS}/${IMAGE[item.key]}`}
+          label={item.slotLabel}
+          alt={item.name}
+          ratio="4 / 5"
+          className="rounded-none border-x-0 border-t-0"
+        />
+
+        <div className="flex flex-1 flex-col p-7 lg:p-8">
+          <p className="label-mono text-signal-lift">
+            {String(index + 1).padStart(2, "0")}
+          </p>
+          <h3 className="mt-5 font-display text-[1.35rem] leading-[1.1] font-medium tracking-[-0.02em] text-bone">
+            {item.name}
+          </h3>
+          <p className="mt-4 text-body text-ash">{item.body}</p>
+        </div>
+      </article>
+    </Reveal>
+  );
+}
 
 export function AgentCapabilities() {
   const copy = useCopy();
@@ -39,27 +74,7 @@ export function AgentCapabilities() {
           <GhostWord className="-z-10">AGENT</GhostWord>
 
           {caps.items.map((item, index) => (
-            <Reveal key={item.key} delay={index * 0.08} className="h-full">
-              <article className="glass glass-edge group flex h-full flex-col overflow-hidden transition-[transform,border-color,box-shadow] duration-[520ms] ease-[var(--ease-north)] hover:-translate-y-1 hover:border-signal/30 hover:shadow-lift">
-                <AssetSlot
-                  src={`${ASSETS}/${IMAGE[item.key]}`}
-                  label={item.slotLabel}
-                  alt={item.name}
-                  ratio="4 / 5"
-                  className="rounded-none border-x-0 border-t-0"
-                />
-
-                <div className="flex flex-1 flex-col p-7 lg:p-8">
-                  <p className="label-mono text-signal-lift">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-5 font-display text-[1.35rem] leading-[1.1] font-medium tracking-[-0.02em] text-bone">
-                    {item.name}
-                  </h3>
-                  <p className="mt-4 text-body text-ash">{item.body}</p>
-                </div>
-              </article>
-            </Reveal>
+            <CapabilityCard key={item.key} item={item} index={index} />
           ))}
         </div>
       </div>

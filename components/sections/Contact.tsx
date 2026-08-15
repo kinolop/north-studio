@@ -1,5 +1,6 @@
 "use client";
 
+import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { ChannelPanel } from "@/components/contact/ChannelPanel";
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
@@ -27,6 +28,8 @@ export function Contact() {
 
   return (
     <Section id={meta.id} className="overflow-hidden">
+      <CodedBackdrop tone="close" className="-z-10" />
+
       {/* A last rise of light from below the fold — the room brightening as
           the page ends. */}
       <div

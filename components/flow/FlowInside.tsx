@@ -10,6 +10,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
 import { flowSectionById } from "@/lib/sections";
+import { useLitPanel } from "@/lib/useLitPanel";
 
 const meta = flowSectionById("flow-inside");
 
@@ -67,6 +68,40 @@ const GLYPH: Record<string, ReactNode> = {
   ),
 };
 
+type InsideItem = ReturnType<typeof useCopy>["flowCase"]["inside"]["items"][number];
+
+function InsideCard({ item, index }: { item: InsideItem; index: number }) {
+  const lit = useLitPanel<HTMLElement>();
+
+  return (
+    <Reveal delay={(index % 3) * 0.08} className="h-full">
+      <article
+        ref={lit.ref}
+        {...lit.props}
+        className="glass glass-edge lit-panel group flex h-full flex-col p-7 hover:border-signal/30 hover:shadow-lift lg:p-8"
+      >
+        <div className="flex items-start justify-between gap-5">
+          <p className="label-mono text-signal-lift">
+            {String(index + 1).padStart(2, "0")}
+          </p>
+          <svg
+            aria-hidden
+            viewBox="0 0 24 24"
+            className="h-7 w-7 shrink-0 fill-none stroke-ash stroke-[1.15] transition-colors duration-[var(--duration-state)] ease-[var(--ease-north)] group-hover:stroke-bone [stroke-linecap:round] [stroke-linejoin:round]"
+          >
+            {GLYPH[item.key]}
+          </svg>
+        </div>
+
+        <h3 className="mt-8 font-display text-[1.25rem] leading-[1.15] font-medium tracking-[-0.02em] text-bone">
+          {item.name}
+        </h3>
+        <p className="mt-4 text-body text-ash">{item.body}</p>
+      </article>
+    </Reveal>
+  );
+}
+
 export function FlowInside() {
   const copy = useCopy();
   const inside = copy.flowCase.inside;
@@ -96,27 +131,7 @@ export function FlowInside() {
           <GhostWord className="-z-10">FLOW</GhostWord>
 
           {inside.items.map((item, index) => (
-            <Reveal key={item.key} delay={(index % 3) * 0.08} className="h-full">
-              <article className="glass glass-edge group flex h-full flex-col p-7 transition-[transform,border-color,box-shadow] duration-[520ms] ease-[var(--ease-north)] hover:-translate-y-1 hover:border-signal/30 hover:shadow-lift lg:p-8">
-                <div className="flex items-start justify-between gap-5">
-                  <p className="label-mono text-signal-lift">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <svg
-                    aria-hidden
-                    viewBox="0 0 24 24"
-                    className="h-7 w-7 shrink-0 fill-none stroke-ash stroke-[1.15] transition-colors duration-[var(--duration-state)] ease-[var(--ease-north)] group-hover:stroke-bone [stroke-linecap:round] [stroke-linejoin:round]"
-                  >
-                    {GLYPH[item.key]}
-                  </svg>
-                </div>
-
-                <h3 className="mt-8 font-display text-[1.25rem] leading-[1.15] font-medium tracking-[-0.02em] text-bone">
-                  {item.name}
-                </h3>
-                <p className="mt-4 text-body text-ash">{item.body}</p>
-              </article>
-            </Reveal>
+            <InsideCard key={item.key} item={item} index={index} />
           ))}
         </div>
       </div>

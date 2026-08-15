@@ -1,5 +1,6 @@
 "use client";
 
+import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -9,6 +10,7 @@ import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
 import type { Service } from "@/lib/i18n/types";
 import { sectionById } from "@/lib/sections";
+import { useLitPanel } from "@/lib/useLitPanel";
 
 const meta = sectionById("services");
 
@@ -36,9 +38,15 @@ function ServiceCard({
   discuss: string;
   onDiscuss: () => void;
 }) {
+  const lit = useLitPanel<HTMLElement>();
+
   return (
     <Reveal delay={index * 0.08} className="h-full">
-      <article className="glass glass-edge group relative flex h-full flex-col p-8 transition-[transform,border-color,box-shadow] duration-[520ms] ease-[var(--ease-north)] hover:-translate-y-1 hover:border-signal/30 hover:shadow-lift lg:p-10">
+      <article
+        ref={lit.ref}
+        {...lit.props}
+        className="glass glass-edge lit-panel group flex h-full flex-col p-8 hover:border-signal/30 hover:shadow-lift lg:p-10"
+      >
         <p className="label-mono text-signal-lift">
           {String(index + 1).padStart(2, "0")}
         </p>
@@ -93,7 +101,9 @@ export function Services() {
   const { open } = useChannelOverlay();
 
   return (
-    <Section id={meta.id}>
+    <Section id={meta.id} className="overflow-hidden">
+      <CodedBackdrop tone="machine" className="-z-10" />
+
       <div className="container-north">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-6">

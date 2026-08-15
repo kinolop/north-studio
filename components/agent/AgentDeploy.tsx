@@ -1,5 +1,6 @@
 "use client";
 
+import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
@@ -19,7 +20,9 @@ export function AgentDeploy() {
   const deploy = copy.agentCase.deploy;
 
   return (
-    <Section id={meta.id}>
+    <Section id={meta.id} className="overflow-hidden">
+      <CodedBackdrop tone="faint" className="-z-10" />
+
       <div className="container-north grid gap-14 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4">
           <Eyebrow bearing={meta.bearing} label={copy.sections[meta.id]} />

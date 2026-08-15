@@ -1,5 +1,6 @@
 "use client";
 
+import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
@@ -26,7 +27,9 @@ export function Work() {
   const [featured, second, third, ...rest] = copy.work.projects;
 
   return (
-    <Section id={meta.id}>
+    <Section id={meta.id} className="overflow-hidden">
+      <CodedBackdrop tone="faint" className="-z-10" />
+
       <div className="container-north">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-6">

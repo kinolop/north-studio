@@ -1,5 +1,6 @@
 "use client";
 
+import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useEffect, useRef, useState } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
@@ -68,7 +69,10 @@ export function OrbitaProduct() {
   }, [reduced]);
 
   return (
-    <Section id={meta.id}>
+    <Section id={meta.id} className="overflow-hidden">
+      {/* ORBITA's own cyan, not the studio's violet. */}
+      <CodedBackdrop tone="machine" hue="orbita" className="-z-10" />
+
       <div className="container-north">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">

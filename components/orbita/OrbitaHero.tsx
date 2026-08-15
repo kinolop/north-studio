@@ -47,7 +47,7 @@ export function OrbitaHero() {
           kenBurns
           priority
           className="border-0"
-          fallback={<CodedBackdrop tone="hero" />}
+          fallback={<CodedBackdrop tone="hero" hue="orbita" />}
         />
         {/* Graded colder than the other two cases: the plate underneath is
             ORBITA's, so the light on it should be ORBITA's too. */}

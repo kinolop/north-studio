@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import { AssetSlot } from "@/components/ui/AssetSlot";
 
@@ -33,6 +33,58 @@ import { DitherLayer } from "./DitherLayer";
 
 type Tone = "hero" | "machine" | "faint" | "close";
 
+/**
+ * Which accent lights the section. `signal` is the studio's violet;
+ * `orbita` is the borrowed cyan, for the one case that is a different
+ * brand. Same specs, one variable — not a second copy of the system.
+ */
+type Hue = "signal" | "orbita";
+
+const HUES: Readonly<Record<Hue, string>> = {
+  signal: "109 92 255",
+  orbita: "78 201 220",
+};
+
+/**
+ * Ambient motes: dust in the light, in the site's point-cloud language.
+ *
+ * Nine of them, hand-placed rather than random so none sit where a heading
+ * lands, each on its own duration and a negative delay so the field is
+ * already mid-drift on arrival and never pulses in unison.
+ */
+const MOTES = [
+  { left: "8%", top: "62%", size: 2, duration: "23s", delay: "-3s" },
+  { left: "17%", top: "34%", size: 1.5, duration: "31s", delay: "-11s" },
+  { left: "29%", top: "78%", size: 2, duration: "27s", delay: "-19s" },
+  { left: "41%", top: "22%", size: 1.5, duration: "35s", delay: "-7s" },
+  { left: "56%", top: "68%", size: 2.5, duration: "25s", delay: "-14s" },
+  { left: "68%", top: "40%", size: 1.5, duration: "33s", delay: "-22s" },
+  { left: "79%", top: "74%", size: 2, duration: "29s", delay: "-5s" },
+  { left: "88%", top: "30%", size: 1.5, duration: "37s", delay: "-17s" },
+  { left: "94%", top: "56%", size: 2, duration: "21s", delay: "-9s" },
+] as const;
+
+function Motes() {
+  return (
+    <div aria-hidden className="absolute inset-0 hidden motion-safe:block">
+      {MOTES.map((mote) => (
+        <span
+          key={`${mote.left}-${mote.top}`}
+          style={{
+            left: mote.left,
+            top: mote.top,
+            width: mote.size,
+            height: mote.size,
+            animationDuration: mote.duration,
+            animationDelay: mote.delay,
+          }}
+          className="absolute rounded-full bg-[rgb(var(--bd-accent)_/_0.7)] animate-[moteDrift_linear_infinite]"
+        />
+      ))}
+    </div>
+  );
+}
+
 interface ToneSpec {
   /** The section's own key light. */
   readonly wash: string;
@@ -42,41 +94,45 @@ interface ToneSpec {
   readonly dither: number;
   /** A single faint chrome pass, for the sections that should read machined. */
   readonly sheen?: boolean;
+  /** Dust in the light. Only where the section can carry it. */
+  readonly motes?: boolean;
 }
 
 const TONES: Readonly<Record<Tone, ToneSpec>> = {
   hero: {
-    wash: "bg-[radial-gradient(118%_82%_at_76%_6%,rgb(109_92_255/0.13),transparent_62%)]",
+    wash: "bg-[radial-gradient(118%_82%_at_76%_6%,rgb(var(--bd-accent)_/_0.13),transparent_62%)]",
     blobA:
-      "top-[-24%] left-[-18%] h-[80%] w-[74%] bg-[radial-gradient(circle,rgb(109_92_255/0.10),transparent_68%)]",
+      "top-[-24%] left-[-18%] h-[80%] w-[74%] bg-[radial-gradient(circle,rgb(var(--bd-accent)_/_0.10),transparent_68%)]",
     blobB:
       "right-[-16%] bottom-[-28%] h-[74%] w-[68%] bg-[radial-gradient(circle,rgb(22_27_40/0.85),transparent_70%)]",
     dither: 0.04,
   },
   machine: {
-    wash: "bg-[radial-gradient(104%_74%_at_16%_2%,rgb(109_92_255/0.10),transparent_60%)]",
+    wash: "bg-[radial-gradient(104%_74%_at_16%_2%,rgb(var(--bd-accent)_/_0.10),transparent_60%)]",
     blobA:
-      "top-[-14%] right-[-20%] h-[84%] w-[72%] bg-[radial-gradient(circle,rgb(109_92_255/0.09),transparent_70%)]",
+      "top-[-14%] right-[-20%] h-[84%] w-[72%] bg-[radial-gradient(circle,rgb(var(--bd-accent)_/_0.09),transparent_70%)]",
     blobB:
       "bottom-[-26%] left-[-16%] h-[76%] w-[66%] bg-[radial-gradient(circle,rgb(20_26_38/0.9),transparent_72%)]",
     dither: 0.04,
     sheen: true,
+    motes: true,
   },
   faint: {
-    wash: "bg-[radial-gradient(96%_66%_at_50%_0%,rgb(109_92_255/0.06),transparent_58%)]",
+    wash: "bg-[radial-gradient(96%_66%_at_50%_0%,rgb(var(--bd-accent)_/_0.06),transparent_58%)]",
     blobA:
-      "top-[-20%] left-[-12%] h-[70%] w-[62%] bg-[radial-gradient(circle,rgb(109_92_255/0.05),transparent_72%)]",
+      "top-[-20%] left-[-12%] h-[70%] w-[62%] bg-[radial-gradient(circle,rgb(var(--bd-accent)_/_0.05),transparent_72%)]",
     blobB:
       "right-[-18%] bottom-[-22%] h-[66%] w-[60%] bg-[radial-gradient(circle,rgb(18_22_33/0.8),transparent_74%)]",
     dither: 0.03,
   },
   close: {
-    wash: "bg-[radial-gradient(110%_78%_at_50%_104%,rgb(109_92_255/0.10),transparent_64%)]",
+    wash: "bg-[radial-gradient(110%_78%_at_50%_104%,rgb(var(--bd-accent)_/_0.10),transparent_64%)]",
     blobA:
-      "bottom-[-30%] left-[-14%] h-[80%] w-[70%] bg-[radial-gradient(circle,rgb(109_92_255/0.08),transparent_70%)]",
+      "bottom-[-30%] left-[-14%] h-[80%] w-[70%] bg-[radial-gradient(circle,rgb(var(--bd-accent)_/_0.08),transparent_70%)]",
     blobB:
       "top-[-22%] right-[-16%] h-[72%] w-[64%] bg-[radial-gradient(circle,rgb(20_25_37/0.85),transparent_72%)]",
     dither: 0.04,
+    motes: true,
   },
 };
 
@@ -89,15 +145,21 @@ const TONES: Readonly<Record<Tone, ToneSpec>> = {
  */
 export function CodedBackdrop({
   tone = "machine",
+  hue = "signal",
   className = "",
 }: {
   tone?: Tone;
+  hue?: Hue;
   className?: string;
 }) {
   const spec = TONES[tone];
 
   return (
-    <div aria-hidden className={`absolute inset-0 overflow-hidden ${className}`}>
+    <div
+      aria-hidden
+      style={{ "--bd-accent": HUES[hue] } as CSSProperties}
+      className={`absolute inset-0 overflow-hidden ${className}`}
+    >
       <div className={`absolute inset-0 ${spec.wash}`} />
 
       <div
@@ -110,6 +172,8 @@ export function CodedBackdrop({
       {spec.sheen && (
         <div className="absolute inset-0 bg-[linear-gradient(104deg,transparent_36%,rgb(236_237_239/0.028)_50%,transparent_64%)]" />
       )}
+
+      {spec.motes && <Motes />}
 
       {/* The site's own dither, so this reads as the same surface as the
           case plates rather than as a new effect. It also kills the banding
@@ -132,6 +196,7 @@ export function CodedBackdrop({
 
 interface SectionBackdropProps {
   tone?: Tone;
+  hue?: Hue;
   /**
    * An optional richer plate. Absent — which is the normal state — the
    * coded backdrop above stands in and the section still looks finished.
@@ -152,6 +217,7 @@ interface SectionBackdropProps {
  */
 export function SectionBackdrop({
   tone = "machine",
+  hue = "signal",
   src,
   videoSrc,
   label,
@@ -159,7 +225,7 @@ export function SectionBackdrop({
   className = "",
 }: SectionBackdropProps) {
   if (!src) {
-    return <CodedBackdrop tone={tone} className={`-z-10 ${className}`} />;
+    return <CodedBackdrop tone={tone} hue={hue} className={`-z-10 ${className}`} />;
   }
 
   return (
@@ -172,7 +238,7 @@ export function SectionBackdrop({
         fill
         kenBurns
         className="border-0"
-        fallback={<CodedBackdrop tone={tone} />}
+        fallback={<CodedBackdrop tone={tone} hue={hue} />}
       />
       {scrim ?? (
         <>

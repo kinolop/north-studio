@@ -264,6 +264,59 @@
   }
 }
 
+/* A panel that knows where the cursor is.
+
+   The site's one "it reacts to me" surface, shared by every card family so
+   services, capabilities, features and trust all behave identically. Two
+   things move: a specular pool that follows the pointer, and a few degrees
+   of lean toward it.
+
+   Driven by four custom properties written straight to the element by
+   `useLitPanel` — no springs, no rAF. The smoothing is a CSS transition,
+   which costs nothing and gives the lean the same weight as everything
+   else on the site. `--lit-hue` is the accent, so ORBITA's cards can light
+   in its own colour without a second copy of any of this.
+
+   The pool is `::after` at z-index -1: `glass-edge` already owns ::before,
+   and the transform makes this element a containing block, so the light
+   lands between the panel's background and its text instead of washing
+   over the words. */
+@utility lit-panel {
+  --px: 50%;
+  --py: 50%;
+  --tx: 0deg;
+  --ty: 0deg;
+  --lit-hue: 167 155 255;
+
+  position: relative;
+  transform: perspective(1500px) rotateX(var(--tx)) rotateY(var(--ty));
+  transition:
+    transform 620ms var(--ease-north),
+    border-color var(--duration-state) var(--ease-north),
+    box-shadow 620ms var(--ease-north);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(
+      460px circle at var(--px) var(--py),
+      rgb(var(--lit-hue) / 0.11),
+      transparent 62%
+    );
+    opacity: 0;
+    transition: opacity 460ms var(--ease-north);
+    pointer-events: none;
+  }
+
+  &:hover::after,
+  &:focus-within::after {
+    opacity: 1;
+  }
+}
+
 /* Polished-metal text fill. Used once per page, on the wordmark. */
 @utility text-chrome {
   background: linear-gradient(
@@ -415,6 +468,27 @@
   }
   50% {
     transform: translate3d(4%, -3%, 0) scale(1.09);
+  }
+}
+
+/* Ambient motes. One keyframe, nine elements, all of them on different
+   durations and negative delays so the field never pulses in unison. Two
+   properties animate and both are composited; the whole field costs less
+   than one repaint. */
+@keyframes moteDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.5;
+  }
+  82% {
+    opacity: 0.34;
+  }
+  100% {
+    transform: translate3d(16px, -44px, 0);
+    opacity: 0;
   }
 }
 
