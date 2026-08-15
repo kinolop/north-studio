@@ -11,9 +11,18 @@ import { WorkCard } from "./WorkCard";
 
 const meta = sectionById("work");
 
+/**
+ * Which projects have a page behind them. Keyed rather than positional, so
+ * reordering the dictionary can never point a card at the wrong case.
+ */
+const CASE_PAGES: Readonly<Record<string, string>> = {
+  "north-agent": "/work/north-agent",
+  "north-flow": "/work/north-flow",
+};
+
 export function Work() {
   const copy = useCopy();
-  const [featured, ...rest] = copy.work.projects;
+  const [featured, second, ...rest] = copy.work.projects;
 
   return (
     <Section id={meta.id}>
@@ -34,15 +43,26 @@ export function Work() {
           </Reveal>
         </div>
 
-        {/* One wide lead piece, then two halves. A three-up row of identical
-            cards would say "we have exactly three"; this says "here is the
-            one to look at first". */}
+        {/* The two products we can actually show running get the full width,
+            mirrored against each other so the pair reads as a spread rather
+            than a list. The client work sits below, three up. */}
         <div className="mt-20 space-y-5">
           {featured && (
             <WorkCard
               project={featured}
               variant="lead"
-              href="/work/north-agent"
+              href={CASE_PAGES[featured.key]}
+              cta={copy.work.caseCta}
+            />
+          )}
+
+          {second && (
+            <WorkCard
+              project={second}
+              variant="lead"
+              mirrored
+              delay={0.06}
+              href={CASE_PAGES[second.key]}
               cta={copy.work.caseCta}
             />
           )}

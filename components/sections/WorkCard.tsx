@@ -22,6 +22,11 @@ interface WorkCardProps {
    * exactly three".
    */
   variant?: "lead" | "stacked";
+  /**
+   * Flips a lead card so the plate sits on the right. Two full-width cases
+   * stacked identically read as a list; alternating them reads as a spread.
+   */
+  mirrored?: boolean;
   delay?: number;
   className?: string;
   /** When set the whole card becomes a link to the case page. */
@@ -33,6 +38,7 @@ interface WorkCardProps {
 export function WorkCard({
   project,
   variant = "stacked",
+  mirrored = false,
   delay = 0,
   className = "",
   href,
@@ -125,16 +131,29 @@ export function WorkCard({
             className={`relative h-full overflow-hidden rounded-[3px] bg-abyss ${lead ? "grid lg:grid-cols-12" : "flex flex-col"}`}
           >
             <div
-              className={`relative overflow-hidden ${lead ? "aspect-[16/10] lg:col-span-7 lg:aspect-auto" : "aspect-[16/10]"}`}
+              className={`relative overflow-hidden ${lead ? "aspect-[16/10] lg:col-span-7 lg:aspect-auto" : "aspect-[16/10]"} ${mirrored ? "lg:order-2" : ""}`}
             >
               <ProjectPlate project={project} />
-              {/* Graded scrim so type never fights the plate. */}
+              {/* Graded scrim so type never fights the plate — falling away
+                  from whichever side the copy is on. */}
               <div
-                className={`absolute inset-0 ${lead ? "bg-[linear-gradient(to_right,transparent_55%,var(--color-abyss))]" : "top-auto h-2/5 bg-[linear-gradient(to_top,var(--color-abyss),transparent)]"}`}
+                className={`absolute inset-0 ${
+                  lead
+                    ? mirrored
+                      ? "bg-[linear-gradient(to_left,transparent_55%,var(--color-abyss))]"
+                      : "bg-[linear-gradient(to_right,transparent_55%,var(--color-abyss))]"
+                    : "top-auto h-2/5 bg-[linear-gradient(to_top,var(--color-abyss),transparent)]"
+                }`}
               />
             </div>
 
-            {lead ? <div className="lg:col-span-5">{copy}</div> : copy}
+            {lead ? (
+              <div className={`lg:col-span-5 ${mirrored ? "lg:order-1" : ""}`}>
+                {copy}
+              </div>
+            ) : (
+              copy
+            )}
           </article>
           </Shell>
         </div>

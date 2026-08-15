@@ -363,6 +363,188 @@
 }
 
 /* ============================================================================
+   NORTH FLOW — THE CONVEYOR
+   One timeline, written once. Every animation on the line shares the same
+   duration, so a chip, the tags written onto it and the station it is
+   standing on stay in lockstep with no JavaScript timer anywhere: the
+   browser's own animation clock is the only clock. `lib/conveyor.ts` mirrors
+   the percentages below — change one, change the other.
+
+   A chip's wrapper is exactly one station wide, so translating it by whole
+   multiples of its own width lands it dead centre on a station at any
+   container size, on any breakpoint, with no measurement.
+
+   Percentages: 0 intake · 32 qualification · 58 manager · 80 CRM.
+   Every keyframe carries the full transform list, because a partial list
+   forces matrix interpolation and percentage translations do not survive it.
+   ========================================================================= */
+
+@keyframes flowRunX {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.94);
+    opacity: 0;
+  }
+  4% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+  18% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  32% {
+    transform: translate3d(100%, 0, 0) scale(1);
+  }
+  48% {
+    transform: translate3d(100%, 0, 0) scale(1);
+  }
+  58% {
+    transform: translate3d(200%, 0, 0) scale(1);
+  }
+  70% {
+    transform: translate3d(200%, 0, 0) scale(1);
+  }
+  80% {
+    transform: translate3d(300%, 0, 0) scale(1);
+  }
+  94% {
+    transform: translate3d(300%, 0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(300%, 0, 0) scale(0.97);
+    opacity: 0;
+  }
+}
+
+/* The same journey, turned ninety degrees for narrow screens. */
+@keyframes flowRunY {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.94);
+    opacity: 0;
+  }
+  4% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+  18% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  32% {
+    transform: translate3d(0, 100%, 0) scale(1);
+  }
+  48% {
+    transform: translate3d(0, 100%, 0) scale(1);
+  }
+  58% {
+    transform: translate3d(0, 200%, 0) scale(1);
+  }
+  70% {
+    transform: translate3d(0, 200%, 0) scale(1);
+  }
+  80% {
+    transform: translate3d(0, 300%, 0) scale(1);
+  }
+  94% {
+    transform: translate3d(0, 300%, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 300%, 0) scale(0.97);
+    opacity: 0;
+  }
+}
+
+/* What the qualifier writes onto the lead, while it stands at station two. */
+@keyframes flowTag {
+  0%,
+  36% {
+    opacity: 0;
+    transform: translate3d(0, 3px, 0);
+  }
+  44%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* The routing line, written at station three. */
+@keyframes flowRoute {
+  0%,
+  60% {
+    opacity: 0;
+    transform: translate3d(0, 3px, 0);
+  }
+  67%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* The card badge, earned at station four. */
+@keyframes flowFiled {
+  0%,
+  82% {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  89%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* A single pass of light across the chip: the model reading it. Deliberately
+   the only bright thing on the line, and it lasts a tenth of a cycle. */
+@keyframes flowScan {
+  0%,
+  33% {
+    opacity: 0;
+    transform: translate3d(-110%, 0, 0);
+  }
+  36% {
+    opacity: 1;
+    transform: translate3d(-110%, 0, 0);
+  }
+  46% {
+    opacity: 1;
+    transform: translate3d(110%, 0, 0);
+  }
+  48%,
+  100% {
+    opacity: 0;
+    transform: translate3d(110%, 0, 0);
+  }
+}
+
+/* A station registering an arrival. Runs at the line's cadence with a phase
+   offset per station, which is why it never needs to be told a chip is
+   there — at a fixed cadence, arrival is a matter of arithmetic. */
+@keyframes flowStation {
+  0% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.32);
+  }
+  30% {
+    opacity: 0.4;
+    transform: rotate(45deg) scale(1);
+  }
+  100% {
+    opacity: 0.4;
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+/* Off screen the line holds still: an animation nobody is looking at is a
+   frame budget spent on nothing. One attribute on the plate governs every
+   animation inside it, so the machine starts and stops as one object. */
+[data-conveyor="held"] [data-flow] {
+  animation-play-state: paused;
+}
+
+/* ============================================================================
    REDUCED MOTION
    Kill parallax, scrub, idle 3D and ambient drift. The page stays fully
    legible and every reveal-based element resolves to its final state.

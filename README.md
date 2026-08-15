@@ -175,6 +175,41 @@ studio the client it was trying to win. The seam for making it real is one
 function: replace `respond()` with a fetch and nothing else in the file
 changes.
 
+## The two product cases
+
+`/work/north-agent` and `/work/north-flow` are the studio's own products,
+each shown running rather than described. Both are linked from Work as
+full-width cards, mirrored against each other, and both register their own
+compass sweep through `SectionRegistry` so the HUD and the rail describe the
+page you are actually on — 310° for the agent, 285° for the flow.
+
+Both are labelled a demo concept, in both locales, and every figure on them
+says so beside itself. The invented brands (LEKTA, ВОЛНА) exist so the work
+can be shown doing its job on something concrete; nothing on either page
+asserts a measured client result.
+
+**The conveyor** — `components/flow/FlowConveyor.tsx` — is the one piece of
+machinery on the site worth reading before changing. It has no simulation
+loop and no timers: five chips run a single looping CSS animation at even
+phase offsets, and the browser's animation clock is the only clock. React
+hears `animationiteration` about every two seconds, files a lead into the
+journal and reloads the slot. Two consequences worth keeping:
+
+- The keyframe percentages in `globals.css` and the constants in
+  `lib/conveyor.ts` are two halves of one contract. Change one, change both.
+- The cadence must stay longer than the longest dwell in the cycle, or two
+  chips will stand on the same station. `lib/conveyor.ts` says why the
+  numbers are what they are.
+
+With `prefers-reduced-motion` the same component parks one chip at each
+station showing what it would have earned by that point — the animation's
+own frames, read as a diagram instead of watched as a machine.
+
+Assets: `public/work/north-agent/assets/` and `public/work/north-flow/assets/`,
+each with a README listing the files and ratios. Every frame renders a
+labelled placeholder until the file exists, and the flow hero reuses the
+agent's `mascot.png` rather than keeping a second copy.
+
 ## Reaching the studio
 
 Three channels — Telegram, WhatsApp, email — defined once in
@@ -208,8 +243,10 @@ already agreed with.
 app/
   layout.tsx        fonts, metadata, the fixed chrome
   page.tsx          section order
-  globals.css       ALL design tokens (@theme) + primitives
+  globals.css       ALL design tokens (@theme) + primitives + keyframes
   api/contact/      brief delivery
+  work/north-agent/ the AI-agent product case
+  work/north-flow/  the automation product case
 components/
   atmosphere/       fog, cursor light, grain, dither — the lit room
   scene/            the chrome N and its rig
@@ -218,17 +255,22 @@ components/
   i18n/             CopyProvider + locale switch
   motion/           Lenis + GSAP wiring
   sections/         the eleven movements
+  agent/            the North Agent case's sections
+  flow/             the North Flow case's sections, and the conveyor
   ui/               Reveal, SplitLines, MagneticButton, Eyebrow, GhostWord
 lib/
   i18n/             types.ts (the contract) + en.ts + ru.ts
   channels.ts       Telegram / WhatsApp / email — one source of truth
   sections.ts       ids and compass bearings (language-neutral)
+  conveyor.ts       the North Flow line's timing contract and its journal
   recommend.ts      maps configurator answers to a service + timeline
   dither.ts         the Bayer matrix, shared by every use of the motif
   sound.ts          synthesised drone and transients
   pointer.ts        one damped pointer signal
   scroll.ts         one scroll signal (progress, velocity, active section)
   useReveal.ts      fail-safe scroll reveals
+  useCountUp.ts     figures that count once, when they are looked at
+  useOnScreen.ts    is this on screen right now (for things that should stop)
 ```
 
 Three rules keep it maintainable: **`globals.css` is the only place raw

@@ -61,6 +61,30 @@ export function agentSectionById(id: AgentSectionId): (typeof AGENT_SECTIONS)[nu
   return section;
 }
 
+/**
+ * North Flow's sweep, filed at 285° — one product bearing west of North
+ * Agent's 310°, so the two cases sit next to each other on the dial without
+ * ever reading the same. It closes just short of north for the same reason
+ * the agent case does: a product page is the last leg, not a detour.
+ */
+export const FLOW_SECTIONS = [
+  { id: "flow-hero", bearing: "285°", degrees: 285 },
+  { id: "flow-conveyor", bearing: "300°", degrees: 300 },
+  { id: "flow-inside", bearing: "316°", degrees: 316 },
+  { id: "flow-deploy", bearing: "332°", degrees: 332 },
+  { id: "flow-start", bearing: "352°", degrees: 352 },
+] as const satisfies readonly SectionMeta[];
+
+export type FlowSectionId = (typeof FLOW_SECTIONS)[number]["id"];
+
+const FLOW_BY_ID = new Map(FLOW_SECTIONS.map((s) => [s.id, s]));
+
+export function flowSectionById(id: FlowSectionId): (typeof FLOW_SECTIONS)[number] {
+  const section = FLOW_BY_ID.get(id);
+  if (!section) throw new Error(`Unknown flow section: ${id}`);
+  return section;
+}
+
 /** The four carried in the header. The footer indexes all of them. */
 export const NAV_IDS = [
   "studio",

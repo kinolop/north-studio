@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -8,14 +8,9 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
 import { agentSectionById } from "@/lib/sections";
-import { useReducedMotion } from "@/lib/useReducedMotion";
-import { useReveal } from "@/lib/useReveal";
+import { useCountUp } from "@/lib/useCountUp";
 
 const meta = agentSectionById("agent-numbers");
-const COUNT_MS = 1100;
-
-/** Expo-out, matching the site's easing rather than counting linearly. */
-const ease = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
 /**
  * Illustrative figures, counted up.
@@ -82,39 +77,13 @@ function Figure({
   delay: number;
 }) {
   const hostRef = useRef<HTMLParagraphElement>(null);
-  const phase = useReveal(hostRef);
-  const reduced = useReducedMotion();
-  const [shown, setShown] = useState(value ?? 0);
-
-  const counts = value !== null && !literal;
-
-  useEffect(() => {
-    // Nothing to count: a literal like "24/7", or motion is unwanted.
-    if (!counts || reduced || phase === "armed") {
-      if (value !== null) setShown(value);
-      return;
-    }
-
-    let rafId = 0;
-    let start = 0;
-    let delayTimer = 0;
-
-    const frame = (now: number) => {
-      if (start === 0) start = now;
-      const t = Math.min((now - start) / COUNT_MS, 1);
-      setShown(Math.round(ease(t) * value));
-      if (t < 1) rafId = window.requestAnimationFrame(frame);
-    };
-
-    delayTimer = window.setTimeout(() => {
-      rafId = window.requestAnimationFrame(frame);
-    }, delay);
-
-    return () => {
-      window.clearTimeout(delayTimer);
-      window.cancelAnimationFrame(rafId);
-    };
-  }, [counts, reduced, phase, value, delay]);
+  // Nothing to count for a literal like "24/7"; the hook resolves those to
+  // the value immediately rather than animating toward a number that is
+  // never printed.
+  const shown = useCountUp(value ?? 0, hostRef, {
+    delay,
+    enabled: value !== null && !literal,
+  });
 
   return (
     <p

@@ -27,6 +27,11 @@ export const en = {
     "agent-deploy": "Deployment",
     "agent-numbers": "Numbers",
     "agent-start": "Start",
+    "flow-hero": "North Flow",
+    "flow-conveyor": "The line",
+    "flow-inside": "Inside",
+    "flow-deploy": "Deployment",
+    "flow-start": "Start",
   },
 
   hero: {
@@ -260,6 +265,272 @@ export const en = {
     },
   },
 
+  flowCase: {
+    demoTag: "Demo concept",
+    backToWork: "All work",
+    productName: "North Flow",
+    promise: [
+      "Leads that handle themselves —",
+      "collected, qualified and filed",
+      "while you sleep.",
+    ],
+    heroCta: "Want North Flow running your leads?",
+    brand: "VOLNA",
+    brandNote:
+      "The store below is invented, and so is every figure on this page. It exists so the line can be shown running on something concrete rather than in the abstract.",
+
+    conveyor: {
+      title: ["A night's worth of leads,", "filing themselves."],
+      lede: "Everything that reaches VOLNA — a form on the site, Telegram, WhatsApp, Avito, a missed call — enters the same line. It is read, tagged warm or cold, handed to the manager who should have it, and filed. Nobody retypes anything, and nothing waits until morning.",
+      lineLabel: "North Flow · line 01",
+      runningLabel: "Running",
+      clientLabel: "VOLNA · online store",
+      stages: [
+        { key: "in", name: "New lead", note: "Every channel, one queue" },
+        {
+          key: "qualify",
+          name: "AI qualification",
+          note: "Warm or cold, and how urgent",
+        },
+        {
+          key: "route",
+          name: "Manager",
+          note: "The person who should have it",
+        },
+        { key: "crm", name: "CRM card", note: "Filed with the whole thread" },
+      ],
+      cardsLabel: "cards",
+      filedLabel: "In CRM",
+      leads: [
+        {
+          key: "tg-size",
+          channel: "Telegram",
+          source: "lead from Telegram",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "high",
+          route: "Anna",
+        },
+        {
+          key: "site-cart",
+          channel: "Site",
+          source: "form on the site",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "normal",
+          route: "Igor",
+        },
+        {
+          key: "avito-price",
+          channel: "Avito",
+          source: "message on Avito",
+          tone: "cold",
+          toneLabel: "cold",
+          priority: "low",
+          route: "nurture",
+        },
+        {
+          key: "call-missed",
+          channel: "Call",
+          source: "missed call",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "high",
+          route: "Mira",
+        },
+        {
+          key: "wa-delivery",
+          channel: "WhatsApp",
+          source: "lead on WhatsApp",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "normal",
+          route: "Pavel",
+        },
+        {
+          key: "site-bulk",
+          channel: "Site",
+          source: "wholesale form on the site",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "high",
+          route: "Anna",
+        },
+        {
+          key: "tg-return",
+          channel: "Telegram",
+          source: "returns question in Telegram",
+          tone: "cold",
+          toneLabel: "cold",
+          priority: "low",
+          route: "nurture",
+        },
+        {
+          key: "avito-stock",
+          channel: "Avito",
+          source: "message on Avito",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "normal",
+          route: "Igor",
+        },
+        {
+          key: "site-night",
+          channel: "Site",
+          source: "form on the site, night",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "normal",
+          route: "Mira",
+        },
+        {
+          key: "wa-photo",
+          channel: "WhatsApp",
+          source: "photo on WhatsApp",
+          tone: "cold",
+          toneLabel: "cold",
+          priority: "low",
+          route: "nurture",
+        },
+        {
+          key: "call-second",
+          channel: "Call",
+          source: "second missed call",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "high",
+          route: "Pavel",
+        },
+        {
+          key: "tg-gift",
+          channel: "Telegram",
+          source: "gift sets, in Telegram",
+          tone: "warm",
+          toneLabel: "warm",
+          priority: "normal",
+          route: "Anna",
+        },
+      ],
+
+      journal: {
+        title: "Automation journal",
+        liveLabel: "Live",
+        note: "Every line is the machine writing down what it just did.",
+      },
+
+      tally: {
+        label: "This demo, since the line started",
+        hoursSuffix: " h",
+        items: [
+          { key: "processed", label: "Leads processed" },
+          { key: "warm", label: "Warm" },
+          { key: "cold", label: "To nurture" },
+          { key: "hours", label: "Hours saved" },
+        ],
+      },
+
+      stats: {
+        disclaimer:
+          "Demo concept — illustrative figures, not measured client results.",
+        items: [
+          {
+            key: "qualify",
+            value: 0.8,
+            decimals: 1,
+            suffix: " s",
+            label: "To read and tag a lead",
+          },
+          {
+            key: "always",
+            value: null,
+            suffix: "",
+            literal: "24/7",
+            label: "The line never sleeps",
+          },
+          { key: "missed", value: 0, suffix: "", label: "Leads missed" },
+        ],
+      },
+
+      stillLabel:
+        "Held still — your system asks for reduced motion, so the line is drawn as it stands.",
+    },
+
+    inside: {
+      title: ["What it wires", "together."],
+      lede: "Six jobs, none of which anyone should still be doing by hand.",
+      items: [
+        {
+          key: "collect",
+          name: "One queue for every channel",
+          body: "Site forms, Telegram, WhatsApp, Avito, missed calls. They land in one place, in one format, with the source kept.",
+        },
+        {
+          key: "qualify",
+          name: "AI qualification",
+          body: "Warm or cold, how urgent it is and what the person actually wants — decided in under a second and written onto the lead.",
+        },
+        {
+          key: "write",
+          name: "Straight into your CRM",
+          body: "A card with the whole thread, the source and the tag. Your sheets updated, and a Telegram notification the moment it lands.",
+        },
+        {
+          key: "reply",
+          name: "The client is answered first",
+          body: "An instant first reply that holds the conversation — polite, specific, in your voice — while your manager is asleep.",
+        },
+        {
+          key: "report",
+          name: "A morning report in Telegram",
+          body: "Volume, sources, conversion and who is carrying the load. Waiting for you before the first coffee, without anyone assembling it.",
+        },
+        {
+          key: "always",
+          name: "The same speed at 3am",
+          body: "It runs around the clock, at peak ad spend and on a dead Tuesday. It does not tire, and it does not forget one.",
+        },
+      ],
+    },
+
+    deploy: {
+      title: ["How we put it", "on your channels."],
+      items: [
+        {
+          key: "connects",
+          name: "Connects to what you have",
+          body: "Your CRM, your messengers, your sheets. No migration and nothing to relearn.",
+        },
+        {
+          key: "process",
+          name: "Built around your process",
+          body: "We map how a lead actually travels through your team, then wire that — not a template of it.",
+        },
+        {
+          key: "live",
+          name: "Live in days",
+          body: "A working line on your real channels within days, watched closely through the first week.",
+        },
+        {
+          key: "yours",
+          name: "Yours to keep",
+          body: "The scenarios, the keys and the documentation. No monthly fee to keep your own automation running.",
+        },
+      ],
+    },
+
+    cta: {
+      title: ["Want North Flow", "running your leads?"],
+      lede: "Tell us where your leads come in and where they go missing. We will show you this line built on your own channels.",
+      action: "Start a project",
+    },
+
+    slots: {
+      hero: "HERO BG · REPLACE · 16:9 · hero.mp4 overrides if present",
+      mascot:
+        "REUSES THE NORTH AGENT MASCOT · /work/north-agent/assets/mascot.png · ~1:1",
+    },
+  },
+
   configurator: {
     title: ["Point us at", "the problem."],
     lede: "Four questions. You get the direction your job belongs to and roughly how long it takes.",
@@ -317,7 +588,7 @@ export const en = {
 
   work: {
     title: ["Proof, not", "promises."],
-    lede: "Three pieces, chosen because each one solved a different problem. The rest is available on the call.",
+    lede: "Two products of our own, both running so you can see them, and client work chosen because each piece solved a different problem. The rest is on the call.",
     caseCta: "Open the case",
     placeholderNote: "Visuals are placeholder plates in this build — see README.md to swap in captures.",
     projects: [
@@ -327,6 +598,14 @@ export const en = {
         discipline: "Our own product / AI agent",
         summary:
           "The assistant we build for clients, shown working end to end: it answers, qualifies and closes an enrolment while you read it. A demo concept you can talk to.",
+        year: "2026",
+      },
+      {
+        key: "north-flow",
+        name: "North Flow",
+        discipline: "Our own product / Automation",
+        summary:
+          "The line we build for clients, running live on the page: leads arrive from every channel, get qualified, routed to a manager and filed in the CRM. A demo concept you can stand and watch.",
         year: "2026",
       },
       {

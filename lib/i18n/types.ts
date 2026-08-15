@@ -1,5 +1,5 @@
 import type { ChannelId } from "@/lib/channels";
-import type { AgentSectionId, SectionId } from "@/lib/sections";
+import type { AgentSectionId, FlowSectionId, SectionId } from "@/lib/sections";
 
 /**
  * The shape every locale must fill.
@@ -61,6 +61,41 @@ export interface ConfiguratorQuestion {
   readonly choices: readonly ChoiceCopy[];
 }
 
+/**
+ * A counted figure. `value` is what it counts to; `literal` opts out of
+ * counting entirely for things like "24/7" that are not quantities.
+ */
+export interface FigureCopy {
+  readonly key: string;
+  readonly value: number | null;
+  readonly suffix: string;
+  /** Decimal places, for figures like 0.8 s. Whole numbers by default. */
+  readonly decimals?: number;
+  readonly literal?: string;
+  readonly label: string;
+}
+
+/** One piece of cargo on the North Flow conveyor. */
+export interface FlowLead {
+  readonly key: string;
+  /** Short channel name, printed on the chip. */
+  readonly channel: string;
+  /** How the journal announces the arrival: "lead from Telegram". */
+  readonly source: string;
+  /** Drives the colour. The label beside it is authored per locale. */
+  readonly tone: "warm" | "cold";
+  readonly toneLabel: string;
+  readonly priority: string;
+  /** A manager's name, or the nurture list for the cold ones. */
+  readonly route: string;
+}
+
+export interface FlowStage {
+  readonly key: "in" | "qualify" | "route" | "crm";
+  readonly name: string;
+  readonly note: string;
+}
+
 export interface Copy {
   readonly localeName: string;
 
@@ -75,7 +110,9 @@ export interface Copy {
    * Covers both pages' sweeps so the compass can label whichever set the
    * current page registered.
    */
-  readonly sections: Readonly<Record<SectionId | AgentSectionId, string>>;
+  readonly sections: Readonly<
+    Record<SectionId | AgentSectionId | FlowSectionId, string>
+  >;
 
   readonly hero: {
     readonly headline: readonly string[];
@@ -162,12 +199,94 @@ export interface Copy {
     readonly numbers: {
       readonly title: readonly string[];
       readonly disclaimer: string;
+      readonly items: readonly FigureCopy[];
+    };
+
+    readonly cta: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly action: string;
+    };
+
+    readonly slots: {
+      readonly hero: string;
+      readonly mascot: string;
+    };
+  };
+
+  /** The North Flow product case page at /work/north-flow. */
+  readonly flowCase: {
+    readonly demoTag: string;
+    readonly backToWork: string;
+    readonly productName: string;
+    readonly promise: readonly string[];
+    readonly heroCta: string;
+    /** The fictional online store the line is shown running for. */
+    readonly brand: string;
+    readonly brandNote: string;
+
+    readonly conveyor: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      /** Mono readouts across the head of the machine. */
+      readonly lineLabel: string;
+      readonly runningLabel: string;
+      /** Whose line this is — the invented store, named on the machine. */
+      readonly clientLabel: string;
+      readonly stages: readonly FlowStage[];
+      /** Under the CRM station's running count. */
+      readonly cardsLabel: string;
+      /** The badge a chip earns once it is filed. */
+      readonly filedLabel: string;
+      /** Cycled through the line, in order, one per chip. */
+      readonly leads: readonly FlowLead[];
+
+      readonly journal: {
+        readonly title: string;
+        readonly liveLabel: string;
+        readonly note: string;
+      };
+
+      readonly tally: {
+        readonly label: string;
+        readonly hoursSuffix: string;
+        readonly items: readonly {
+          readonly key: "processed" | "warm" | "cold" | "hours";
+          readonly label: string;
+        }[];
+      };
+
+      readonly stats: {
+        readonly disclaimer: string;
+        readonly items: readonly FigureCopy[];
+      };
+
+      /** Printed in place of the motion when the visitor asked for calm. */
+      readonly stillLabel: string;
+    };
+
+    readonly inside: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly items: readonly {
+        readonly key:
+          | "collect"
+          | "qualify"
+          | "write"
+          | "reply"
+          | "report"
+          | "always";
+        readonly name: string;
+        readonly body: string;
+      }[];
+    };
+
+    readonly deploy: {
+      readonly title: readonly string[];
       readonly items: readonly {
         readonly key: string;
-        readonly value: number | null;
-        readonly suffix: string;
-        readonly literal?: string;
-        readonly label: string;
+        readonly name: string;
+        readonly body: string;
       }[];
     };
 
