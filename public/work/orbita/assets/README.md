@@ -6,11 +6,11 @@ needs changing, and a missing file never shows a broken image.
 
 | File | Ratio | Where it appears |
 | --- | --- | --- |
-| `hero.jpg` | 16:9 | Hero background, slow Ken-Burns drift |
-| `hero.mp4` | 16:9 | Optional. If present it replaces `hero.jpg` |
-| `shot-1.jpg` | 4:5 | Feature 1 — every account, one balance |
-| `shot-2.jpg` | 4:5 | Feature 2 — instant transfer |
-| `shot-3.jpg` | 4:5 | Feature 3 — the monthly insight |
+| `hero.png` | 16:9 | Hero background, slow Ken-Burns drift |
+| `hero.mp4` | 16:9 | Optional. If present it replaces `hero.png` |
+| `shot-1.png` | 4:5 | Feature 1 — every account, one balance |
+| `shot-2.png` | 4:5 | Feature 2 — instant transfer |
+| `shot-3.png` | 4:5 | Feature 3 — the monthly insight |
 
 The three `shot-*` frames behave differently from the other cases: while
 they are empty they draw **the coded app screen** rather than a dark plate,

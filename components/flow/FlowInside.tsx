@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 
+import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { GhostWord } from "@/components/ui/GhostWord";
@@ -71,7 +72,11 @@ export function FlowInside() {
   const inside = copy.flowCase.inside;
 
   return (
-    <Section id={meta.id}>
+    <Section id={meta.id} className="overflow-hidden">
+      {/* The faintest of the four: this section follows the conveyor, and
+          two lit blocks in a row is the same as none. */}
+      <CodedBackdrop tone="faint" className="-z-10" />
+
       <div className="container-north">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-6">

@@ -18,9 +18,9 @@ const ASSETS = "/work/orbita/assets";
 
 /** Image file per feature, in the order the dictionary lists them. */
 const SHOT: Record<string, string> = {
-  accounts: "shot-1.jpg",
-  transfer: "shot-2.jpg",
-  insight: "shot-3.jpg",
+  accounts: "shot-1.png",
+  transfer: "shot-2.png",
+  insight: "shot-3.png",
 };
 
 /**

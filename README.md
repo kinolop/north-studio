@@ -175,6 +175,33 @@ studio the client it was trying to win. The seam for making it real is one
 function: replace `respond()` with a fetch and nothing else in the file
 changes.
 
+## Lighting a section
+
+`Atmosphere` lights the page, but it is `fixed`: it stays put while the page
+scrolls, so the gradient anchored near the top of the screen never reaches
+the middle of a long one. Cases ended up with a lit hero and a run of flat
+near-black under it, which is the clearest tell of a template there is.
+
+`components/atmosphere/SectionBackdrop.tsx` is the fix — light that belongs
+to a section and scrolls with it. Four tones (`hero`, `machine`, `faint`,
+`close`), each a wash, two slowly drifting volumes, the site's dither and a
+scrim that fades to void at both edges so a lit section melts into an unlit
+one instead of showing its own rectangle.
+
+Three rules, and the third is the one that matters:
+
+- **Alternate, never stack.** North Flow reads hero → machine → faint →
+  close, with Deployment left dark between them. Everything glowing is the
+  same as nothing glowing.
+- **Contrast is arithmetic, not taste.** Peak accent alpha is 0.13, in a
+  hero, under its own grading layer. The brightest point any body text sits
+  on composites to 7.0:1 for `--color-ash` and 4.65:1 for `--color-slate`.
+  The white dither is the layer that quietly eats that margin — it stays
+  under 0.04.
+- **Every image slot falls back to it.** A section with no file dropped in
+  draws the coded backdrop and looks finished. The slots are an upgrade
+  path, never a dependency.
+
 ## The three cases
 
 `/work/north-agent`, `/work/north-flow` and `/work/orbita` are the studio's
@@ -203,7 +230,7 @@ paragraph that slips back into studio voice costs the case its argument.
 Its three app screens are built in code rather than rendered
 (`components/orbita/OrbitaMock.tsx`) — sharp at any size, in both languages,
 at no weight. They sit inside `AssetSlot` frames all the same, so dropping a
-`shot-N.jpg` in replaces one with no code change.
+`shot-N.png` in replaces one with no code change.
 
 **The conveyor** — `components/flow/FlowConveyor.tsx` — is the one piece of
 machinery on the site worth reading before changing. It has no simulation

@@ -547,9 +547,11 @@ export const ru = {
     },
 
     slots: {
-      hero: "HERO BG · REPLACE · 16:9 · hero.mp4 overrides if present",
+      hero: "HERO BG · hero.png · REPLACE · 16:9 · hero.mp4 overrides if present",
       mascot:
         "REUSES THE NORTH AGENT MASCOT · /work/north-agent/assets/mascot.png · ~1:1",
+      bgConveyor: "SECTION BG · bg-conveyor.png · OPTIONAL · 16:9 · dark, low-key",
+      bgCta: "SECTION BG · bg-cta.png · OPTIONAL · 16:9 · dark, low-key",
     },
   },
 

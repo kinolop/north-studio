@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+import { CodedBackdrop } from "@/components/atmosphere/SectionBackdrop";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { AssetSlot } from "@/components/ui/AssetSlot";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -38,7 +39,7 @@ export function OrbitaHero() {
     <Section id={meta.id} flush className="relative overflow-hidden pt-[104px] pb-section">
       <div aria-hidden className="absolute inset-0">
         <AssetSlot
-          src={`${ASSETS}/hero.jpg`}
+          src={`${ASSETS}/hero.png`}
           videoSrc={`${ASSETS}/hero.mp4`}
           label={orbita.slots.hero}
           alt=""
@@ -46,6 +47,7 @@ export function OrbitaHero() {
           kenBurns
           priority
           className="border-0"
+          fallback={<CodedBackdrop tone="hero" />}
         />
         {/* Graded colder than the other two cases: the plate underneath is
             ORBITA's, so the light on it should be ORBITA's too. */}

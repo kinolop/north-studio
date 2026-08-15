@@ -304,6 +304,12 @@ export interface Copy {
     readonly slots: {
       readonly hero: string;
       readonly mascot: string;
+      /**
+       * Optional richer plates behind two sections. Absent is the normal
+       * state: the coded backdrop stands in, and nothing looks unfinished.
+       */
+      readonly bgConveyor: string;
+      readonly bgCta: string;
     };
   };
 
