@@ -1,5 +1,10 @@
 import type { ChannelId } from "@/lib/channels";
-import type { AgentSectionId, FlowSectionId, SectionId } from "@/lib/sections";
+import type {
+  AgentSectionId,
+  FlowSectionId,
+  OrbitaSectionId,
+  SectionId,
+} from "@/lib/sections";
 
 /**
  * The shape every locale must fill.
@@ -111,7 +116,7 @@ export interface Copy {
    * current page registered.
    */
   readonly sections: Readonly<
-    Record<SectionId | AgentSectionId | FlowSectionId, string>
+    Record<SectionId | AgentSectionId | FlowSectionId | OrbitaSectionId, string>
   >;
 
   readonly hero: {
@@ -299,6 +304,119 @@ export interface Copy {
     readonly slots: {
       readonly hero: string;
       readonly mascot: string;
+    };
+  };
+
+  /**
+   * The ORBITA case at /work/orbita.
+   *
+   * The odd one out: this dictionary holds an *invented brand's* voice, not
+   * the studio's. ORBITA speaks as a product to its own customers, and only
+   * the frame at the top and the note near the end speak as North. Keep
+   * that separation when editing — the case argues that we can write a
+   * second brand, and a page that slips back into studio voice loses it.
+   */
+  readonly orbitaCase: {
+    readonly demoTag: string;
+    readonly backToWork: string;
+
+    readonly frame: {
+      readonly clientLabel: string;
+      readonly client: string;
+      readonly roleLabel: string;
+      readonly role: string;
+      readonly yearLabel: string;
+      readonly year: string;
+      readonly note: string;
+    };
+
+    readonly hero: {
+      readonly wordmark: string;
+      readonly promise: readonly string[];
+      readonly lede: string;
+      readonly cta: string;
+    };
+
+    readonly shift: {
+      readonly title: readonly string[];
+      readonly body: readonly string[];
+      readonly fromLabel: string;
+      readonly toLabel: string;
+      readonly pairs: readonly {
+        readonly key: string;
+        readonly from: string;
+        readonly to: string;
+      }[];
+    };
+
+    readonly product: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly items: readonly {
+        readonly key: "accounts" | "transfer" | "insight";
+        readonly name: string;
+        readonly body: string;
+        readonly slotLabel: string;
+      }[];
+
+      /** Everything printed inside the coded app screens. */
+      readonly mock: {
+        readonly totalLabel: string;
+        readonly total: string;
+        readonly moreLabel: string;
+        readonly accounts: readonly {
+          readonly key: string;
+          readonly name: string;
+          readonly meta: string;
+          readonly amount: string;
+        }[];
+        readonly transfer: {
+          readonly title: string;
+          readonly fromLabel: string;
+          readonly from: string;
+          readonly toLabel: string;
+          readonly to: string;
+          readonly amount: string;
+          readonly status: string;
+        };
+        readonly insight: {
+          readonly title: string;
+          readonly sentence: string;
+          readonly deltaLabel: string;
+          readonly delta: string;
+          readonly months: readonly string[];
+        };
+      };
+    };
+
+    readonly trust: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly items: readonly {
+        readonly key: string;
+        readonly name: string;
+        readonly body: string;
+      }[];
+      readonly disclaimer: string;
+      readonly stats: readonly FigureCopy[];
+    };
+
+    /** The one section that speaks as the studio again. */
+    readonly north: {
+      readonly title: readonly string[];
+      readonly body: readonly string[];
+      readonly didLabel: string;
+      readonly did: readonly string[];
+    };
+
+    readonly cta: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly action: string;
+    };
+
+    readonly slots: {
+      readonly hero: string;
     };
   };
 

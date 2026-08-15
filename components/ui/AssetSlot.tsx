@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { DitherLayer } from "@/components/atmosphere/DitherLayer";
 
@@ -27,6 +27,14 @@ interface AssetSlotProps {
   /** Hero backgrounds pan slowly; cards do not. */
   kenBurns?: boolean;
   priority?: boolean;
+  /**
+   * Drawn instead of the empty plate while the file is missing.
+   *
+   * For frames where we have something better than a dark rectangle to show
+   * — a coded UI mock, say. The label still prints over it, so the founder
+   * can see what the frame wants; dropping the file replaces both.
+   */
+  fallback?: ReactNode;
 }
 
 /**
@@ -57,6 +65,7 @@ export function AssetSlot({
   className = "",
   kenBurns = false,
   priority = false,
+  fallback,
 }: AssetSlotProps) {
   const imgRef = useRef<HTMLImageElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -80,6 +89,13 @@ export function AssetSlot({
       className={`relative overflow-hidden border border-hairline bg-abyss ${fill ? "h-full w-full" : "rounded-[var(--radius-plate)]"} ${className}`}
       style={fill ? undefined : { aspectRatio: ratio }}
     >
+      {/* A drawn fallback is content, not a failure state: it renders at
+          once, underneath, and a real file simply covers it. Waiting for a
+          404 to round-trip before drawing the thing we designed would put
+          an empty rectangle on screen for exactly as long as the network
+          takes to say no. */}
+      {fallback && <div className="absolute inset-0">{fallback}</div>}
+
       {showVideo && (
         <video
           ref={videoRef}
@@ -112,18 +128,26 @@ export function AssetSlot({
       )}
 
       {!showVideo && imageFailed && (
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[linear-gradient(155deg,#141924_0%,#0a0d13_58%,#10151f_100%)]" />
-          {/* Calmer than the founder portrait's: these plates are large, and
-              a fine checkerboard over 500px reads as noise rather than as
-              texture. Bigger cells, lower opacity. */}
-          <DitherLayer
-            level={0.34}
-            scale={3}
-            opacity={0.1}
-            className="[mask-image:linear-gradient(to_top,black,transparent_78%)]"
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(58%_44%_at_50%_28%,rgb(109_92_255/0.14),transparent_72%)]" />
+        <div className="pointer-events-none absolute inset-0">
+          {fallback ? (
+            // Over a drawn fallback the label needs its own ground, or it
+            // sits on whatever the mock happens to put underneath it.
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(to_top,var(--color-void),transparent)]" />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-[linear-gradient(155deg,#141924_0%,#0a0d13_58%,#10151f_100%)]" />
+              {/* Calmer than the founder portrait's: these plates are large,
+                  and a fine checkerboard over 500px reads as noise rather
+                  than as texture. Bigger cells, lower opacity. */}
+              <DitherLayer
+                level={0.34}
+                scale={3}
+                opacity={0.1}
+                className="[mask-image:linear-gradient(to_top,black,transparent_78%)]"
+              />
+              <div className="absolute inset-0 bg-[radial-gradient(58%_44%_at_50%_28%,rgb(109_92_255/0.14),transparent_72%)]" />
+            </>
+          )}
 
           {/* Corner marks, the same drawing language as the case plates.
               Suppressed when the slot is full-bleed: at the page's own

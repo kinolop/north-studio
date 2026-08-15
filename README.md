@@ -175,18 +175,35 @@ studio the client it was trying to win. The seam for making it real is one
 function: replace `respond()` with a fetch and nothing else in the file
 changes.
 
-## The two product cases
+## The three cases
 
-`/work/north-agent` and `/work/north-flow` are the studio's own products,
-each shown running rather than described. Both are linked from Work as
-full-width cards, mirrored against each other, and both register their own
-compass sweep through `SectionRegistry` so the HUD and the rail describe the
-page you are actually on — 310° for the agent, 285° for the flow.
+`/work/north-agent`, `/work/north-flow` and `/work/orbita` are the studio's
+own, one per direction: the agent, the automation, the site. Each is shown
+running rather than described, each is linked from Work as a full-width card
+alternating sides, and each registers its own compass sweep through
+`SectionRegistry` so the HUD and the rail describe the page you are actually
+on — 310° for the agent, 285° for the flow, 045° for ORBITA.
 
-Both are labelled a demo concept, in both locales, and every figure on them
-says so beside itself. The invented brands (LEKTA, ВОЛНА) exist so the work
-can be shown doing its job on something concrete; nothing on either page
-asserts a measured client result.
+All three are labelled a demo concept, in both locales, and every figure on
+them says so beside itself. The invented brands (LEKTA, ВОЛНА, ORBITA) exist
+so the work can be shown doing its job on something concrete; nothing on any
+of the three asserts a measured client result.
+
+**ORBITA is the odd one.** The other two are our products speaking in our
+voice; this one is a whole invented fintech brand, presented as its own
+landing, and the case is the fact that it does not look like us. So it
+carries a second accent (`--color-orbita`, the only borrowed palette on the
+site), a narrowed display axis against North's expanded one — same Archivo,
+opposite end of `wdth` — its own mark, and its own object: three rings and
+three bodies, drawn flat because a tilted orbit squashes its own satellites
+into ellipses. The studio speaks exactly twice on that page, in the frame at
+the top and the note near the end. Keep that separation when editing; a
+paragraph that slips back into studio voice costs the case its argument.
+
+Its three app screens are built in code rather than rendered
+(`components/orbita/OrbitaMock.tsx`) — sharp at any size, in both languages,
+at no weight. They sit inside `AssetSlot` frames all the same, so dropping a
+`shot-N.jpg` in replaces one with no code change.
 
 **The conveyor** — `components/flow/FlowConveyor.tsx` — is the one piece of
 machinery on the site worth reading before changing. It has no simulation
@@ -205,10 +222,11 @@ With `prefers-reduced-motion` the same component parks one chip at each
 station showing what it would have earned by that point — the animation's
 own frames, read as a diagram instead of watched as a machine.
 
-Assets: `public/work/north-agent/assets/` and `public/work/north-flow/assets/`,
-each with a README listing the files and ratios. Every frame renders a
-labelled placeholder until the file exists, and the flow hero reuses the
-agent's `mascot.png` rather than keeping a second copy.
+Assets: `public/work/<case>/assets/`, each with a README listing the files
+and ratios. Every frame renders a labelled placeholder until the file
+exists — or, where we have something better than a dark rectangle to show,
+the drawn fallback with the label over it. The flow hero reuses the agent's
+`mascot.png` rather than keeping a second copy.
 
 ## Reaching the studio
 
@@ -247,6 +265,7 @@ app/
   api/contact/      brief delivery
   work/north-agent/ the AI-agent product case
   work/north-flow/  the automation product case
+  work/orbita/      the site case — an invented brand, its own landing
 components/
   atmosphere/       fog, cursor light, grain, dither — the lit room
   scene/            the chrome N and its rig
@@ -257,12 +276,14 @@ components/
   sections/         the eleven movements
   agent/            the North Agent case's sections
   flow/             the North Flow case's sections, and the conveyor
+  orbita/           ORBITA's sections, its mark, its orbit, its app screens
   ui/               Reveal, SplitLines, MagneticButton, Eyebrow, GhostWord
 lib/
   i18n/             types.ts (the contract) + en.ts + ru.ts
   channels.ts       Telegram / WhatsApp / email — one source of truth
   sections.ts       ids and compass bearings (language-neutral)
   conveyor.ts       the North Flow line's timing contract and its journal
+  format.ts         numbers, punctuated for the reader's language
   recommend.ts      maps configurator answers to a service + timeline
   dither.ts         the Bayer matrix, shared by every use of the motif
   sound.ts          synthesised drone and transients

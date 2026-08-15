@@ -183,14 +183,3 @@ export function clockAt(msAgo = 0): string {
 
 /** Minutes back the seeded log reaches, newest last. */
 export const SEED_MINUTES_AGO = [11, 7, 4, 2] as const;
-
-export function formatNumber(
-  value: number,
-  locale: string,
-  decimals = 0,
-): string {
-  return new Intl.NumberFormat(locale === "ru" ? "ru-RU" : "en-GB", {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  }).format(value);
-}

@@ -34,6 +34,24 @@
   --color-signal-lift: #a79bff;
   --color-signal-deep: #2b2470;
 
+  /* --- ORBITA ----------------------------------------------------------
+     A second, borrowed palette — and the only one on the site.
+
+     The case at /work/orbita presents an invented fintech brand, and the
+     entire argument of that page is that we design brands rather than
+     reskin our own. So ORBITA gets its own accent: still cold, still
+     restrained, but unmistakably not the studio's violet. The studio's
+     chrome (header, compass, rail) keeps its own colour on that page, which
+     turns the difference into the case frame.
+
+     Contrast on --color-void: orbita 10.2:1, orbita-lift 14.6:1 — both
+     clear body text, unlike the studio signal, so ORBITA's voice can be
+     brighter and cooler without a second lifted variant for small type.
+     --color-orbita-deep is a fill, never text. */
+  --color-orbita: #4ec9dc;
+  --color-orbita-lift: #a6ecf5;
+  --color-orbita-deep: #0d3a44;
+
   /* --- Type ------------------------------------------------------------
      Display is Archivo with the variable `wdth` axis pushed wide: an
      expanded grotesk reads machined at large sizes and separates the
@@ -257,6 +275,24 @@
     #8990a0 68%,
     #d7dbe3 84%,
     #6c7280 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* ORBITA's own polished metal. The same trick as `text-chrome`, mixed in
+   the borrowed palette, so the case's figures read as that brand's rather
+   than as the studio's signature landing on somebody else's page. */
+@utility text-orbita-chrome {
+  background: linear-gradient(
+    166deg,
+    #ffffff 0%,
+    #cdf3fa 22%,
+    #4ec9dc 44%,
+    #eafcff 60%,
+    #6fb9c8 80%,
+    #dff6fb 100%
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -534,6 +570,41 @@
   100% {
     opacity: 0.4;
     transform: rotate(45deg) scale(1);
+  }
+}
+
+/* ============================================================================
+   ORBITA — THE ORBIT
+   The invented brand's motif, and its whole logic: flat concentric rings
+   with satellites, read from directly above. Drawn head-on rather than in
+   perspective on purpose — a tilted orbit squashes its own satellites into
+   ellipses at every point but two, and the fix costs more transform maths
+   than the illusion is worth. Flat, it stays an instrument, which is the
+   family this site's drawings belong to.
+   ========================================================================= */
+
+@keyframes orbitSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitSpinBack {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* The core breathing under the rings. Opacity and scale only. */
+@keyframes orbitGlow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
   }
 }
 

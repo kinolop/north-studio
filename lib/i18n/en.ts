@@ -32,6 +32,12 @@ export const en = {
     "flow-inside": "Inside",
     "flow-deploy": "Deployment",
     "flow-start": "Start",
+    "orbita-hero": "ORBITA",
+    "orbita-shift": "The shift",
+    "orbita-product": "Product",
+    "orbita-trust": "Trust",
+    "orbita-north": "By North",
+    "orbita-start": "Start",
   },
 
   hero: {
@@ -531,6 +537,152 @@ export const en = {
     },
   },
 
+  orbitaCase: {
+    demoTag: "Demo concept",
+    backToWork: "All work",
+
+    frame: {
+      clientLabel: "Client",
+      client: "ORBITA",
+      roleLabel: "Role",
+      role: "Brand · Art direction · Build",
+      yearLabel: "Year",
+      year: "2026",
+      note: "ORBITA is invented — a brand we drew, wrote and built end to end so this page can show the work rather than describe it. Everything below speaks in ORBITA's voice, not ours, and every figure on it is illustrative.",
+    },
+
+    hero: {
+      wordmark: "ORBITA",
+      promise: ["Your money, finally", "in one orbit."],
+      lede: "One account for everything you already have. ORBITA pulls your banks, your cards and the wallet you forgot about into a single view, and keeps them there.",
+      cta: "See it in motion",
+    },
+
+    shift: {
+      title: ["Money stopped living", "in one place."],
+      body: [
+        "Two banks, a card kept for travel, a wallet holding the subscriptions, something sitting with a broker. Each one is certain it is the main one. None of them agree on what you actually have.",
+        "ORBITA does not ask you to move anything. It connects what you already use and becomes the one screen that tells the truth about it.",
+      ],
+      fromLabel: "Now",
+      toLabel: "With ORBITA",
+      pairs: [
+        { key: "apps", from: "Four apps", to: "One screen" },
+        { key: "numbers", from: "Four numbers", to: "One, and it is right" },
+        { key: "moving", from: "Transfers by hand", to: "One tap, instant" },
+      ],
+    },
+
+    product: {
+      title: ["Everything you own,", "in one place, in real time."],
+      lede: "Three things ORBITA does that your banking app does not.",
+      items: [
+        {
+          key: "accounts",
+          name: "Every account, one balance",
+          body: "Banks, cards, wallets and the broker in a single figure that updates while you are looking at it. No refreshing, no exports, no spreadsheet on a Sunday.",
+          slotLabel: "ORBITA · SHOT 1 · ACCOUNTS · REPLACE · 4:5",
+        },
+        {
+          key: "transfer",
+          name: "Transfers that land while you watch",
+          body: "Move money between your own accounts in one tap. It arrives before the screen has finished animating, and it costs nothing to do.",
+          slotLabel: "ORBITA · SHOT 2 · TRANSFER · REPLACE · 4:5",
+        },
+        {
+          key: "insight",
+          name: "It tells you what it means",
+          body: "Not a chart you have to interpret. One sentence: what changed this month, what caused it, and what it does to the rest of the year.",
+          slotLabel: "ORBITA · SHOT 3 · INSIGHT · REPLACE · 4:5",
+        },
+      ],
+
+      mock: {
+        totalLabel: "Across all accounts",
+        total: "$ 48 290.40",
+        moreLabel: "+2 more",
+        accounts: [
+          { key: "everyday", name: "Everyday", meta: "•••• 4417", amount: "$ 12 480.10" },
+          { key: "savings", name: "Savings", meta: "4.1% a year", amount: "$ 31 060.00" },
+          { key: "broker", name: "Broker", meta: "Long-term", amount: "$ 4 750.30" },
+        ],
+        transfer: {
+          title: "Transfer",
+          fromLabel: "From",
+          from: "Everyday •••• 4417",
+          toLabel: "To",
+          to: "Savings",
+          amount: "$ 1 200.00",
+          status: "Arrived · 0.9 s",
+        },
+        insight: {
+          title: "This month",
+          sentence:
+            "Subscriptions rose by two this month. At this rate they cost you a fortnight of savings by December.",
+          deltaLabel: "Vs last month",
+          delta: "+ 8.4%",
+          months: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        },
+      },
+    },
+
+    trust: {
+      title: ["Quick where it counts.", "Careful where it matters."],
+      lede: "Speed is the easy half. The other half is never having to wonder what we can see.",
+      items: [
+        {
+          key: "keys",
+          name: "Your keys stay yours",
+          body: "Encrypted on your device before anything leaves it. What we store, we cannot read.",
+        },
+        {
+          key: "readonly",
+          name: "Read-only by default",
+          body: "ORBITA connects to your banks with permission to look, never to spend. You grant more only when you ask it to move something.",
+        },
+        {
+          key: "ads",
+          name: "You are not the product",
+          body: "No adverts, no offers, nothing sold on about where your money goes. There is nothing in here for anyone to click.",
+        },
+      ],
+      disclaimer:
+        "Demo concept — illustrative figures for an invented product, not measured results.",
+      stats: [
+        { key: "transfer", value: 0.9, decimals: 1, suffix: " s", label: "Average transfer" },
+        { key: "sync", value: null, suffix: "", literal: "24/7", label: "Accounts in sync" },
+        { key: "banks", value: 40, suffix: "+", label: "Banks connected" },
+        { key: "crypto", value: null, suffix: "", literal: "AES-256", label: "At rest and in flight" },
+      ],
+    },
+
+    north: {
+      title: ["Designed and built", "by North."],
+      body: [
+        "The brand, its mark, the motion, the words and the code — one pass, one team, no handover in the middle where the intent usually goes missing.",
+        "ORBITA does not exist, and that is deliberate. A case with no client to hide behind is the only honest way to show what we would do with a brand of your own.",
+      ],
+      didLabel: "What we did",
+      did: [
+        "Brand and mark",
+        "Art direction",
+        "Motion system",
+        "Design and build",
+        "Copy, EN and RU",
+      ],
+    },
+
+    cta: {
+      title: ["Want a site", "like this?"],
+      lede: "Tell us what you are building. You will see a direction on your own brand in the first week, not a moodboard.",
+      action: "Start a project",
+    },
+
+    slots: {
+      hero: "ORBITA HERO BG · REPLACE · 16:9 · hero.mp4 overrides if present",
+    },
+  },
+
   configurator: {
     title: ["Point us at", "the problem."],
     lede: "Four questions. You get the direction your job belongs to and roughly how long it takes.",
@@ -588,7 +740,7 @@ export const en = {
 
   work: {
     title: ["Proof, not", "promises."],
-    lede: "Two products of our own, both running so you can see them, and client work chosen because each piece solved a different problem. The rest is on the call.",
+    lede: "Three cases you can open: our two products, running rather than described, and a whole brand we invented to show what a site of ours actually looks like. Then client work, each piece chosen because it solved a different problem.",
     caseCta: "Open the case",
     placeholderNote: "Visuals are placeholder plates in this build — see README.md to swap in captures.",
     projects: [
@@ -606,6 +758,14 @@ export const en = {
         discipline: "Our own product / Automation",
         summary:
           "The line we build for clients, running live on the page: leads arrive from every channel, get qualified, routed to a manager and filed in the CRM. A demo concept you can stand and watch.",
+        year: "2026",
+      },
+      {
+        key: "orbita",
+        name: "ORBITA",
+        discipline: "Demo concept / Brand and landing",
+        summary:
+          "A fintech brand invented from nothing and built end to end — mark, art direction, motion system, copy and code — so the site work can be judged on a whole brand rather than on a screenshot.",
         year: "2026",
       },
       {

@@ -4,6 +4,7 @@ import { useEffect, useReducer, useRef, type CSSProperties } from "react";
 
 import { useCopy, useLocale } from "@/components/i18n/CopyProvider";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Figure } from "@/components/ui/Figure";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
@@ -15,14 +16,12 @@ import {
   SEED_MINUTES_AGO,
   STATION_DELAY_MS,
   clockAt,
-  formatNumber,
   initialLine,
   lineReducer,
   type JournalEntry,
 } from "@/lib/conveyor";
-import type { FigureCopy } from "@/lib/i18n/types";
+import { formatNumber } from "@/lib/format";
 import { flowSectionById } from "@/lib/sections";
-import { useCountUp } from "@/lib/useCountUp";
 import { useOnScreen } from "@/lib/useOnScreen";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -340,7 +339,11 @@ export function FlowConveyor() {
         <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-plate)] border border-hairline bg-hairline sm:grid-cols-3">
           {conveyor.stats.items.map((item, index) => (
             <li key={item.key} className="bg-void px-7 py-12 text-center sm:py-14">
-              <Figure item={item} delay={index * 140} locale={locale} />
+              <Figure
+                item={item}
+                delay={index * 140}
+                className="text-chrome font-display text-[clamp(2.6rem,6vw,4.2rem)] leading-none font-semibold tabular-nums [font-variation-settings:'wdth'_116]"
+              />
               <p className="label-mono mt-5 text-slate">{item.label}</p>
             </li>
           ))}
@@ -350,29 +353,3 @@ export function FlowConveyor() {
   );
 }
 
-function Figure({
-  item,
-  delay,
-  locale,
-}: {
-  item: FigureCopy;
-  delay: number;
-  locale: string;
-}) {
-  const hostRef = useRef<HTMLParagraphElement>(null);
-  const decimals = item.decimals ?? 0;
-  const shown = useCountUp(item.value ?? 0, hostRef, {
-    delay,
-    decimals,
-    enabled: item.value !== null && !item.literal,
-  });
-
-  return (
-    <p
-      ref={hostRef}
-      className="text-chrome font-display text-[clamp(2.6rem,6vw,4.2rem)] leading-none font-semibold tabular-nums [font-variation-settings:'wdth'_116]"
-    >
-      {item.literal ?? `${formatNumber(shown, locale, decimals)}${item.suffix}`}
-    </p>
-  );
-}

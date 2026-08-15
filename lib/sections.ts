@@ -85,6 +85,33 @@ export function flowSectionById(id: FlowSectionId): (typeof FLOW_SECTIONS)[numbe
   return section;
 }
 
+/**
+ * ORBITA's sweep, and the only one that leaves north instead of closing on
+ * it. Both product cases turn toward 000° because they are about the
+ * studio; this one is about somebody else's brand, so it heads outward from
+ * 045° — a bearing away from home, which is the whole point of the case.
+ */
+export const ORBITA_SECTIONS = [
+  { id: "orbita-hero", bearing: "045°", degrees: 45 },
+  { id: "orbita-shift", bearing: "062°", degrees: 62 },
+  { id: "orbita-product", bearing: "084°", degrees: 84 },
+  { id: "orbita-trust", bearing: "106°", degrees: 106 },
+  { id: "orbita-north", bearing: "124°", degrees: 124 },
+  { id: "orbita-start", bearing: "142°", degrees: 142 },
+] as const satisfies readonly SectionMeta[];
+
+export type OrbitaSectionId = (typeof ORBITA_SECTIONS)[number]["id"];
+
+const ORBITA_BY_ID = new Map(ORBITA_SECTIONS.map((s) => [s.id, s]));
+
+export function orbitaSectionById(
+  id: OrbitaSectionId,
+): (typeof ORBITA_SECTIONS)[number] {
+  const section = ORBITA_BY_ID.get(id);
+  if (!section) throw new Error(`Unknown orbita section: ${id}`);
+  return section;
+}
+
 /** The four carried in the header. The footer indexes all of them. */
 export const NAV_IDS = [
   "studio",

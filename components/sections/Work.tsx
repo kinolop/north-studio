@@ -18,11 +18,12 @@ const meta = sectionById("work");
 const CASE_PAGES: Readonly<Record<string, string>> = {
   "north-agent": "/work/north-agent",
   "north-flow": "/work/north-flow",
+  orbita: "/work/orbita",
 };
 
 export function Work() {
   const copy = useCopy();
-  const [featured, second, ...rest] = copy.work.projects;
+  const [featured, second, third, ...rest] = copy.work.projects;
 
   return (
     <Section id={meta.id}>
@@ -43,9 +44,9 @@ export function Work() {
           </Reveal>
         </div>
 
-        {/* The two products we can actually show running get the full width,
-            mirrored against each other so the pair reads as a spread rather
-            than a list. The client work sits below, three up. */}
+        {/* The three cases with a page behind them get the full width,
+            alternating sides so the run reads as a spread rather than a
+            list. The client work sits below, three up. */}
         <div className="mt-20 space-y-5">
           {featured && (
             <WorkCard
@@ -63,6 +64,16 @@ export function Work() {
               mirrored
               delay={0.06}
               href={CASE_PAGES[second.key]}
+              cta={copy.work.caseCta}
+            />
+          )}
+
+          {third && (
+            <WorkCard
+              project={third}
+              variant="lead"
+              delay={0.06}
+              href={CASE_PAGES[third.key]}
               cta={copy.work.caseCta}
             />
           )}
