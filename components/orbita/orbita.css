@@ -24,10 +24,15 @@
   --o-muted: #8b939f;
   --o-line: #e5e8ee;
 
-  /* One accent. Mint for fills and marks, the deeper cut for text. */
+  /* One accent, three jobs. Mint fills and marks; the deeper cut for line
+     icons; and a darker cut again for anything set as *text*.
+     --o-accent-text is this dark on purpose: labels now sit over photographic
+     backdrops, and #05856B measured 4.0:1 against the darkest parts of the
+     closing background — under AA. This clears 5.3:1 there and 6.0:1 on
+     plain white while still reading as the brand's teal. */
   --o-accent: #10d9a3;
   --o-accent-deep: #0fb894;
-  --o-accent-text: #05856b;
+  --o-accent-text: #05705b;
 
   --o-radius: 20px;
   --o-radius-sm: 12px;
@@ -216,6 +221,132 @@
   overflow: hidden;
 }
 
+/* --- Backdrops ------------------------------------------------------------
+   Every key section stands on something. An image where one was supplied, a
+   coded gradient mesh where it was not — never a bare white void. Both sit
+   under a scrim, because the type on top of them is the point. */
+
+.orbita .o-has-bg {
+  position: relative;
+  isolation: isolate;
+}
+
+.orbita .o-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.orbita .o-bg > img,
+.orbita .o-bg > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Room for the parallax to travel without ever showing an edge. */
+  transform: scale(1.12);
+  will-change: transform;
+}
+
+.orbita .o-bg-scrim {
+  position: absolute;
+  inset: 0;
+}
+
+/* Content always rides above its backdrop. */
+.orbita .o-rel {
+  position: relative;
+  z-index: 1;
+}
+
+/* The coded stand-in: one mint, one neutral, no second hue anywhere. */
+.orbita .o-mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(58% 52% at 14% 4%, rgb(16 217 163 / 0.15), transparent 62%),
+    radial-gradient(50% 46% at 88% 10%, rgb(16 217 163 / 0.08), transparent 60%),
+    radial-gradient(72% 62% at 50% 104%, rgb(14 17 22 / 0.05), transparent 70%),
+    linear-gradient(180deg, #ffffff 0%, var(--o-bg) 100%);
+}
+
+/* --- Ticker ---------------------------------------------------------------
+   The track holds the list twice and travels exactly half its width, so the
+   loop is seamless with no measurement and no JavaScript. */
+
+@keyframes oMarquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.orbita .o-ticker {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.orbita .o-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: oMarquee 46s linear infinite;
+}
+
+/* --- Cards ---------------------------------------------------------------- */
+
+.orbita .o-lift {
+  transition:
+    transform 420ms var(--o-ease),
+    box-shadow 420ms var(--o-ease),
+    border-color 300ms var(--o-ease);
+}
+.orbita .o-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--o-shadow-lift);
+}
+
+/* A mint sheen rather than a white one: white over a white card is nothing. */
+.orbita .o-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.orbita .o-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 36%,
+    rgb(16 217 163 / 0.12) 50%,
+    transparent 64%
+  );
+  transform: translateX(-130%);
+  transition: transform 900ms var(--o-ease);
+  pointer-events: none;
+}
+.orbita .o-sweep:hover::after {
+  transform: translateX(130%);
+}
+
+/* --- Plans ---------------------------------------------------------------- */
+
+.orbita .o-plan {
+  background-color: var(--o-white);
+  border: 1px solid var(--o-line);
+  border-radius: var(--o-radius);
+  box-shadow: var(--o-shadow-sm);
+}
+.orbita .o-plan-featured {
+  border-color: rgb(16 217 163 / 0.55);
+  box-shadow:
+    0 2px 8px rgb(16 217 163 / 0.12),
+    0 26px 52px -20px rgb(16 217 163 / 0.35);
+}
+
 /* --- Motion ---------------------------------------------------------------
    Two things move on this page: content arriving, and the hero image
    breathing. Both stop when the visitor asks for calm. */
@@ -234,10 +365,21 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbita .o-drift {
+  .orbita .o-drift,
+  .orbita .o-ticker-track {
     animation: none;
   }
-  .orbita .o-btn:hover {
+  .orbita .o-btn:hover,
+  .orbita .o-lift:hover {
+    transform: none;
+  }
+  .orbita .o-sweep::after {
+    display: none;
+  }
+  /* The parallax hook never registers under reduced motion, so the scaled
+     backdrop would sit off-centre with nothing moving it. */
+  .orbita .o-bg > img,
+  .orbita .o-bg > video {
     transform: none;
   }
 }

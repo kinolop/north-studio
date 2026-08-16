@@ -10,8 +10,10 @@ import { OrbitaFeatures } from "./OrbitaFeatures";
 import { OrbitaHero } from "./OrbitaHero";
 import { OrbitaLifestyle } from "./OrbitaLifestyle";
 import { OrbitaLogo } from "./OrbitaMark";
+import { OrbitaPlans } from "./OrbitaPlans";
 import { OrbitaSecurity } from "./OrbitaSecurity";
 import { OrbitaSteps } from "./OrbitaSteps";
+import { OrbitaTicker } from "./OrbitaTicker";
 import { OrbitaTrustBar } from "./OrbitaTrustBar";
 
 import "./orbita.css";
@@ -43,10 +45,12 @@ export function OrbitaSite() {
       <OrbitaHeader />
 
       <OrbitaHero />
+      <OrbitaTicker />
       <OrbitaTrustBar />
       <OrbitaFeatures />
       <OrbitaSecurity />
       <OrbitaLifestyle />
+      <OrbitaPlans />
       <OrbitaSteps />
       <OrbitaClose />
 

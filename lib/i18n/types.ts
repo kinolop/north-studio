@@ -345,6 +345,43 @@ export interface Copy {
       }[];
     };
 
+    readonly ticker: readonly string[];
+
+    readonly counters: {
+      readonly note: string;
+      readonly items: readonly {
+        readonly key: string;
+        readonly value: number;
+        readonly decimals?: number;
+        readonly suffix: string;
+        readonly label: string;
+      }[];
+    };
+
+    readonly plans: {
+      readonly eyebrow: string;
+      readonly title: string;
+      readonly note: string;
+      readonly popularLabel: string;
+      readonly disclaimer: string;
+      readonly items: readonly {
+        readonly key: string;
+        readonly name: string;
+        readonly price: string;
+        readonly cadence: string;
+        readonly line: string;
+        readonly features: readonly string[];
+        readonly cta: string;
+        readonly popular?: boolean;
+      }[];
+    };
+
+    readonly appForm: {
+      readonly placeholder: string;
+      readonly action: string;
+      readonly note: string;
+    };
+
     readonly security: {
       readonly eyebrow: string;
       readonly title: string;
@@ -391,6 +428,10 @@ export interface Copy {
     /** Printed inside a frame while its file is missing. */
     readonly slots: {
       readonly hero: string;
+      readonly heroVideo: string;
+      readonly bgHero: string;
+      readonly bgBand: string;
+      readonly bgCta: string;
       readonly appHero: string;
       readonly appTransfer: string;
       readonly appInsights: string;

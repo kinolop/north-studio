@@ -2,6 +2,7 @@
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
+import { OrbitaBackdrop } from "./OrbitaBackdrop";
 import { ORBITA_ASSETS } from "./OrbitaHero";
 import { OrbitaImage } from "./OrbitaImage";
 import { OrbitaReveal } from "./OrbitaReveal";
@@ -41,15 +42,26 @@ export function OrbitaFeatures() {
         </div>
       </div>
 
+      {/* Rich, clean, rich: the banded rows carry the supplied artwork and
+          the one between them stays plain white so the page breathes. */}
       {features.items.map((item, index) => {
         const flipped = index % 2 === 1;
+        const banded = index % 2 === 0;
 
         return (
           <div
             key={item.key}
-            className={flipped ? "o-band-soft" : "o-band-white"}
+            className={banded ? "o-has-bg" : "o-band-white"}
           >
-            <div className="o-wrap o-section grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+            {banded && (
+              <OrbitaBackdrop
+                src={`${ORBITA_ASSETS}/bg-band.png`}
+                scrim="veil"
+                strength={22}
+              />
+            )}
+
+            <div className="o-wrap o-section o-rel grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
               <OrbitaReveal
                 className={`lg:col-span-6 ${flipped ? "lg:order-2 lg:col-start-7" : ""}`}
               >

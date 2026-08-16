@@ -537,7 +537,7 @@ export const en = {
     nav: [
       { key: "product", label: "Product", href: "#product" },
       { key: "security", label: "Security", href: "#security" },
-      { key: "start", label: "Plans", href: "#start" },
+      { key: "start", label: "Plans", href: "#plans" },
     ],
 
     hero: {
@@ -604,6 +604,95 @@ export const en = {
           ],
         },
       ],
+    },
+
+    ticker: [
+      "One balance",
+      "Instant transfers",
+      "Bank-grade security",
+      "Smart insights",
+      "No hidden fees",
+      "180+ banks",
+      "Read-only by default",
+    ],
+
+    counters: {
+      note: "Illustrative figures for a concept product.",
+      items: [
+        {
+          key: "transfers",
+          value: 1.2,
+          decimals: 1,
+          suffix: "M+",
+          label: "Transfers moved every day",
+        },
+        {
+          key: "banks",
+          value: 180,
+          suffix: "+",
+          label: "Banks and wallets connected",
+        },
+        { key: "fees", value: 0, suffix: "", label: "Hidden fees, ever" },
+      ],
+    },
+
+    plans: {
+      eyebrow: "Plans",
+      title: "Start free. Upgrade when it earns its place.",
+      note: "Every plan includes the full security model — encryption on your device, read-only connections and no advertising. The paid tiers add reach, not safety.",
+      popularLabel: "Most popular",
+      disclaimer: "Illustrative pricing for a concept product. Nothing here is charged.",
+      items: [
+        {
+          key: "free",
+          name: "Free",
+          price: "€0",
+          cadence: "forever",
+          line: "Everything one person needs to see the whole picture.",
+          features: [
+            "Up to 3 connected accounts",
+            "One live balance across all of them",
+            "Instant transfers between your own accounts",
+            "Monthly spending summary",
+          ],
+          cta: "Get started",
+        },
+        {
+          key: "plus",
+          name: "Plus",
+          price: "from €4.90",
+          cadence: "a month",
+          line: "For anyone whose money lives in more than a few places.",
+          features: [
+            "Unlimited connected accounts",
+            "Categories you can shape yourself",
+            "Weekly insight, not just monthly",
+            "Shared view for a partner",
+          ],
+          cta: "Choose Plus",
+          popular: true,
+        },
+        {
+          key: "premium",
+          name: "Premium",
+          price: "from €11.90",
+          cadence: "a month",
+          line: "For people with a broker, a business and an accountant.",
+          features: [
+            "Investments and business accounts",
+            "Export to your accountant in one tap",
+            "Forecast to the end of the year",
+            "Priority support from a person",
+          ],
+          cta: "Choose Premium",
+        },
+      ],
+    },
+
+    appForm: {
+      placeholder: "you@example.com",
+      action: "Get the app",
+      note: "A concept page — this field is decorative and sends nothing.",
     },
 
     security: {
@@ -684,6 +773,10 @@ export const en = {
 
     slots: {
       hero: "hero-visual.png · hero product visual · 16:9",
+      heroVideo: "hero.mp4 · hero motion · poster is hero-visual.png",
+      bgHero: "bg-hero.png · hero background",
+      bgBand: "bg-band.png · section band background",
+      bgCta: "bg-cta.png · closing background",
       appHero: "app-hero.png · balance and accounts screen",
       appTransfer: "app-transfer.png · transfer confirmation screen",
       appInsights: "app-insights.png · spending insights screen",

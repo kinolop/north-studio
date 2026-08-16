@@ -2,20 +2,27 @@
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
+import { OrbitaBackdrop } from "./OrbitaBackdrop";
+import { ORBITA_ASSETS } from "./OrbitaHero";
 import { OrbitaReveal } from "./OrbitaReveal";
 
 export function OrbitaClose() {
   const copy = useCopy();
-  const close = copy.orbitaCase.close;
+  const orbita = copy.orbitaCase;
+  const close = orbita.close;
+  const form = orbita.appForm;
 
   return (
-    <section id="start" className="o-band-white">
-      <div className="o-wrap o-section">
+    <section id="start" className="o-has-bg">
+      <OrbitaBackdrop
+        src={`${ORBITA_ASSETS}/bg-cta.png`}
+        scrim="medium"
+        strength={30}
+      />
+
+      <div className="o-wrap o-section o-rel">
         <OrbitaReveal>
-          <div
-            className="flex flex-col items-center rounded-[28px] px-8 py-20 text-center sm:px-14"
-            style={{ backgroundColor: "var(--o-tint)" }}
-          >
+          <div className="flex flex-col items-center text-center">
             <h2 className="o-h2 max-w-[18ch]">
               {close.title.map((line, index) => (
                 <span key={line} className="block">
@@ -28,11 +35,32 @@ export function OrbitaClose() {
               ))}
             </h2>
 
-            <p className="o-lead mt-6 max-w-[42ch]">{close.body}</p>
+            <p className="o-lead mt-6 max-w-[44ch]">{close.body}</p>
 
-            <a href="#top" className="o-btn o-btn-primary mt-10 !px-8 !py-4">
-              {close.action}
-            </a>
+            {/* Decorative. There is no backend behind this page and the
+                field is not wired to one — the note below says so plainly
+                rather than implying a signup that does not exist. */}
+            <div className="mt-10 flex w-full max-w-[30rem] flex-col gap-3 sm:flex-row">
+              <input
+                type="email"
+                inputMode="email"
+                placeholder={form.placeholder}
+                aria-label={form.placeholder}
+                className="w-full rounded-full px-5 py-3.5 text-[0.95rem] outline-none"
+                style={{
+                  backgroundColor: "var(--o-white)",
+                  border: "1px solid var(--o-line)",
+                  color: "var(--o-ink)",
+                }}
+              />
+              <a href="#top" className="o-btn o-btn-primary shrink-0">
+                {form.action}
+              </a>
+            </div>
+
+            <p className="o-small mt-4" style={{ color: "var(--o-muted)" }}>
+              {form.note}
+            </p>
           </div>
         </OrbitaReveal>
       </div>

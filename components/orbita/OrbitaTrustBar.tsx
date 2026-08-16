@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
+import { OrbitaBackdrop } from "./OrbitaBackdrop";
+import { OrbitaCounter } from "./OrbitaCounter";
 import { OrbitaReveal } from "./OrbitaReveal";
 
 /** Three plain line icons, drawn for a light surface. */
@@ -20,15 +22,23 @@ const ICON: Record<string, ReactNode> = {
   ),
 };
 
+/**
+ * Reassurance, then proof. The three promises sit above three figures that
+ * count up once when they arrive — illustrative, and labelled as such
+ * directly beneath rather than in fine print somewhere else.
+ */
 export function OrbitaTrustBar() {
   const copy = useCopy();
-  const trust = copy.orbitaCase.trust;
+  const orbita = copy.orbitaCase;
+  const counters = orbita.counters;
 
   return (
-    <section className="o-band-soft">
-      <div className="o-wrap py-12">
+    <section className="o-has-bg">
+      <OrbitaBackdrop scrim="veil" strength={14} />
+
+      <div className="o-wrap o-rel py-16 lg:py-20">
         <ul className="grid gap-8 sm:grid-cols-3">
-          {trust.map((item, index) => (
+          {orbita.trust.map((item, index) => (
             <OrbitaReveal key={item.key} delay={index * 70}>
               <li className="flex items-start gap-3.5">
                 <svg
@@ -56,6 +66,33 @@ export function OrbitaTrustBar() {
             </OrbitaReveal>
           ))}
         </ul>
+
+        <div
+          className="mt-14 grid gap-10 pt-12 sm:grid-cols-3"
+          style={{ borderTop: "1px solid var(--o-line)" }}
+        >
+          {counters.items.map((item, index) => (
+            <OrbitaReveal key={item.key} delay={index * 90}>
+              <p
+                className="text-[clamp(2.1rem,3.4vw,2.9rem)] leading-none font-semibold tracking-[-0.035em] tabular-nums"
+                style={{ color: "var(--o-ink)" }}
+              >
+                <OrbitaCounter
+                  value={item.value}
+                  decimals={item.decimals}
+                  suffix={item.suffix}
+                />
+              </p>
+              <p className="o-small mt-3 max-w-[24ch]">{item.label}</p>
+            </OrbitaReveal>
+          ))}
+        </div>
+
+        <OrbitaReveal delay={120}>
+          <p className="o-small mt-8" style={{ color: "var(--o-muted)" }}>
+            {counters.note}
+          </p>
+        </OrbitaReveal>
       </div>
     </section>
   );
