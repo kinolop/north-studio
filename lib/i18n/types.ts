@@ -1,10 +1,5 @@
 import type { ChannelId } from "@/lib/channels";
-import type {
-  AgentSectionId,
-  FlowSectionId,
-  OrbitaSectionId,
-  SectionId,
-} from "@/lib/sections";
+import type { AgentSectionId, FlowSectionId, SectionId } from "@/lib/sections";
 
 /**
  * The shape every locale must fill.
@@ -116,7 +111,7 @@ export interface Copy {
    * current page registered.
    */
   readonly sections: Readonly<
-    Record<SectionId | AgentSectionId | FlowSectionId | OrbitaSectionId, string>
+    Record<SectionId | AgentSectionId | FlowSectionId, string>
   >;
 
   readonly hero: {
@@ -308,113 +303,100 @@ export interface Copy {
   };
 
   /**
-   * The ORBITA case at /work/orbita.
+   * ORBITA — an invented fintech product, and its own landing page.
    *
-   * The odd one out: this dictionary holds an *invented brand's* voice, not
-   * the studio's. ORBITA speaks as a product to its own customers, and only
-   * the frame at the top and the note near the end speak as North. Keep
-   * that separation when editing — the case argues that we can write a
-   * second brand, and a page that slips back into studio voice loses it.
+   * This dictionary holds a *company's* voice, not the studio's: it speaks
+   * to its own customers about their money, and North Studio appears once,
+   * in a single line at the foot of the page. Keep it that way. The page it
+   * feeds shares no styling with the rest of this site either — see
+   * components/orbita/orbita.css.
    */
   readonly orbitaCase: {
     readonly demoTag: string;
-    readonly backToWork: string;
+    readonly getApp: string;
+    readonly nav: readonly {
+      readonly key: string;
+      readonly label: string;
+      readonly href: string;
+    }[];
 
-    readonly frame: {
-      readonly clientLabel: string;
-      readonly client: string;
-      readonly roleLabel: string;
-      readonly role: string;
-      readonly yearLabel: string;
-      readonly year: string;
+    readonly hero: {
+      readonly headline: readonly string[];
+      readonly subtitle: string;
+      readonly primary: string;
+      readonly secondary: string;
+    };
+
+    readonly trust: readonly {
+      readonly key: "security" | "instant" | "fees";
+      readonly label: string;
+      readonly note: string;
+    }[];
+
+    readonly features: {
+      readonly eyebrow: string;
+      readonly title: string;
+      readonly items: readonly {
+        readonly key: "unify" | "transfer" | "insights";
+        readonly eyebrow: string;
+        readonly title: string;
+        readonly body: string;
+        readonly points: readonly string[];
+      }[];
+    };
+
+    readonly security: {
+      readonly eyebrow: string;
+      readonly title: string;
+      readonly body: string;
+      readonly items: readonly {
+        readonly key: string;
+        readonly title: string;
+        readonly body: string;
+      }[];
+    };
+
+    readonly lifestyle: {
+      readonly line: string;
       readonly note: string;
     };
 
-    readonly hero: {
-      readonly wordmark: string;
-      readonly promise: readonly string[];
-      readonly lede: string;
-      readonly cta: string;
-    };
-
-    readonly shift: {
-      readonly title: readonly string[];
-      readonly body: readonly string[];
-      readonly fromLabel: string;
-      readonly toLabel: string;
-      readonly pairs: readonly {
-        readonly key: string;
-        readonly from: string;
-        readonly to: string;
-      }[];
-    };
-
-    readonly product: {
-      readonly title: readonly string[];
-      readonly lede: string;
-      readonly items: readonly {
-        readonly key: "accounts" | "transfer" | "insight";
-        readonly name: string;
-        readonly body: string;
-        readonly slotLabel: string;
-      }[];
-
-      /** Everything printed inside the coded app screens. */
-      readonly mock: {
-        readonly totalLabel: string;
-        readonly total: string;
-        readonly moreLabel: string;
-        readonly accounts: readonly {
-          readonly key: string;
-          readonly name: string;
-          readonly meta: string;
-          readonly amount: string;
-        }[];
-        readonly transfer: {
-          readonly title: string;
-          readonly fromLabel: string;
-          readonly from: string;
-          readonly toLabel: string;
-          readonly to: string;
-          readonly amount: string;
-          readonly status: string;
-        };
-        readonly insight: {
-          readonly title: string;
-          readonly sentence: string;
-          readonly deltaLabel: string;
-          readonly delta: string;
-          readonly months: readonly string[];
-        };
-      };
-    };
-
-    readonly trust: {
-      readonly title: readonly string[];
-      readonly lede: string;
+    readonly steps: {
+      readonly eyebrow: string;
+      readonly title: string;
       readonly items: readonly {
         readonly key: string;
-        readonly name: string;
+        readonly title: string;
         readonly body: string;
       }[];
-      readonly disclaimer: string;
-      readonly stats: readonly FigureCopy[];
     };
 
-    /** The one section that speaks as the studio again. */
-    readonly north: {
+    readonly close: {
       readonly title: readonly string[];
-      readonly body: readonly string[];
-      readonly didLabel: string;
-      readonly did: readonly string[];
-    };
-
-    readonly cta: {
-      readonly title: readonly string[];
-      readonly lede: string;
+      readonly body: string;
       readonly action: string;
     };
 
+    readonly footer: {
+      readonly tagline: string;
+      readonly columns: readonly {
+        readonly key: string;
+        readonly title: string;
+        readonly links: readonly string[];
+      }[];
+      readonly legal: string;
+      readonly credit: string;
+    };
+
+    /** Printed inside a frame while its file is missing. */
+    readonly slots: {
+      readonly hero: string;
+      readonly appHero: string;
+      readonly appTransfer: string;
+      readonly appInsights: string;
+      readonly security: string;
+      readonly lifestyle: string;
+    };
   };
 
   readonly configurator: {

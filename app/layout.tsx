@@ -9,6 +9,7 @@ import { Header } from "@/components/chrome/Header";
 import { Preloader } from "@/components/chrome/Preloader";
 import { ScrollRail } from "@/components/chrome/ScrollRail";
 import { SoundToggle } from "@/components/chrome/SoundToggle";
+import { StudioChrome } from "@/components/chrome/StudioChrome";
 import { CopyProvider } from "@/components/i18n/CopyProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { STUDIO } from "@/lib/studio";
@@ -128,14 +129,24 @@ export default function RootLayout({
         <CopyProvider>
           <ChannelOverlayProvider>
             <SmoothScroll>
-              <Preloader />
-              <Atmosphere />
-              <Header />
-              <ScrollRail />
-              <CompassHUD />
+              {/* Everything inside StudioChrome is North Studio's own
+                  identity. The ORBITA case is a different company with a
+                  light theme of its own, so it renders bare — see
+                  components/chrome/StudioChrome.tsx. */}
+              <StudioChrome>
+                <Preloader />
+                <Atmosphere />
+                <Header />
+                <ScrollRail />
+                <CompassHUD />
+              </StudioChrome>
+
               <main id="main">{children}</main>
-              <Footer />
-              <SoundToggle />
+
+              <StudioChrome>
+                <Footer />
+                <SoundToggle />
+              </StudioChrome>
             </SmoothScroll>
           </ChannelOverlayProvider>
         </CopyProvider>

@@ -1,0 +1,243 @@
+/* ============================================================================
+   ORBITA — a design system that shares nothing with North Studio.
+
+   Every value here is ORBITA's own and every one of them is namespaced
+   `--o-*` under a `.orbita` scope, so the studio's tokens cannot reach in
+   and these cannot leak out. The studio is near-black, expanded grotesk and
+   one cold violet; this is off-white, Inter, and one electric mint. If you
+   are editing this file and reach for a `--color-*` or `--ease-north`, you
+   are on the wrong page.
+
+   Contrast, measured against the surface each colour actually sits on:
+     ink   #0E1116 on #FFF … 18.9:1      body  #5B6470 on #F7F8FA …  5.6:1
+     link  #05856B on #FFF …  4.6:1      ink   #0E1116 on mint    … 10.4:1
+   The mint is a *fill*, never text: #10D9A3 on white is 1.8:1, which is why
+   buttons carry near-black labels rather than white ones.
+   ========================================================================= */
+
+.orbita {
+  --o-white: #ffffff;
+  --o-bg: #f7f8fa;
+  --o-tint: #edfaf5;
+  --o-ink: #0e1116;
+  --o-body: #5b6470;
+  --o-muted: #8b939f;
+  --o-line: #e5e8ee;
+
+  /* One accent. Mint for fills and marks, the deeper cut for text. */
+  --o-accent: #10d9a3;
+  --o-accent-deep: #0fb894;
+  --o-accent-text: #05856b;
+
+  --o-radius: 20px;
+  --o-radius-sm: 12px;
+  --o-radius-pill: 999px;
+
+  --o-shadow-sm: 0 1px 2px rgb(14 17 22 / 0.04), 0 6px 16px -6px rgb(14 17 22 / 0.08);
+  --o-shadow: 0 2px 6px rgb(14 17 22 / 0.05), 0 20px 44px -16px rgb(14 17 22 / 0.16);
+  --o-shadow-lift: 0 6px 14px rgb(14 17 22 / 0.07), 0 32px 64px -20px rgb(14 17 22 / 0.22);
+
+  /* Calm and slightly damped. Nothing here overshoots. */
+  --o-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  font-family: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+  color: var(--o-body);
+  background-color: var(--o-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Type -----------------------------------------------------------------
+   Warm rather than cinematic: big sizes, but normal width, gentle tracking
+   and a line-height that stays comfortable at display sizes. */
+
+.orbita h1,
+.orbita h2,
+.orbita h3,
+.orbita h4 {
+  color: var(--o-ink);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.orbita .o-h1 {
+  font-size: clamp(2.35rem, 5.2vw, 4.15rem);
+}
+.orbita .o-h2 {
+  font-size: clamp(1.85rem, 3.4vw, 2.9rem);
+}
+.orbita .o-h3 {
+  font-size: clamp(1.25rem, 1.7vw, 1.55rem);
+  line-height: 1.2;
+}
+.orbita .o-lead {
+  font-size: clamp(1.06rem, 1.35vw, 1.28rem);
+  line-height: 1.62;
+  color: var(--o-body);
+}
+.orbita .o-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--o-accent-text);
+}
+.orbita .o-small {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+/* --- Layout --------------------------------------------------------------- */
+
+.orbita .o-wrap {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+.orbita .o-section {
+  padding-block: clamp(4.5rem, 9vw, 8rem);
+}
+
+/* Flat bands only — solid colour, never a field of animation. */
+.orbita .o-band-white {
+  background-color: var(--o-white);
+}
+.orbita .o-band-soft {
+  background-color: var(--o-bg);
+}
+.orbita .o-band-tint {
+  background-color: var(--o-tint);
+}
+.orbita .o-band-ink {
+  background-color: var(--o-ink);
+  color: #aab2be;
+}
+.orbita .o-band-ink h2,
+.orbita .o-band-ink h3,
+.orbita .o-band-ink .o-h2 {
+  color: var(--o-white);
+}
+
+/* --- Controls ------------------------------------------------------------- */
+
+.orbita .o-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: var(--o-radius-pill);
+  padding: 0.9rem 1.6rem;
+  font-size: 0.97rem;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+  border: 1px solid transparent;
+  transition:
+    transform 320ms var(--o-ease),
+    box-shadow 320ms var(--o-ease),
+    background-color 220ms var(--o-ease),
+    border-color 220ms var(--o-ease);
+}
+
+/* Near-black label on mint: white on this green is 1.8:1 and unreadable. */
+.orbita .o-btn-primary {
+  background-color: var(--o-accent);
+  color: var(--o-ink);
+  box-shadow: 0 2px 6px rgb(16 217 163 / 0.24), 0 14px 28px -12px rgb(16 217 163 / 0.55);
+}
+.orbita .o-btn-primary:hover {
+  background-color: var(--o-accent-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgb(16 217 163 / 0.28), 0 20px 36px -14px rgb(16 217 163 / 0.6);
+}
+
+.orbita .o-btn-ghost {
+  background-color: var(--o-white);
+  color: var(--o-ink);
+  border-color: var(--o-line);
+  box-shadow: var(--o-shadow-sm);
+}
+.orbita .o-btn-ghost:hover {
+  border-color: #cfd5de;
+  transform: translateY(-1px);
+}
+
+.orbita .o-btn-onink {
+  background-color: var(--o-accent);
+  color: var(--o-ink);
+}
+.orbita .o-btn-onink:hover {
+  background-color: var(--o-accent-deep);
+  transform: translateY(-1px);
+}
+
+.orbita a:focus-visible,
+.orbita button:focus-visible {
+  outline: 2px solid var(--o-accent-text);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- Surfaces ------------------------------------------------------------- */
+
+.orbita .o-card {
+  background-color: var(--o-white);
+  border: 1px solid var(--o-line);
+  border-radius: var(--o-radius);
+  box-shadow: var(--o-shadow-sm);
+}
+
+/* The phone frame: a soft bezel rather than a photographic mockup. */
+.orbita .o-device {
+  border-radius: 28px;
+  border: 1px solid var(--o-line);
+  background-color: var(--o-white);
+  padding: 10px;
+  box-shadow: var(--o-shadow);
+}
+.orbita .o-device img,
+.orbita .o-device .o-ph {
+  border-radius: 20px;
+  display: block;
+  width: 100%;
+}
+
+.orbita .o-shot {
+  border-radius: var(--o-radius);
+  border: 1px solid var(--o-line);
+  background-color: var(--o-white);
+  box-shadow: var(--o-shadow);
+  overflow: hidden;
+}
+
+/* --- Motion ---------------------------------------------------------------
+   Two things move on this page: content arriving, and the hero image
+   breathing. Both stop when the visitor asks for calm. */
+
+@keyframes oDrift {
+  from {
+    transform: scale(1.03) translate3d(-0.6%, -0.4%, 0);
+  }
+  to {
+    transform: scale(1.09) translate3d(0.8%, 0.6%, 0);
+  }
+}
+
+.orbita .o-drift {
+  animation: oDrift 26s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbita .o-drift {
+    animation: none;
+  }
+  .orbita .o-btn:hover {
+    transform: none;
+  }
+}

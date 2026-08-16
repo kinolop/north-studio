@@ -235,38 +235,19 @@ them says so beside itself. The invented brands (LEKTA, ВОЛНА, ORBITA) exis
 so the work can be shown doing its job on something concrete; nothing on any
 of the three asserts a measured client result.
 
-**ORBITA is the odd one.** The other two are our products speaking in our
-voice; this one is a whole invented fintech brand, presented as its own
-landing, and the case is the fact that it does not look like us. So it
-carries a second accent (`--color-orbita`, the only borrowed palette on the
-site), a narrowed display axis against North's expanded one — same Archivo,
-opposite end of `wdth` — its own mark, and its own object: three rings and
-three bodies, drawn flat because a tilted orbit squashes its own satellites
-into ellipses. The studio speaks exactly twice on that page, in the frame at
-the top and the note near the end. Keep that separation when editing; a
-paragraph that slips back into studio voice costs the case its argument.
+**ORBITA is the odd one, and now completely so.** The other two are our
+products speaking in our voice. This one is a standalone light product site
+for an invented fintech company, and it shares nothing visual with the rest
+of this site: its own tokens (`components/orbita/orbita.css`, all namespaced
+`--o-*` under a `.orbita` scope), its own typeface loaded on that route
+only (Inter, against the studio's Archivo), one mint accent, its own header,
+footer, reveal and image component. The studio's fixed chrome — preloader,
+atmosphere, header, compass, scroll rail, footer, sound — is suppressed for
+the route in `components/chrome/StudioChrome.tsx`, so none of it renders at
+all. The studio appears once, as a footnote in ORBITA's footer.
 
-Its three app screens are built in code rather than rendered
-(`components/orbita/OrbitaMock.tsx`) — sharp at any size, in both languages,
-at no weight. They sit inside `AssetSlot` frames all the same, so dropping a
-`shot-N.png` in replaces one with no code change.
-
-**The conveyor** — `components/flow/FlowConveyor.tsx` — is the one piece of
-machinery on the site worth reading before changing. It has no simulation
-loop and no timers: five chips run a single looping CSS animation at even
-phase offsets, and the browser's animation clock is the only clock. React
-hears `animationiteration` about every two seconds, files a lead into the
-journal and reloads the slot. Two consequences worth keeping:
-
-- The keyframe percentages in `globals.css` and the constants in
-  `lib/conveyor.ts` are two halves of one contract. Change one, change both.
-- The cadence must stay longer than the longest dwell in the cycle, or two
-  chips will stand on the same station. `lib/conveyor.ts` says why the
-  numbers are what they are.
-
-With `prefers-reduced-motion` the same component parks one chip at each
-station showing what it would have earned by that point — the animation's
-own frames, read as a diagram instead of watched as a machine.
+If you are editing that page and reach for a `--color-*`, `label-mono`,
+`Section`, `Reveal` or `--ease-north`, you are on the wrong page.
 
 Assets: `public/work/<case>/assets/`, each with a README listing the files
 and ratios. Every frame renders a labelled placeholder until the file

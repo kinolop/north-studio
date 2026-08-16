@@ -1,50 +1,49 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 
-import { SectionRegistry } from "@/components/chrome/SectionRegistry";
-import { OrbitaCta } from "@/components/orbita/OrbitaCta";
-import { OrbitaHero } from "@/components/orbita/OrbitaHero";
-import { OrbitaNorth } from "@/components/orbita/OrbitaNorth";
-import { OrbitaProduct } from "@/components/orbita/OrbitaProduct";
-import { OrbitaShift } from "@/components/orbita/OrbitaShift";
-import { OrbitaTrust } from "@/components/orbita/OrbitaTrust";
-import { SectionSeam } from "@/components/ui/Section";
-import { ORBITA_SECTIONS } from "@/lib/sections";
-import { STUDIO } from "@/lib/studio";
+import { OrbitaSite } from "@/components/orbita/OrbitaSite";
+
+/**
+ * ORBITA's own typeface.
+ *
+ * Loaded here rather than in the root layout so it ships with this route
+ * only. Inter is deliberately not the studio's Archivo: warm, neutral and
+ * friendly where the studio's display face is expanded and machined.
+ */
+const inter = Inter({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
-  title: "ORBITA — a brand and a landing, designed and built by North",
+  // `absolute` so the studio's "— North Studio" template does not
+  // append itself to a page that is presenting another company.
+  title: { absolute: "Orbita — your money, finally in one orbit" },
   description:
-    "ORBITA is an invented fintech brand: mark, art direction, motion system, copy and code, made end to end so our site work can be judged on a whole brand rather than a screenshot. A demo concept by North Studio.",
+    "Orbita brings every bank, card and wallet you already use into a single view, with instant transfers between your own accounts. A demo concept by North Studio.",
   openGraph: {
-    type: "article",
-    siteName: STUDIO.name,
-    title: "ORBITA — a brand and a landing, designed and built by North",
+    type: "website",
+    siteName: "Orbita",
+    title: "Orbita — your money, finally in one orbit",
     description:
-      "A whole fintech brand, invented and built end to end. A demo concept by North Studio.",
+      "Every account in one view. Instant transfers. Spending explained in a sentence.",
   },
 };
 
 /**
- * The ORBITA case: the third product page, and the one that argues for the
- * sites rather than the software.
+ * The ORBITA case, and the one page on this site that is not North Studio.
  *
- * It is structured as the fictional product's own landing rather than as a
- * case study about one, because a case study describes work and a landing
- * *is* the work. The studio only speaks twice — the frame at the top and
- * the note near the bottom — and everything between them belongs to a
- * brand that does not exist.
+ * It presents an invented fintech company as that company would present
+ * itself: light, warm, mint, Inter — nothing borrowed from the studio's
+ * dark identity. The studio's fixed chrome is suppressed for this route in
+ * `StudioChrome`, and the styling is scoped under `.orbita`, so the two
+ * design systems cannot reach each other in either direction.
  */
 export default function OrbitaPage() {
   return (
-    <>
-      <SectionRegistry sections={ORBITA_SECTIONS} />
-      <OrbitaHero />
-      <OrbitaShift />
-      <SectionSeam />
-      <OrbitaProduct />
-      <OrbitaTrust />
-      <OrbitaNorth />
-      <OrbitaCta />
-    </>
+    <div className={inter.variable}>
+      <OrbitaSite />
+    </div>
   );
 }
