@@ -215,6 +215,7 @@ export interface Copy {
 
     readonly slots: {
       readonly hero: string;
+      readonly cta: string;
       readonly mascot: string;
     };
   };

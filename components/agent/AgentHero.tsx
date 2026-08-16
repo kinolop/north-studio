@@ -25,10 +25,12 @@ export function AgentHero() {
   return (
     <Section id={meta.id} flush className="relative overflow-hidden pt-[104px] pb-section">
       {/* Background plate. A slow Ken-Burns drift on the image; drop
-          hero.mp4 beside it and the video takes over with no code change. */}
+          hero.mp4 beside it and the video takes over with no code change.
+          Content — headline, CTA and mascot — follows in the DOM and
+          therefore paints above both the image and its scrim. */}
       <div aria-hidden className="absolute inset-0">
         <AssetSlot
-          src={`${ASSETS}/hero.png`}
+          src={`${ASSETS}/hero-bg.png`}
           videoSrc={`${ASSETS}/hero.mp4`}
           label={agent.slots.hero}
           alt=""

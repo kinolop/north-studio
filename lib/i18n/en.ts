@@ -266,7 +266,8 @@ export const en = {
     },
 
     slots: {
-      hero: "HERO BG · REPLACE · 16:9 · hero.mp4 overrides if present",
+      hero: "HERO BG · hero-bg.png · REPLACE · 16:9 · hero.mp4 overrides if present",
+      cta: "CTA BG · cta-bg.png · REPLACE · 16:9 · dark, low-key",
       mascot: "NORTH AGENT MASCOT · REPLACE · ~1:1 · dark chrome",
     },
   },
