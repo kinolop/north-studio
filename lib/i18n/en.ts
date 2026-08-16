@@ -206,16 +206,19 @@ export const en = {
           key: "answers",
           name: "Answers instantly, 24/7",
           body: "No question waits until morning. Nights, weekends, the hour your ads run hottest — it replies in seconds, every time.",
+          slotLabel: "CAPABILITY · ANSWERS · REPLACE · 4:5",
         },
         {
           key: "knows",
           name: "Knows your programme cold",
           body: "Trained on your courses, your terms and your FAQ, answering in your brand's voice rather than a generic assistant's.",
+          slotLabel: "CAPABILITY · KNOWS · REPLACE · 4:5",
         },
         {
           key: "enroll",
           name: "Drives to enrolment",
           body: "Qualifies, handles the usual objections, holds the seat and sends the link. Anything it should not decide alone goes to a person.",
+          slotLabel: "CAPABILITY · ENROL · REPLACE · 4:5",
         },
       ],
     },
@@ -263,6 +266,7 @@ export const en = {
     },
 
     slots: {
+      hero: "HERO BG · REPLACE · 16:9 · hero.mp4 overrides if present",
       mascot: "NORTH AGENT MASCOT · REPLACE · ~1:1 · dark chrome",
     },
   },

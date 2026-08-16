@@ -61,13 +61,19 @@ there is no way to ship without noticing it.
 
 ### North Agent page assets
 
-The case pages carry no background plates and no image panels inside cards.
-The one image `/work/north-agent` reads is the mascot, in
-`public/work/north-agent/assets/`:
+`/work/north-agent` is the one case that carries artwork; `north-flow` and
+`orbita` are drawn in code and need no files. A missing file never shows a
+broken image — the frame falls back to a labelled placeholder. All of these
+go in `public/work/north-agent/assets/`:
 
 | File | Ratio | Where |
 | --- | --- | --- |
+| `hero.png` | 16:9 | Hero background, slow Ken-Burns drift |
+| `hero.mp4` | 16:9 | Optional; replaces `hero.png` when present |
 | `mascot.png` | ~1:1 | The chrome figure in the hero. Also read by the North Flow hero |
+| `cap-answers.png` | 4:5 | Capability card 1 |
+| `cap-knows.png` | 4:5 | Capability card 2 |
+| `cap-enroll.png` | 4:5 | Capability card 3 |
 
 There is a copy of this table in that folder's `README.md` too.
 

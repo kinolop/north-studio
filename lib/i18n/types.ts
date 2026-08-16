@@ -192,6 +192,7 @@ export interface Copy {
         readonly key: "answers" | "knows" | "enroll";
         readonly name: string;
         readonly body: string;
+        readonly slotLabel: string;
       }[];
     };
 
@@ -213,6 +214,7 @@ export interface Copy {
     };
 
     readonly slots: {
+      readonly hero: string;
       readonly mascot: string;
     };
   };
