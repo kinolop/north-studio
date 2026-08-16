@@ -2,7 +2,7 @@
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
-import { OrbitaBackdrop } from "./OrbitaBackdrop";
+import { OrbitaMesh } from "./OrbitaMesh";
 import { OrbitaReveal } from "./OrbitaReveal";
 
 export function OrbitaPlans() {
@@ -11,9 +11,7 @@ export function OrbitaPlans() {
 
   return (
     <section id="plans" className="o-has-bg">
-      {/* No image for this one: the coded mesh keeps it light and lets the
-          cards be the only objects on the band. */}
-      <OrbitaBackdrop scrim="veil" strength={18} />
+      <OrbitaMesh tone="calm" />
 
       <div className="o-wrap o-section o-rel">
         <OrbitaReveal className="max-w-[46rem]">

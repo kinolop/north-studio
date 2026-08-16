@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
-import { OrbitaBackdrop } from "./OrbitaBackdrop";
 import { OrbitaCounter } from "./OrbitaCounter";
+import { OrbitaMesh } from "./OrbitaMesh";
 import { OrbitaReveal } from "./OrbitaReveal";
 
 /** Three plain line icons, drawn for a light surface. */
@@ -34,7 +34,7 @@ export function OrbitaTrustBar() {
 
   return (
     <section className="o-has-bg">
-      <OrbitaBackdrop scrim="veil" strength={14} />
+      <OrbitaMesh tone="calm" />
 
       <div className="o-wrap o-rel py-16 lg:py-20">
         <ul className="grid gap-8 sm:grid-cols-3">

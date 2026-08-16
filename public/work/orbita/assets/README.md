@@ -5,43 +5,38 @@ company. It shares no styling with North Studio: its own tokens live in
 `components/orbita/orbita.css`, and the studio's fixed chrome is suppressed
 for this route in `components/chrome/StudioChrome.tsx`.
 
-## Backgrounds
+## Backgrounds are code, not files
+
+Every section's ground is `components/orbita/OrbitaMesh.tsx` — three mint
+and neutral blooms drifting over a pale gradient on 38s/53s/67s periods,
+phase-offset per section so no two match. It depends on no asset, so the
+page is always alive whatever happens to the image files, and it pauses
+per-section the moment that section leaves the viewport.
+
+`bg-hero.png`, `bg-band.png` and `bg-cta.png` are **no longer used**. They
+are still in this folder; delete them whenever you like. Ask if you want
+them layered back underneath the mesh as texture.
+
+## What each file does
 
 | File | Where it appears |
 | --- | --- |
-| `bg-hero.png` | Behind the whole hero, with parallax drift |
-| `bg-band.png` | Feature rows 1 and 3, and the security section |
-| `bg-cta.png` | The closing section |
+| `hero.mp4` | **Full-bleed hero background** — fills the whole first screen behind the headline. Autoplay, muted, loop, `playsInline`, `object-fit: cover` |
+| `hero-visual.png` | Poster for that video, for instant first paint |
+| `app-hero.png` | Feature 1 — floating on the mesh, no card |
+| `app-transfer.png` | Feature 2 — floating on the mesh, no card |
+| `app-insights.png` | Feature 3 — floating on the mesh, no card |
+| `feature-security.png` | Security — small, square, floating with a breathing teal glow |
+| `lifestyle.png` | The human moment, floating with parallax |
 
-Sections alternate rich and clean on purpose: hero image → ticker → coded
-mesh → **band image** → plain white → **band image** → security band image →
-plain white → coded mesh → soft neutral → closing image → near-black footer.
+If the video fails for any reason the hero falls back to the coded mesh at
+its richest — still full-bleed, still moving, never a dead still frame. Any
+missing still falls back to a soft light card carrying its caption.
 
-Where no image is supplied a section falls back to the **coded mesh** — one
-mint and one neutral gradient, never a bare white void and never a broken
-image.
+## If you replace something
 
-## Product and content
-
-| File | Where it appears |
-| --- | --- |
-| `hero.mp4` | The hero visual: autoplay, muted, looping, `playsInline` |
-| `hero-visual.png` | Poster for that video, and its fallback if the video fails |
-| `app-hero.png` | Feature 1 — every bank in one clean view |
-| `app-transfer.png` | Feature 2 — money that arrives while you watch |
-| `app-insights.png` | Feature 3 — see exactly where it goes |
-| `feature-security.png` | Security section, full width above the three points |
-| `lifestyle.png` | The human moment, beside the warm line |
-
-Every supplied still is 1280×714 (16:9) and every frame renders at 16:9, so
-nothing is cropped. The app screens are floating UI cards rather than phone
-bezels for that reason; `.o-device` and a `9 / 19` ratio are still in the
-stylesheet if true portrait captures ever arrive.
-
-## If you replace a background
-
-Keep it light. The scrims are tuned against the files that are here:
-measured over the darkest 2% of each image, headings hold 16.6:1, body text
-5.3:1 and the teal labels 5.3:1. A darker replacement will eat that margin —
-`--o-accent-text` was already darkened once for exactly this reason, because
-the original teal fell to 4.0:1 over the closing background.
+Keep it light. The hero scrim is weighted to the left on wide screens and
+turns vertical below 1024px, so a replacement video wants its subject on
+the **right** two-thirds of the frame. Text contrast over the mesh was
+measured at its worst overlap: headings 14.9:1, body 4.65:1, teal labels
+4.74:1 — all above AA, but a darker mesh would eat that margin fast.

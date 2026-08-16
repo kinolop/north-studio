@@ -2,6 +2,7 @@
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
+import { OrbitaMesh } from "./OrbitaMesh";
 import { OrbitaReveal } from "./OrbitaReveal";
 
 export function OrbitaSteps() {
@@ -9,8 +10,10 @@ export function OrbitaSteps() {
   const steps = copy.orbitaCase.steps;
 
   return (
-    <section className="o-band-soft">
-      <div className="o-wrap o-section">
+    <section className="o-has-bg">
+      <OrbitaMesh tone="calm" seed={6} />
+
+      <div className="o-wrap o-section o-rel">
         <OrbitaReveal>
           <p className="o-label">{steps.eyebrow}</p>
           <h2 className="o-h2 mt-4 max-w-[16ch]">{steps.title}</h2>

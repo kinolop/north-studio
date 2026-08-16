@@ -1,39 +1,66 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
-import { OrbitaBackdrop } from "./OrbitaBackdrop";
-import { OrbitaImage } from "./OrbitaImage";
+import { OrbitaMesh } from "./OrbitaMesh";
 import { OrbitaReveal } from "./OrbitaReveal";
 
 export const ORBITA_ASSETS = "/work/orbita/assets";
 
+/**
+ * A full screen of moving product, with the promise written across it.
+ *
+ * The video *is* the hero — full-bleed, behind everything, not a still in a
+ * card off to one side. The scrim is weighted to the side the type sits on
+ * so the words stay near-black and readable while the picture still reads
+ * as a picture; below the breakpoint the type moves over the middle of the
+ * frame, so the scrim turns vertical to follow it.
+ *
+ * If the video will not play — missing file, a browser that refuses
+ * autoplay, a data-saver — the coded mesh takes over full-bleed. The hero
+ * is never a dead static frame.
+ */
 export function OrbitaHero() {
   const copy = useCopy();
   const orbita = copy.orbitaCase;
   const hero = orbita.hero;
+  const [videoFailed, setVideoFailed] = useState(false);
 
   return (
-    <section id="top" className="o-has-bg">
-      <OrbitaBackdrop
-        src={`${ORBITA_ASSETS}/bg-hero.png`}
-        scrim="medium"
-        strength={34}
-      />
+    <section id="top" className="o-hero">
+      <div className="o-hero-media">
+        {videoFailed ? (
+          <OrbitaMesh tone="rich" />
+        ) : (
+          <video
+            src={`${ORBITA_ASSETS}/hero.mp4`}
+            poster={`${ORBITA_ASSETS}/hero-visual.png`}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onError={() => setVideoFailed(true)}
+            aria-hidden
+          />
+        )}
+      </div>
 
-      <div className="o-wrap o-rel grid items-center gap-14 pt-16 pb-20 lg:grid-cols-12 lg:gap-12 lg:pt-24 lg:pb-28">
-        <div className="lg:col-span-6">
+      <div className="o-hero-scrim" />
+
+      <div className="o-wrap o-rel py-24 lg:py-28">
+        <div className="max-w-[34rem]">
           <OrbitaReveal>
-            {/* The honesty tag, dressed for a light page rather than the
-                studio's dark one. */}
             <span
               className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[0.78rem] font-semibold"
               style={{
-                backgroundColor: "rgb(255 255 255 / 0.75)",
+                backgroundColor: "rgb(255 255 255 / 0.8)",
                 color: "var(--o-accent-text)",
-                border: "1px solid rgb(16 217 163 / 0.3)",
+                border: "1px solid rgb(16 217 163 / 0.32)",
+                backdropFilter: "blur(6px)",
+                WebkitBackdropFilter: "blur(6px)",
               }}
             >
               <span
@@ -44,7 +71,7 @@ export function OrbitaHero() {
             </span>
           </OrbitaReveal>
 
-          <OrbitaReveal delay={60}>
+          <OrbitaReveal delay={80}>
             <h1 className="o-h1 mt-7">
               {hero.headline.map((line, index) => (
                 <span key={line} className="block">
@@ -58,13 +85,13 @@ export function OrbitaHero() {
             </h1>
           </OrbitaReveal>
 
-          <OrbitaReveal delay={120}>
-            <p className="o-lead mt-6 max-w-[46ch]">{hero.subtitle}</p>
+          <OrbitaReveal delay={160}>
+            <p className="o-lead mt-6 max-w-[42ch]">{hero.subtitle}</p>
           </OrbitaReveal>
 
-          <OrbitaReveal delay={180}>
+          <OrbitaReveal delay={240}>
             <div className="mt-10 flex flex-wrap items-center gap-3">
-              <a href="#start" className="o-btn o-btn-primary">
+              <a href="#plans" className="o-btn o-btn-primary">
                 {hero.primary}
               </a>
               <a href="#product" className="o-btn o-btn-ghost">
@@ -73,59 +100,7 @@ export function OrbitaHero() {
             </div>
           </OrbitaReveal>
         </div>
-
-        <OrbitaReveal delay={140} className="lg:col-span-6">
-          <HeroMedia />
-        </OrbitaReveal>
       </div>
     </section>
-  );
-}
-
-/**
- * The product, moving.
- *
- * `hero.mp4` autoplays muted and looping with the still as its poster, so
- * the first paint is instant and the motion arrives when it is ready. If
- * the video is missing or the browser refuses it, the still takes over with
- * its slow drift and nothing about the layout changes.
- */
-function HeroMedia() {
-  const copy = useCopy();
-  const orbita = copy.orbitaCase;
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <div className="o-shot overflow-hidden">
-        <OrbitaImage
-          src={`${ORBITA_ASSETS}/hero-visual.png`}
-          alt=""
-          label={orbita.slots.hero}
-          ratio="16 / 9"
-          drift
-          priority
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="o-shot overflow-hidden">
-      <video
-        ref={videoRef}
-        src={`${ORBITA_ASSETS}/hero.mp4`}
-        poster={`${ORBITA_ASSETS}/hero-visual.png`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        onError={() => setFailed(true)}
-        aria-hidden
-        style={{ display: "block", width: "100%", aspectRatio: "16 / 9", objectFit: "cover" }}
-      />
-    </div>
   );
 }

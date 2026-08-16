@@ -16,7 +16,7 @@ export function OrbitaTicker() {
 
   return (
     <section
-      className="o-band-white"
+      className="o-band-soft"
       style={{ borderBlock: "1px solid var(--o-line)" }}
       aria-hidden
     >

@@ -2,9 +2,9 @@
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
-import { OrbitaBackdrop } from "./OrbitaBackdrop";
 import { ORBITA_ASSETS } from "./OrbitaHero";
 import { OrbitaImage } from "./OrbitaImage";
+import { OrbitaMesh } from "./OrbitaMesh";
 import { OrbitaReveal } from "./OrbitaReveal";
 
 /** App screen per feature, in the order the dictionary lists them. */
@@ -33,8 +33,9 @@ export function OrbitaFeatures() {
 
   return (
     <section id="product">
-      <div className="o-band-white">
-        <div className="o-wrap pt-20 pb-4 text-center lg:pt-28">
+      <div className="o-has-bg">
+        <OrbitaMesh tone="calm" seed={1} />
+        <div className="o-wrap o-rel pt-20 pb-4 text-center lg:pt-28">
           <OrbitaReveal>
             <p className="o-label">{features.eyebrow}</p>
             <h2 className="o-h2 mx-auto mt-4 max-w-[18ch]">{features.title}</h2>
@@ -42,33 +43,24 @@ export function OrbitaFeatures() {
         </div>
       </div>
 
-      {/* Rich, clean, rich: the banded rows carry the supplied artwork and
-          the one between them stays plain white so the page breathes. */}
       {features.items.map((item, index) => {
         const flipped = index % 2 === 1;
-        const banded = index % 2 === 0;
 
         return (
           <div
             key={item.key}
-            className={banded ? "o-has-bg" : "o-band-white"}
+            className="o-has-bg"
           >
-            {banded && (
-              <OrbitaBackdrop
-                src={`${ORBITA_ASSETS}/bg-band.png`}
-                scrim="veil"
-                strength={22}
-              />
-            )}
+            <OrbitaMesh tone="calm" seed={index + 2} />
 
             <div className="o-wrap o-section o-rel grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
               <OrbitaReveal
                 className={`lg:col-span-6 ${flipped ? "lg:order-2 lg:col-start-7" : ""}`}
               >
-                {/* A floating UI card rather than a phone bezel: the
-                    screens supplied are 16:9, and a portrait frame would
-                    crop three quarters of each one away. */}
-                <div className="o-shot overflow-hidden">
+                {/* Floating on the mesh with its own shadow — no border,
+                    no white plate. One less box on a page that had too
+                    many. */}
+                <div className="o-float">
                   <OrbitaImage
                     src={`${ORBITA_ASSETS}/${SHOT[item.key]}`}
                     alt={item.title}

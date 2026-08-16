@@ -2,8 +2,7 @@
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 
-import { OrbitaBackdrop } from "./OrbitaBackdrop";
-import { ORBITA_ASSETS } from "./OrbitaHero";
+import { OrbitaMesh } from "./OrbitaMesh";
 import { OrbitaReveal } from "./OrbitaReveal";
 
 export function OrbitaClose() {
@@ -14,11 +13,7 @@ export function OrbitaClose() {
 
   return (
     <section id="start" className="o-has-bg">
-      <OrbitaBackdrop
-        src={`${ORBITA_ASSETS}/bg-cta.png`}
-        scrim="medium"
-        strength={30}
-      />
+      <OrbitaMesh tone="rich" />
 
       <div className="o-wrap o-section o-rel">
         <OrbitaReveal>

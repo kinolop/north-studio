@@ -221,6 +221,185 @@
   overflow: hidden;
 }
 
+/* --- The living mesh ------------------------------------------------------
+   The background system, and the reason the page never reads as a flat
+   white void. Every section stands on three slow blooms drifting over a
+   pale gradient: mint, mint-white and a neutral, each on its own long,
+   prime-ish period so the field never visibly repeats.
+
+   Drawn in code rather than from a file, deliberately — it is always
+   beautiful, always moving, and does not depend on any asset existing.
+
+   Cost: three composited layers per section, transform only. No blur
+   filter anywhere (a filter on a 100vw layer is what makes this technique
+   expensive); the softness is in the gradients themselves. Sections pause
+   the moment they leave the viewport. */
+
+.orbita .o-mesh-root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  background: linear-gradient(180deg, #ffffff 0%, var(--o-bg) 100%);
+}
+
+.orbita .o-bloom {
+  position: absolute;
+  will-change: transform;
+}
+
+.orbita [data-mesh="held"] .o-bloom {
+  animation-play-state: paused;
+}
+
+@keyframes oBloomA {
+  0%,
+  100% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(7%, 6%, 0) scale(1.22);
+  }
+}
+
+@keyframes oBloomB {
+  0%,
+  100% {
+    transform: translate3d(6%, 4%, 0) scale(1.14);
+  }
+  50% {
+    transform: translate3d(-8%, -6%, 0) scale(1);
+  }
+}
+
+@keyframes oBloomC {
+  0%,
+  100% {
+    transform: translate3d(0, 5%, 0) scale(1.06);
+  }
+  50% {
+    transform: translate3d(5%, -7%, 0) scale(1.24);
+  }
+}
+
+/* A whisper of grain, static — it kills the banding that any wide pale
+   gradient shows on an 8-bit display, and animating it would read as a
+   filter rather than as paper. */
+.orbita .o-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+
+/* --- The hero -------------------------------------------------------------
+   A full-bleed video, the headline on top of it, and a scrim weighted to
+   the side the type actually sits on. */
+
+.orbita .o-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.orbita .o-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.orbita .o-hero-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Strong where the words are, clearing to nothing across the frame so the
+   video still reads as a video. Portrait puts the type over the middle of
+   the picture, so the scrim turns vertical below the breakpoint. */
+.orbita .o-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.92) 0%,
+    rgb(255 255 255 / 0.78) 45%,
+    rgb(255 255 255 / 0.7) 100%
+  );
+}
+
+@media (min-width: 1024px) {
+  .orbita .o-hero-scrim {
+    background: linear-gradient(
+      100deg,
+      rgb(255 255 255 / 0.95) 0%,
+      rgb(255 255 255 / 0.88) 30%,
+      rgb(255 255 255 / 0.45) 58%,
+      rgb(255 255 255 / 0.12) 78%,
+      rgb(255 255 255 / 0.06) 100%
+    );
+  }
+}
+
+/* --- Floating visuals -----------------------------------------------------
+   A product shot standing on the mesh with its own shadow, rather than
+   another bordered white box on a page that already has enough of them. */
+
+.orbita .o-float {
+  border-radius: var(--o-radius);
+  overflow: hidden;
+  box-shadow:
+    0 2px 6px rgb(14 17 22 / 0.06),
+    0 30px 64px -26px rgb(14 17 22 / 0.32);
+}
+
+/* The shield: small, floating, breathing. Not a photograph in a card. */
+@keyframes oBreathe {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0) scale(1.015);
+  }
+}
+
+@keyframes oGlow {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+}
+
+.orbita .o-breathe {
+  animation: oBreathe 9s ease-in-out infinite;
+}
+
+.orbita .o-glow {
+  position: absolute;
+  inset: -14%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(16 217 163 / 0.42) 0%,
+    rgb(16 217 163 / 0.12) 45%,
+    transparent 70%
+  );
+  animation: oGlow 9s ease-in-out infinite;
+}
+
 /* --- Backdrops ------------------------------------------------------------
    Every key section stands on something. An image where one was supplied, a
    coded gradient mesh where it was not — never a bare white void. Both sit
@@ -365,8 +544,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* The mesh freezes to a soft static gradient rather than disappearing:
+     the page still has a ground, it simply stops moving. */
   .orbita .o-drift,
-  .orbita .o-ticker-track {
+  .orbita .o-ticker-track,
+  .orbita .o-bloom,
+  .orbita .o-breathe,
+  .orbita .o-glow {
     animation: none;
   }
   .orbita .o-btn:hover,
