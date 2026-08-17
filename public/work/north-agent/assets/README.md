@@ -8,10 +8,10 @@ carry nothing but a cover.
 | File | Ratio | Where it appears |
 | --- | --- | --- |
 | `cover.png` | 8:5 | The card for this case in **Work** on the home page. Not used on the case page itself |
-| `hero-bg.png` | 16:9 | Hero background, slow Ken-Burns drift |
-| `hero.mp4` | 16:9 | Optional. If present it replaces `hero-bg.png` |
-| `cta-bg.png` | 16:9 | Closing section background, same slow drift |
-| `mascot.png` | ~1:1 | The chrome figure in the hero. Also read by the North Flow hero |
+| `hero.mp4` | ~16:9 | **The hero.** Full-bleed behind the headline: autoplay, muted, loop, `playsInline`, `object-fit: cover` |
+| `hero-poster.jpg` | matches the video | Poster for that video, at its full resolution. Also what reduced-motion visitors get instead of it |
+| `cta-bg.png` | 16:9 | Closing section background, slow Ken-Burns drift |
+| `mascot.png` | ~1:1 | The chrome figure. Read only by the **North Flow** hero now — the agent hero's mascot is in `hero.mp4` |
 | `cap-answers.png` | 4:5 | Capability card 1 — answers instantly |
 | `cap-knows.png` | 4:5 | Capability card 2 — knows your programme |
 | `cap-enroll.png` | 4:5 | Capability card 3 — drives to enrolment |
@@ -20,28 +20,41 @@ All of them are filled. A missing file never shows a broken image — the
 frame falls back to a labelled placeholder — so you can swap any one of them
 at any time by replacing the file.
 
-`hero.png` is still in this folder but nothing reads it any more:
-`hero-bg.png` replaced it as the hero plate. Delete it whenever you like.
+`hero.png` and `hero-bg.png` are both still in this folder but nothing
+reads either any more — the film replaced the hero plate outright, and with
+it the Ken-Burns drift. Delete them whenever you like.
 
-Only two sections carry a background image, deliberately: the hero and the
-close. The live chat, the three capability cards and the count-up figures
-sit on the site's flat near-black, and that contrast is the point — putting
-a plate behind them too would flatten the whole page into one texture.
+Only two sections carry a background, deliberately: the hero and the close.
+The live chat, the three capability cards and the count-up figures sit on
+the site's flat near-black, and that contrast is the point — putting a
+plate behind them too would flatten the whole page into one texture.
 
-Both backgrounds are graded down hard in code before any text lands on them
-(measured: the white headline keeps 12.9:1 against the brightest patch of
-either image, secondary text 5.8:1). So a replacement can be a stop or two
-brighter than these without breaking legibility — but keep them dark and
-low-key or the grading will start showing as a grey veil.
+The closing plate is graded down hard in code before any text lands on it.
+The hero is not graded across the frame at all any more: it carries a
+side-weighted scrim that is strong under the type and clears by ~68%, so
+the picture stays a picture. Measured against the brightest frame of the
+video, the headline keeps 8.1:1 on wide screens and 9.1:1 on a phone, the
+product name and the button 9.9:1 or better.
+
+A replacement video should therefore keep its **left third quiet** — that
+is where the words live. Bright motion on the right is free.
 
 The extension in the table is what the code looks for, so a replacement in
 another format needs renaming or a path edit in
 `components/agent/AgentHero.tsx` and `AgentCapabilities.tsx`.
 
-These five are PNGs, at roughly 1.4–2.1 MB each. That is heavier than the
-page needs — the same art as WebP or AVIF would land under 300 KB with no
-visible difference on a dark plate. Worth doing before the site is put in
-front of paid traffic; harmless until then.
+The capability and closing PNGs run roughly 1.4–2.1 MB each. That is
+heavier than the page needs — the same art as WebP or AVIF would land under
+300 KB with no visible difference on a dark plate. Worth doing before the
+site is put in front of paid traffic; harmless until then.
+
+`hero.mp4` is 6.8 MB, at 3392×1856 and 30 fps. It is served from `/public`
+untouched, so that number is what a visitor downloads — it streams (the
+poster paints first and range requests fill in behind it), but it is the
+heaviest single asset on the site. A 1920-wide re-encode would land near
+1.5 MB and look identical at this scale, since the frame is already shown
+at about a third of its width. Ask if you want that; it is a re-encode, not
+a swap, so it is a deliberate quality decision rather than a cleanup.
 
 `cover.png` is the exception and needs no such treatment: the home page
 draws it through `next/image`, which re-encodes and resizes it on demand.

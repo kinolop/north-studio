@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
-import { AssetSlot } from "@/components/ui/AssetSlot";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { HeroVideo } from "@/components/ui/HeroVideo";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
@@ -24,24 +24,12 @@ export function AgentHero() {
 
   return (
     <Section id={meta.id} flush className="relative overflow-hidden pt-[104px] pb-section">
-      {/* Background plate. A slow Ken-Burns drift on the image; drop
-          hero.mp4 beside it and the video takes over with no code change.
-          Content — headline, CTA and mascot — follows in the DOM and
-          therefore paints above both the image and its scrim. */}
-      <div aria-hidden className="absolute inset-0">
-        <AssetSlot
-          src={`${ASSETS}/hero-bg.png`}
-          videoSrc={`${ASSETS}/hero.mp4`}
-          label={agent.slots.hero}
-          alt=""
-          fill
-          kenBurns
-          priority
-          className="border-0"
-        />
-        {/* The plate has to sit under type, so it is graded down hard. */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(7_8_11/0.72),rgb(7_8_11/0.88)_55%,var(--color-void))]" />
-      </div>
+      {/* The hero is the film. It replaced the Ken-Burns plate outright:
+          the drift, the grade across the whole frame and the still are all
+          gone, because the picture now moves on its own and a background
+          that pans as well only reads as unsteady. Content follows in the
+          DOM and therefore paints above it. */}
+      <HeroVideo src={`${ASSETS}/hero.mp4`} poster={`${ASSETS}/hero-poster.jpg`} />
 
       <div className="container-north relative">
         <motion.div
@@ -62,7 +50,11 @@ export function AgentHero() {
           </Link>
         </motion.div>
 
-        <div className="mt-16 grid gap-14 lg:grid-cols-12 lg:items-end lg:gap-10">
+        {/* One column now. The mascot used to hold the right of this grid;
+            it is the subject of the film behind these words, and printing
+            it a second time beside itself was the one thing the video made
+            impossible to keep. */}
+        <div className="mt-16 grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <motion.p
               className="text-chrome font-display text-[clamp(2.4rem,5vw,4.4rem)] leading-none font-semibold [font-variation-settings:'wdth'_118]"
@@ -90,22 +82,6 @@ export function AgentHero() {
               <MagneticButton onClick={() => open()}>{agent.heroCta}</MagneticButton>
             </motion.div>
           </div>
-
-          {/* The mascot. Its own slot so the founder can drop art in later. */}
-          <motion.div
-            className="lg:col-span-4 lg:col-start-9"
-            initial={{ opacity: 0, y: 26 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: EASE.north, delay: 0.45 }}
-          >
-            <AssetSlot
-              src={`${ASSETS}/mascot.png`}
-              label={agent.slots.mascot}
-              alt={agent.productName}
-              ratio="1 / 1"
-              className="mx-auto max-w-[20rem]"
-            />
-          </motion.div>
         </div>
       </div>
     </Section>

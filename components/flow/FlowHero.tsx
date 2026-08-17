@@ -7,6 +7,7 @@ import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { AssetSlot } from "@/components/ui/AssetSlot";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { HeroVideo } from "@/components/ui/HeroVideo";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Section } from "@/components/ui/Section";
 import { SplitLines } from "@/components/ui/SplitLines";
@@ -14,6 +15,8 @@ import { DURATION, EASE } from "@/lib/motion";
 import { flowSectionById } from "@/lib/sections";
 
 const meta = flowSectionById("flow-hero");
+
+const ASSETS = "/work/north-flow/assets";
 
 /**
  * The mascot is the agent case's file, referenced where it already lives.
@@ -29,9 +32,12 @@ export function FlowHero() {
 
   return (
     <Section id={meta.id} flush className="relative overflow-hidden pt-[104px] pb-section">
-      {/* No background plate. The hero stands on the site's own near-black
-          and the fixed atmosphere behind it — which is also what lets the
-          cursor light reach this section at all. */}
+      {/* The line itself, running behind the words that describe it. This
+          hero used to stand on the site's own near-black; the film now
+          covers that, and the fixed atmosphere behind it only shows again
+          once the scrim clears further down the page. */}
+      <HeroVideo src={`${ASSETS}/flow-hero.mp4`} poster={`${ASSETS}/flow-hero-poster.jpg`} />
+
       <div className="container-north relative">
         <motion.div
           className="flex flex-wrap items-center gap-5"
