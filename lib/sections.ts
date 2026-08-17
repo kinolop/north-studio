@@ -21,16 +21,14 @@ export interface SectionMeta {
 
 export const SECTIONS = [
   { id: "origin", bearing: "000°", degrees: 0 },
-  { id: "studio", bearing: "032°", degrees: 32 },
-  { id: "founder", bearing: "058°", degrees: 58 },
-  { id: "services", bearing: "078°", degrees: 78 },
+  { id: "studio", bearing: "040°", degrees: 40 },
+  { id: "founder", bearing: "072°", degrees: 72 },
+  { id: "services", bearing: "110°", degrees: 110 },
   // The agent demo sits immediately after the services that names it:
   // the claim and its proof should not be separated by anything.
-  { id: "agent", bearing: "104°", degrees: 104 },
-  { id: "configurator", bearing: "128°", degrees: 128 },
-  { id: "work", bearing: "152°", degrees: 152 },
-  { id: "process", bearing: "196°", degrees: 196 },
-  { id: "voices", bearing: "246°", degrees: 246 },
+  { id: "agent", bearing: "148°", degrees: 148 },
+  { id: "work", bearing: "196°", degrees: 196 },
+  { id: "process", bearing: "244°", degrees: 244 },
   { id: "questions", bearing: "302°", degrees: 302 },
   { id: "start", bearing: "355°", degrees: 355 },
 ] as const satisfies readonly SectionMeta[];

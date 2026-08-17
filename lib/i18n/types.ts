@@ -18,8 +18,6 @@ export interface Service {
   readonly short: string;
   readonly summary: string;
   readonly includes: readonly string[];
-  /** One line the configurator prints under its recommendation. */
-  readonly configuratorLine: string;
 }
 
 export interface ProjectCopy {
@@ -37,28 +35,10 @@ export interface StepCopy {
   readonly artifact: string;
 }
 
-export interface VoiceCopy {
-  readonly key: string;
-  readonly quote: string;
-  readonly role: string;
-  readonly sector: string;
-}
-
 export interface QuestionCopy {
   readonly key: string;
   readonly q: string;
   readonly a: string;
-}
-
-export interface ChoiceCopy {
-  readonly value: string;
-  readonly label: string;
-}
-
-export interface ConfiguratorQuestion {
-  readonly key: string;
-  readonly prompt: string;
-  readonly choices: readonly ChoiceCopy[];
 }
 
 /**
@@ -440,25 +420,10 @@ export interface Copy {
     };
   };
 
-  readonly configurator: {
-    readonly title: readonly string[];
-    readonly lede: string;
-    readonly questions: readonly ConfiguratorQuestion[];
-    readonly timelineLabel: string;
-    readonly matchLabel: string;
-    readonly includesLabel: string;
-    readonly disclaimer: string;
-    readonly cta: string;
-    readonly reset: string;
-    readonly progress: string;
-    readonly timelines: Readonly<Record<"fast" | "standard" | "relaxed", string>>;
-  };
-
   readonly work: {
     readonly title: readonly string[];
     readonly lede: string;
     readonly caseCta: string;
-    readonly placeholderNote: string;
     readonly projects: readonly ProjectCopy[];
   };
 
@@ -468,12 +433,6 @@ export interface Copy {
     readonly ofLabel: string;
     readonly leavesYouWith: string;
     readonly steps: readonly StepCopy[];
-  };
-
-  readonly voices: {
-    readonly title: readonly string[];
-    readonly placeholderNote: string;
-    readonly items: readonly VoiceCopy[];
   };
 
   readonly questions: {

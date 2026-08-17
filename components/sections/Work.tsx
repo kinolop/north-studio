@@ -23,7 +23,7 @@ const CASE_PAGES: Readonly<Record<string, string>> = {
 
 export function Work() {
   const copy = useCopy();
-  const [featured, second, third, ...rest] = copy.work.projects;
+  const [featured, ...rest] = copy.work.projects;
 
   return (
     <Section id={meta.id}>
@@ -40,12 +40,13 @@ export function Work() {
 
           <Reveal className="lg:col-span-5 lg:col-start-8" delay={0.08}>
             <p className="max-w-[42ch] text-body text-ash">{copy.work.lede}</p>
-            <p className="label-mono mt-7 text-slate">{copy.work.placeholderNote}</p>
           </Reveal>
         </div>
 
-        {/* The three cases with a page behind them get the full width; the
-            client work sits below, three up. */}
+        {/* Three cases, all of them real, all of them open. The flagship
+            takes the full width and the other two share the row beneath it,
+            so the grid reads as finished rather than as a row with a gap
+            where a fourth used to be. */}
         <div className="mt-20 space-y-5">
           {featured && (
             <WorkCard
@@ -56,32 +57,14 @@ export function Work() {
             />
           )}
 
-          {second && (
-            <WorkCard
-              project={second}
-              variant="lead"
-              delay={0.06}
-              href={CASE_PAGES[second.key]}
-              cta={copy.work.caseCta}
-            />
-          )}
-
-          {third && (
-            <WorkCard
-              project={third}
-              variant="lead"
-              delay={0.06}
-              href={CASE_PAGES[third.key]}
-              cta={copy.work.caseCta}
-            />
-          )}
-
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2">
             {rest.map((project, index) => (
               <WorkCard
                 key={project.key}
                 project={project}
                 delay={0.08 * (index + 1)}
+                href={CASE_PAGES[project.key]}
+                cta={copy.work.caseCta}
               />
             ))}
           </div>

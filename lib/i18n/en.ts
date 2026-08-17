@@ -5,7 +5,7 @@ export const en = {
 
   studio: {
     availability: "Two project slots open",
-    startProject: "Start a project",
+    startProject: "Get in touch",
     languageLabel: "Language",
   },
 
@@ -15,10 +15,8 @@ export const en = {
     founder: "Founder",
     services: "Services",
     agent: "Live agent",
-    configurator: "Configurator",
     work: "Work",
     process: "Process",
-    voices: "Voices",
     questions: "Questions",
     start: "Start",
     "agent-hero": "North Agent",
@@ -36,23 +34,23 @@ export const en = {
 
   hero: {
     // Split across two lines deliberately — the break carries the emphasis.
-    headline: ["We make small companies", "look inevitable."],
-    lede: "North Studio is a founder-led digital studio. We design and build cinematic websites for ambitious small businesses — in weeks, not quarters.",
+    headline: ["Sites, AI agents", "and automation."],
+    lede: "One studio for three jobs: a site that brings people in, an agent that answers them, and automation that takes the routine off your desk.",
     scrollHint: "Scroll",
     founderLed: "Founder-led",
   },
 
   manifesto: {
-    title: ["Craft is the", "only moat left."],
+    title: ["We don't ship pages.", "We ship working machinery."],
     body: [
-      "Every business can buy a template now. What can't be bought is judgement — knowing which four words belong on the first screen, how long a transition should hold, when to leave a space empty.",
+      "A site brings people in. An agent answers them while you sleep. Automation makes sure nothing is lost between the two. Separately they are tools; together they are a system that runs without you.",
       "North Studio is founder-led. The person you brief is the person who designs it and the person who writes the code. Nothing is translated through a project manager, and nothing arrives diluted.",
-      "Our pipeline is AI-assisted, which is not the same as AI-generated. The mechanical hours collapse — scaffolding, variants, the fourth pass on a layout. The hours that remain go into taste. That is why a site an agency would quote at a quarter takes us weeks, and why it looks like this instead of like everything else.",
+      "Our pipeline is AI-assisted, which is not the same as AI-generated. The mechanical hours collapse — scaffolding, variants, the fourth pass. The hours that remain go into judgement. That is why work an agency would quote at a quarter takes us weeks.",
     ],
     principles: [
       { term: "Restraint", definition: "The luxury is in what we left out." },
-      { term: "Speed", definition: "Weeks — because the pipeline is built, not improvised." },
-      { term: "Ownership", definition: "You leave with the code, the files and the keys." },
+      { term: "Speed", definition: "Weeks, not quarters — the pipeline is built, not improvised." },
+      { term: "Ownership", definition: "You leave with the code, the accounts and the keys." },
     ],
   },
 
@@ -71,52 +69,46 @@ export const en = {
   },
 
   services: {
-    title: ["What we", "do."],
-    lede: "Three directions, one outcome: clients arrive on their own and the busywork runs without you.",
+    title: ["Three directions.", "One team."],
+    lede: "Take one, or take all three — they are built to fit together.",
     ghost: "SERVICES",
     discuss: "Discuss",
     items: [
       {
         key: "sites",
-        name: "Landing pages & sites",
+        name: "Sites and landing pages",
         short: "Site",
         summary:
-          "Cinematic selling pages and whole sites — concept, copy, design and build in a single pass.",
+          "A page, or a whole site, that explains why you are the better choice and carries a visitor to the point of asking. Direction, copy and build in one pass.",
         includes: [
           "Art direction and the words",
           "Motion and interaction design",
           "Built, deployed, handed over",
         ],
-        configuratorLine:
-          "Direction, copy and build in one pass, deployed and handed to you.",
       },
       {
         key: "agents",
-        name: "AI agents",
+        name: "AI agents · North Agent",
         short: "Agent",
         summary:
-          "Assistants that answer your clients around the clock, qualify the job, and hand it over warm.",
+          "An assistant that answers your clients in seconds at any hour, works out what they actually need, and hands you someone already warm.",
         includes: [
           "Trained on how you actually sell",
           "Qualifies before it hands over",
           "Lives where your clients already are",
         ],
-        configuratorLine:
-          "An assistant that answers instantly, qualifies, and passes a warm lead to you.",
       },
       {
         key: "automation",
-        name: "Automation",
+        name: "Automation · North Flow",
         short: "Automation",
         summary:
-          "Lead handling, service integrations and reporting that run with no manual work and nothing lost.",
+          "Every enquiry from every channel in one place, sorted and filed in your CRM, with the morning report waiting in Telegram. Nothing retyped, nothing lost.",
         includes: [
-          "Leads routed the moment they land",
+          "Routed the moment it lands",
           "Your tools wired to each other",
           "Reports that arrive without asking",
         ],
-        configuratorLine:
-          "Your tools wired together so leads route themselves and nothing is retyped.",
       },
     ],
   },
@@ -131,7 +123,7 @@ export const en = {
       { from: "visitor", text: "Hi — what does a landing page cost?" },
       {
         from: "agent",
-        text: "That depends on the scope, and we settle the number on a call rather than guess at it here. Two quick questions and you'll have a real answer today. What's the page for?",
+        text: "That depends on the scope, and we give you a real number once we understand the job rather than guess at it here. Two quick questions and you'll have an answer today. What's the page for?",
       },
       { from: "visitor", text: "We're launching a coffee subscription." },
       {
@@ -141,11 +133,11 @@ export const en = {
       { from: "visitor", text: "Some time next month." },
       {
         from: "agent",
-        text: "That's comfortable. Leave me a Telegram handle or an email and the founder comes back today with the scope and a fixed price.",
+        text: "That's comfortable. Leave a Telegram handle or an email and we come back today with the scope and a fixed price.",
       },
     ],
     reply:
-      "Noted. In the real agent this is where I'd check the calendar and offer you two times. Here, the button below is faster.",
+      "Noted. In the real agent this is where I would take your details and hand you to a person. Here, the button below is faster.",
     placeholder: "Type anything…",
     send: "Send",
     cta: "Build me one of these",
@@ -785,66 +777,10 @@ export const en = {
     },
   },
 
-  configurator: {
-    title: ["Point us at", "the problem."],
-    lede: "Four questions. You get the direction your job belongs to and roughly how long it takes.",
-    questions: [
-      {
-        key: "need",
-        prompt: "What do you need?",
-        choices: [
-          { value: "sites", label: "A page or a site" },
-          { value: "agents", label: "An AI agent" },
-          { value: "automation", label: "Automation" },
-        ],
-      },
-      {
-        key: "scope",
-        prompt: "How big is it?",
-        choices: [
-          { value: "one", label: "One page, one job" },
-          { value: "few", label: "A few moving parts" },
-          { value: "system", label: "A whole system" },
-        ],
-      },
-      {
-        key: "copy",
-        prompt: "Do you have the words?",
-        choices: [
-          { value: "yes", label: "Written and ready" },
-          { value: "partly", label: "Some of them" },
-          { value: "no", label: "Write them for me" },
-        ],
-      },
-      {
-        key: "timing",
-        prompt: "When do you need it?",
-        choices: [
-          { value: "relaxed", label: "No particular rush" },
-          { value: "standard", label: "Next month or so" },
-          { value: "fast", label: "As soon as possible" },
-        ],
-      },
-    ],
-    timelineLabel: "Rough timeline",
-    matchLabel: "Recommended direction",
-    includesLabel: "What that includes",
-    disclaimer: "Scope and price are settled on the first call, not here.",
-    cta: "Take this to a conversation",
-    reset: "Start over",
-    progress: "Answered",
-    timelines: {
-      fast: "2–3 weeks, prioritised",
-      standard: "3–5 weeks",
-      relaxed: "5–8 weeks, unhurried",
-    },
-  },
-
   work: {
-    title: ["Proof, not", "promises."],
-    lede: "Three cases you can open: our two products, running rather than described, and a whole brand we invented to show what a site of ours actually looks like. Then client work, each piece chosen because it solved a different problem.",
+    title: ["Open one", "and try it."],
+    lede: "Three cases you can actually use: our agent, our automation, and a whole brand we invented and built end to end.",
     caseCta: "Open the case",
-    placeholderNote: "Visuals are placeholder plates in this build — see README.md to swap in captures.",
     projects: [
       {
         key: "north-agent",
@@ -870,27 +806,6 @@ export const en = {
           "A fintech brand invented from nothing and built end to end — mark, art direction, motion system, copy and code — so the site work can be judged on a whole brand rather than on a screenshot.",
         year: "2026",
       },
-      {
-        key: "meridian",
-        name: "Meridian",
-        discipline: "Roastery / Direct-to-consumer",
-        summary: "A twelve-year-old roastery that read online like a market stall. Rebuilt around the one thing it had that nobody else did: the roast log.",
-        year: "2026",
-      },
-      {
-        key: "halden",
-        name: "Halden",
-        discipline: "Architecture practice",
-        summary: "Sixty projects, no way to see them. A single scrolling plan-view replaced the portfolio grid entirely.",
-        year: "2025",
-      },
-      {
-        key: "aster",
-        name: "Aster",
-        discipline: "Private clinic",
-        summary: "Trust before information. One page, one booking action, and every claim on it independently verifiable.",
-        year: "2025",
-      },
     ],
   },
 
@@ -902,8 +817,8 @@ export const en = {
     steps: [
       {
         key: "orientation",
-        name: "Orientation",
-        body: "A 45-minute call. We find the single thing this site has to do, and who it has to do it to. Scope and fixed price land the same day.",
+        name: "Getting to know it",
+        body: "You write on whatever channel suits you and say what you need. We answer the same day with what we would build and how long it takes.",
         artifact: "Scope, fixed price, start date",
       },
       {
@@ -927,53 +842,28 @@ export const en = {
     ],
   },
 
-  voices: {
-    title: ["What founders say", "afterwards."],
-    placeholderNote: "Placeholder attributions — replace with real, credited quotes before launch.",
-    items: [
-      {
-        key: "logistics",
-        quote: "We sent the link to an investor before we'd changed anything else about the business. He asked who our design team was.",
-        role: "Founder",
-        sector: "B2B logistics platform",
-      },
-      {
-        key: "architecture",
-        quote: "Three weeks. I'd been quoted three months by two agencies, and neither of them had shown me a single line of copy.",
-        role: "Partner",
-        sector: "Architecture practice",
-      },
-      {
-        key: "roastery",
-        quote: "It's the first time our website has been the most impressive thing about us rather than the least.",
-        role: "Co-founder",
-        sector: "Specialty roastery",
-      },
-    ],
-  },
-
   questions: {
     title: ["Before you", "ask."],
     items: [
       {
         key: "speed",
         q: "How fast is fast?",
-        a: "A page runs about two weeks, a full site four to five, and anything unusual is scoped on its own. Agents and automations are usually quicker than either. The clock starts when the content exists — and since waiting on content is the single biggest cause of delay, we write it for you unless you'd rather not.",
+        a: "A landing page runs about two weeks, a full site four to five. An agent or an automation is usually quicker than either. The clock starts when the content exists — and since waiting on content is the single biggest cause of delay, we write it for you unless you'd rather not.",
       },
       {
         key: "ai",
         q: "What does “AI-assisted” actually mean?",
-        a: "The mechanical hours compress: scaffolding, layout variants, refactors, boilerplate. It does not mean a model generates your website. Every design decision, every line of copy and every interaction on this page was chosen by a person. The pipeline buys time; the time goes into craft.",
+        a: "The mechanical hours compress: scaffolding, layout variants, refactors, boilerplate. It does not mean a model generates your product. Every design decision, every line of copy and every interaction was chosen by a person. The pipeline buys time; the time goes into craft.",
       },
       {
         key: "ownership",
         q: "Do I own it?",
-        a: "Completely. Source code, design files, domain, hosting, analytics. No licence, no lock-in, no monthly fee to keep your own site online. If you want a different studio to take it over next year, they can.",
+        a: "Completely. Source code, design files, domain, hosting, analytics, and the agent's scenarios. No licence, no lock-in, no monthly fee to keep your own work online. If you want a different studio to take it over next year, they can.",
       },
       {
         key: "price",
         q: "Why does this cost more than a freelancer?",
-        a: "Because you're not buying pages. You're buying the judgement that decides what goes on them, and a build that still looks current in three years. If price is the deciding factor, a template will serve you better — and we'll say so on the call.",
+        a: "Because you're not buying pages. You're buying the judgement that decides what goes on them, and a build that still looks current in three years. If price is the deciding factor, a template will serve you better — and we'll say so.",
       },
       {
         key: "revisions",
@@ -983,7 +873,7 @@ export const en = {
       {
         key: "input",
         q: "What do you need from me?",
-        a: "An hour for the first call, your logo and any photography you own, and one person who can say yes. That is the entire list.",
+        a: "Half an hour of your attention, your logo and any photography you own, and one person who can say yes. That is the entire list.",
       },
     ],
   },
@@ -995,21 +885,21 @@ export const en = {
     items: [
       "Founder-led",
       "Weeks, not quarters",
-      "Price on the first call",
+      "Sites, agents, automation",
       "Two slots open",
     ],
   },
 
   cta: {
-    title: ["Tell us what", "you're building."],
-    lede: "One call, 45 minutes. You leave it with a scope, a fixed price and a date — whether or not you work with us.",
-    action: "Start a project",
-    directLabel: "Or reach me directly",
+    title: ["Tell us what", "you need."],
+    lede: "Call or write — Telegram, WhatsApp or email. We answer the same day, with what we would build and how long it takes.",
+    action: "Call or write",
+    directLabel: "Or reach us directly",
   },
 
   channels: {
     overlayTitle: "How do you want to talk?",
-    overlayLede: "Pick a channel. Every one of them reaches me directly.",
+    overlayLede: "Pick a channel. Every one of them reaches us directly.",
     close: "Close",
     back: "All channels",
     labels: {
@@ -1023,7 +913,7 @@ export const en = {
       email: "For briefs, documents, anything longer than a line.",
     },
     briefLabel: "Send a brief",
-    briefNote: "Two minutes. I reply with scope and a price.",
+    briefNote: "Two minutes. We reply with scope and a price.",
   },
 
   form: {
