@@ -28,6 +28,7 @@ them layered back underneath the mesh as texture.
 | `app-insights.png` | Feature 3 — floating on the mesh, no card |
 | `feature-security.png` | Security — small, square, floating with a breathing teal glow |
 | `lifestyle.png` | The human moment, floating with parallax |
+| `cover.png` | 8:5. The card for this case in **Work** on the *studio* home page — not used anywhere on this route |
 
 If the video fails for any reason the hero falls back to the coded mesh at
 its richest — still full-bleed, still moving, never a dead still frame. Any

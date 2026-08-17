@@ -1,12 +1,13 @@
 # North Agent — drop your files here
 
-This is the one case that carries artwork: the hero plate and the three
-capability panels are images, and the mascot sits in the hero. The other two
-cases (`north-flow`, `orbita`) are drawn entirely in code and have nothing
-to drop.
+This is the one case whose *page* carries artwork: the hero plate and the
+three capability panels are images, and the mascot sits in the hero. The
+other two cases (`north-flow`, `orbita`) are drawn entirely in code, and
+carry nothing but a cover.
 
 | File | Ratio | Where it appears |
 | --- | --- | --- |
+| `cover.png` | 8:5 | The card for this case in **Work** on the home page. Not used on the case page itself |
 | `hero-bg.png` | 16:9 | Hero background, slow Ken-Burns drift |
 | `hero.mp4` | 16:9 | Optional. If present it replaces `hero-bg.png` |
 | `cta-bg.png` | 16:9 | Closing section background, same slow drift |
@@ -41,3 +42,8 @@ These five are PNGs, at roughly 1.4–2.1 MB each. That is heavier than the
 page needs — the same art as WebP or AVIF would land under 300 KB with no
 visible difference on a dark plate. Worth doing before the site is put in
 front of paid traffic; harmless until then.
+
+`cover.png` is the exception and needs no such treatment: the home page
+draws it through `next/image`, which re-encodes and resizes it on demand.
+The 1.5 MB source reaches the browser as a 57 KB WebP at full lead width
+and 22 KB in a stacked card, so leave the master as heavy as you like.

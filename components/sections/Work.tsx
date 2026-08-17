@@ -21,6 +21,17 @@ const CASE_PAGES: Readonly<Record<string, string>> = {
   orbita: "/work/orbita",
 };
 
+/**
+ * Card covers, keyed the same way and for the same reason. Each one lives
+ * beside the case it belongs to rather than in a shared covers folder, so a
+ * fourth case arrives as one self-contained directory.
+ */
+const CASE_COVERS: Readonly<Record<string, string>> = {
+  "north-agent": "/work/north-agent/assets/cover.png",
+  "north-flow": "/work/north-flow/assets/cover.png",
+  orbita: "/work/orbita/assets/cover.png",
+};
+
 export function Work() {
   const copy = useCopy();
   const [featured, ...rest] = copy.work.projects;
@@ -53,6 +64,7 @@ export function Work() {
               project={featured}
               variant="lead"
               href={CASE_PAGES[featured.key]}
+              cover={CASE_COVERS[featured.key]}
               cta={copy.work.caseCta}
             />
           )}
@@ -64,6 +76,7 @@ export function Work() {
                 project={project}
                 delay={0.08 * (index + 1)}
                 href={CASE_PAGES[project.key]}
+                cover={CASE_COVERS[project.key]}
                 cta={copy.work.caseCta}
               />
             ))}

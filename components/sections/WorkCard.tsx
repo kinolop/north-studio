@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -25,6 +26,11 @@ interface WorkCardProps {
   href?: string;
   /** Shown as the card's action when it links somewhere. */
   cta?: string;
+  /**
+   * Path under /public. Absent means the card keeps its older, wordless
+   * shape rather than reserving a band for a picture that never arrives.
+   */
+  cover?: string;
 }
 
 export function WorkCard({
@@ -34,6 +40,7 @@ export function WorkCard({
   className = "",
   href,
   cta,
+  cover,
 }: WorkCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -80,9 +87,49 @@ export function WorkCard({
   );
 
   /**
-   * With the plate gone the lead card would otherwise be one tall column of
-   * text across the full width, so it splits: the name holds the left, the
-   * prose and the action the right. The stacked cards stay a single column.
+   * The cover.
+   *
+   * Two of the three are near-black and would seat into the card on their
+   * own; ORBITA's is a white studio shot, because that is honestly what
+   * that brand looks like. So the treatment is what holds them together as
+   * a set rather than the artwork: one scrim into the card's own ground,
+   * one hairline, and a rest-state dampening that clears under the
+   * pointer. The dampening earns its place twice — it stops the light
+   * plate from glaring beside two dark ones, and it gives all three the
+   * same "wakes up when you reach for it" beat.
+   *
+   * The lead runs wider than its source ratio. These are centre-weighted
+   * renders with nothing living in the top and bottom eighths, so the crop
+   * costs nothing and buys the flagship a cinematic band.
+   */
+  const media = cover && (
+    <div
+      className="relative shrink-0 overflow-hidden border-b border-hairline bg-void"
+      style={{ aspectRatio: lead ? "16 / 7" : "8 / 5" }}
+    >
+      <Image
+        src={cover}
+        alt=""
+        fill
+        sizes={
+          lead
+            ? "(max-width: 640px) 92vw, (max-width: 1440px) 94vw, 1380px"
+            : "(max-width: 640px) 92vw, (max-width: 1440px) 46vw, 680px"
+        }
+        className="object-cover object-center brightness-[0.86] transition-[transform,filter] duration-[620ms] ease-[var(--ease-north)] group-hover:brightness-100 motion-safe:group-hover:scale-[1.045]"
+      />
+
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[linear-gradient(to_top,var(--color-abyss),rgb(10_12_16/0.34)_26%,transparent_62%)]"
+      />
+    </div>
+  );
+
+  /**
+   * The lead card would otherwise be one tall column of text across the
+   * full width, so it splits: the name holds the left, the prose and the
+   * action the right. The stacked cards stay a single column.
    */
   const copy = lead ? (
     <div className="grid gap-8 p-9 lg:grid-cols-12 lg:items-end lg:gap-10 lg:p-12">
@@ -141,10 +188,11 @@ export function WorkCard({
           }}
         >
           <Shell href={href} name={project.name}>
-            {/* No plate. The card is a flat dark panel with a hairline and
-                the pointer's light on its edge — the work is named, not
-                illustrated, and nothing here pretends to be a screenshot. */}
-            <article className="relative h-full overflow-hidden rounded-[3px] bg-abyss">
+            {/* Cover on top, words beneath. The panel underneath is still a
+                flat dark ground with the pointer's light on its edge — the
+                picture is seated into that, not laid on top of it. */}
+            <article className="relative flex h-full flex-col overflow-hidden rounded-[3px] bg-abyss">
+              {media}
               {copy}
             </article>
           </Shell>
