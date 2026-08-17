@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 
 import { useChannelOverlay } from "@/components/contact/ChannelOverlayProvider";
 import { useCopy } from "@/components/i18n/CopyProvider";
-import { AssetSlot } from "@/components/ui/AssetSlot";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { HeroVideo } from "@/components/ui/HeroVideo";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -17,13 +16,6 @@ import { flowSectionById } from "@/lib/sections";
 const meta = flowSectionById("flow-hero");
 
 const ASSETS = "/work/north-flow/assets";
-
-/**
- * The mascot is the agent case's file, referenced where it already lives.
- * One drop lights up both product pages; a copy in each folder is a copy
- * somebody eventually updates in one place only.
- */
-const MASCOT = "/work/north-agent/assets/mascot.png";
 
 export function FlowHero() {
   const copy = useCopy();
@@ -57,7 +49,10 @@ export function FlowHero() {
           </Link>
         </motion.div>
 
-        <div className="mt-16 grid gap-14 lg:grid-cols-12 lg:items-end lg:gap-10">
+        {/* One column. The mascot used to hold the right of this grid; the
+            hero is a film now and it wants a clean frame, so the figure
+            standing in front of it went. */}
+        <div className="mt-16 grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <motion.p
               className="text-chrome font-display text-[clamp(2.4rem,5vw,4.4rem)] leading-none font-semibold [font-variation-settings:'wdth'_118]"
@@ -106,21 +101,6 @@ export function FlowHero() {
               ))}
             </motion.p>
           </div>
-
-          <motion.div
-            className="lg:col-span-4 lg:col-start-9"
-            initial={{ opacity: 0, y: 26 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: EASE.north, delay: 0.45 }}
-          >
-            <AssetSlot
-              src={MASCOT}
-              label={flow.slots.mascot}
-              alt={flow.productName}
-              ratio="1 / 1"
-              className="mx-auto max-w-[20rem]"
-            />
-          </motion.div>
         </div>
       </div>
     </Section>

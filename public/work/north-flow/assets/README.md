@@ -21,7 +21,7 @@ video wants its **left third quiet**, since that is where the words live.
 untouched. See the note in the North Agent folder — the same re-encode
 offer applies, and applies harder here, since this is the larger file.
 
-The hero's small chrome figure is still read from
-`public/work/north-agent/assets/mascot.png`, so one file lights both product
-pages. Unlike the agent hero, this video does **not** contain the mascot, so
-the two do not duplicate each other.
+The hero no longer carries the small chrome figure it used to borrow from
+`public/work/north-agent/assets/mascot.png`. The film wants a clean frame,
+so the figure that stood in front of it went — and with it the last thing
+reading that file on either product page.

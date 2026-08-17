@@ -11,7 +11,7 @@ carry nothing but a cover.
 | `hero.mp4` | ~16:9 | **The hero.** Full-bleed behind the headline: autoplay, muted, loop, `playsInline`, `object-fit: cover` |
 | `hero-poster.jpg` | matches the video | Poster for that video, at its full resolution. Also what reduced-motion visitors get instead of it |
 | `cta-bg.png` | 16:9 | Closing section background, slow Ken-Burns drift |
-| `mascot.png` | ~1:1 | The chrome figure. Read only by the **North Flow** hero now — the agent hero's mascot is in `hero.mp4` |
+| `mascot.png` | ~1:1 | **Nothing reads this any more.** Both product heroes are films now, and neither wants a figure standing in front of one |
 | `cap-answers.png` | 4:5 | Capability card 1 — answers instantly |
 | `cap-knows.png` | 4:5 | Capability card 2 — knows your programme |
 | `cap-enroll.png` | 4:5 | Capability card 3 — drives to enrolment |
@@ -20,9 +20,10 @@ All of them are filled. A missing file never shows a broken image — the
 frame falls back to a labelled placeholder — so you can swap any one of them
 at any time by replacing the file.
 
-`hero.png` and `hero-bg.png` are both still in this folder but nothing
-reads either any more — the film replaced the hero plate outright, and with
-it the Ken-Burns drift. Delete them whenever you like.
+`hero.png`, `hero-bg.png` and `mascot.png` are all still in this folder but
+nothing reads any of them — the film replaced the hero plate outright, and
+with it the Ken-Burns drift and the mascot that used to stand beside the
+headline. Delete them whenever you like.
 
 Only two sections carry a background, deliberately: the hero and the close.
 The live chat, the three capability cards and the count-up figures sit on
