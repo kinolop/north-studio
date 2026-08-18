@@ -959,5 +959,6 @@ export const en = {
     elsewhere: "Direct",
     colophon: "Designed and built in-house. No template was harmed.",
     place: "Moscow · Remote worldwide",
+    privacy: "Privacy policy",
   },
 } as const satisfies Copy;

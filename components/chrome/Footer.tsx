@@ -7,7 +7,7 @@ import { useCopy } from "@/components/i18n/CopyProvider";
 import { scrollToSection } from "@/components/motion/SmoothScroll";
 import { CHANNELS, FOUNDER_EMAIL } from "@/lib/channels";
 import { SECTIONS } from "@/lib/sections";
-import { STUDIO } from "@/lib/studio";
+import { LEGAL, STUDIO } from "@/lib/studio";
 
 /**
  * The footer carries the full section list, because the header nav is
@@ -90,13 +90,46 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 flex flex-wrap items-center justify-between gap-4 border-t border-hairline pt-8">
-          <p className="label-mono">
-            © {year} {STUDIO.name}
-          </p>
-          <p className="label-mono">{copy.footer.place}</p>
+        <div className="mt-20 border-t border-hairline pt-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <p className="label-mono">
+              © {year} {STUDIO.name}
+            </p>
+            <p className="label-mono">{copy.footer.place}</p>
+          </div>
+
+          {/* The legal line. Sentence case rather than the mono caps used
+              above it — a person's legal name set in uppercase reads as
+              shouting, and this line is meant to be findable, not loud. */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-meta text-slate">
+            <span>{LEGAL.entity}</span>
+            <Dot />
+            <span className="tabular-nums">
+              {LEGAL.innLabel} {LEGAL.inn}
+            </span>
+            <Dot />
+            <Link
+              href={LEGAL.privacyPath}
+              className="underline decoration-hairline decoration-1 underline-offset-[5px] transition-colors duration-[var(--duration-state)] ease-[var(--ease-north)] hover:text-bone hover:decoration-signal"
+            >
+              {copy.footer.privacy}
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
+  );
+}
+
+/**
+ * The separator between legal facts. Aria-hidden: a screen reader reading
+ * "middle dot" between a name and a tax number adds nothing, and the
+ * elements are already separate nodes.
+ */
+function Dot() {
+  return (
+    <span aria-hidden className="text-hairline">
+      ·
+    </span>
   );
 }

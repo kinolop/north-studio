@@ -134,9 +134,15 @@ export default function RootLayout({
                   light theme of its own, so it renders bare — see
                   components/chrome/StudioChrome.tsx. */}
               <StudioChrome>
-                <Preloader />
                 <Atmosphere />
                 <Header />
+              </StudioChrome>
+
+              {/* Section-aware chrome. `/privacy` is a studio page but has
+                  no bearings to point at, so the instruments sit it out —
+                  see QUIET_ROUTES in StudioChrome. */}
+              <StudioChrome instruments>
+                <Preloader />
                 <ScrollRail />
                 <CompassHUD />
               </StudioChrome>
@@ -145,6 +151,9 @@ export default function RootLayout({
 
               <StudioChrome>
                 <Footer />
+              </StudioChrome>
+
+              <StudioChrome instruments>
                 <SoundToggle />
               </StudioChrome>
             </SmoothScroll>

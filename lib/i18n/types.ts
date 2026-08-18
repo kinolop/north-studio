@@ -497,5 +497,10 @@ export interface Copy {
     readonly elsewhere: string;
     readonly colophon: string;
     readonly place: string;
+    /**
+     * Label for the link to /privacy. The legal name and the tax number
+     * beside it are not translatable and live in `lib/studio.ts`.
+     */
+    readonly privacy: string;
   };
 }
