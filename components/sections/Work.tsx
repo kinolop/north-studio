@@ -19,6 +19,7 @@ const CASE_PAGES: Readonly<Record<string, string>> = {
   "north-agent": "/work/north-agent",
   "north-flow": "/work/north-flow",
   orbita: "/work/orbita",
+  noctura: "/work/noctura",
 };
 
 /**
@@ -30,6 +31,7 @@ const CASE_COVERS: Readonly<Record<string, string>> = {
   "north-agent": "/work/north-agent/assets/cover.png",
   "north-flow": "/work/north-flow/assets/cover.png",
   orbita: "/work/orbita/assets/cover.png",
+  noctura: "/work/noctura/assets/cover.png",
 };
 
 export function Work() {
@@ -54,10 +56,11 @@ export function Work() {
           </Reveal>
         </div>
 
-        {/* Three cases, all of them real, all of them open. The flagship
-            takes the full width and the other two share the row beneath it,
-            so the grid reads as finished rather than as a row with a gap
-            where a fourth used to be. */}
+        {/* Four cases, all of them real, all of them open. The flagship
+            takes the full width and the other three share the row beneath
+            it. That row goes straight from one column to three: at two
+            columns the odd card would strand a hole on the second row, and
+            a visible gap reads as a case that failed to load. */}
         <div className="mt-20 space-y-5">
           {featured && (
             <WorkCard
@@ -69,7 +72,7 @@ export function Work() {
             />
           )}
 
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-5 lg:grid-cols-3">
             {rest.map((project, index) => (
               <WorkCard
                 key={project.key}

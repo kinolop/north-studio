@@ -779,7 +779,7 @@ export const en = {
 
   work: {
     title: ["Open one", "and try it."],
-    lede: "Three cases you can actually use: our agent, our automation, and a whole brand we invented and built end to end.",
+    lede: "Four cases you can actually use: our agent, our automation, and two whole brands we invented and built end to end.",
     caseCta: "Open the case",
     projects: [
       {
@@ -804,6 +804,14 @@ export const en = {
         discipline: "Demo concept / Brand and landing",
         summary:
           "A fintech brand invented from nothing and built end to end — mark, art direction, motion system, copy and code — so the site work can be judged on a whole brand rather than on a screenshot.",
+        year: "2026",
+      },
+      {
+        key: "noctura",
+        name: "NOCTURA",
+        discipline: "Demo concept / Hotel brand and site",
+        summary:
+          "A five-star hotel that does not exist, presented the way it would present itself — its own dark-and-gold identity, full-bleed film, and a lift that carries you between the room floors. A Russian-language concept, built whole.",
         year: "2026",
       },
     ],

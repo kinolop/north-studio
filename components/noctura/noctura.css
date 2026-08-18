@@ -1,0 +1,942 @@
+/* ============================================================================
+   NOCTURA — a hotel's design system, and the third on this site.
+
+   Every value is namespaced `--n-*` under a `.noctura` scope so it can
+   neither read the studio's tokens nor leak into ORBITA's. If you are
+   editing this file and reach for `--color-signal`, `--ease-north` or
+   `--o-accent`, you are on the wrong page.
+
+   The three brands, so the separation stays deliberate:
+     North Studio  near-black, cool violet, expanded grotesk
+     ORBITA        off-white, electric mint, Inter
+     NOCTURA       warm near-black, brass gold, Cormorant Garamond
+
+   The base is deliberately *warm* black. The photography is candlelight and
+   lamp-glow on walnut, and a cool charcoal underneath it reads as a colour
+   mistake - the images would sit on the page like slides on a light box
+   instead of belonging to it.
+
+   Contrast, measured against --n-night (#0a0809):
+     ivory     #f2ede4 … 16.8:1      gold      #c8a96a …  8.9:1
+     champagne #e8d9b8 … 14.3:1      smoke     #a49b8d …  7.3:1
+     ash       #8a8175 …  5.2:1
+   All five clear AA for body text, which is why the gold is allowed to be
+   type here and not only a fill. --n-line is decorative and never text.
+   ========================================================================= */
+
+.noctura {
+  /* --- Ground ---------------------------------------------------------
+     Never pure #000: the ambience below is built from very low-alpha warm
+     gradients, and pure black clips their low end into visible banding. */
+  --n-night: #0a0809;
+  --n-char: #12100d;
+  --n-ember: #1c1813;
+  --n-raise: #241e18;
+
+  /* --- Brass ----------------------------------------------------------
+     One accent, warm, used with restraint: the wordmark, the rules, the
+     hovers, the price. --n-gold is the brief's colour and the brand's
+     voice; --n-champagne is the lifted cut for large display accents;
+     --n-brass-deep is a fill and a glow, never text. */
+  --n-gold: #c8a96a;
+  --n-champagne: #e8d9b8;
+  --n-brass-deep: #6b5528;
+
+  /* --- Ink ------------------------------------------------------------- */
+  --n-ivory: #f2ede4;
+  --n-smoke: #a49b8d;
+  --n-ash: #8a8175;
+
+  /* Every rule on this page is faint brass rather than grey - the building
+     is trimmed in aged latten, and so is its website. */
+  --n-line: rgb(200 169 106 / 0.16);
+  --n-line-soft: rgb(200 169 106 / 0.08);
+
+  /* --- Material --------------------------------------------------------
+     Almost no radius. A five-star hotel is stone, glass and milled brass;
+     rounded cards would make it a booking app. */
+  --n-radius: 2px;
+  --n-radius-plate: 3px;
+
+  /* Light pools rather than drop shadows - the whole visual idea is warm
+     lamps in a dark room, so "elevation" here is glow, not a cast shadow. */
+  --n-pool: 0 0 0 1px var(--n-line-soft), 0 40px 120px -40px rgb(0 0 0 / 0.9);
+  --n-pool-lit: 0 0 0 1px rgb(200 169 106 / 0.3),
+    0 0 60px -12px rgb(200 169 106 / 0.16), 0 40px 120px -40px rgb(0 0 0 / 0.9);
+
+  /* --- Motion ----------------------------------------------------------
+     Weighted and slow. Nothing on this page bounces and nothing is linear
+     except the marquee, which has to be. --n-lift is the heaviest curve on
+     the site and belongs to the elevator alone. */
+  --n-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --n-lift: cubic-bezier(0.16, 1, 0.3, 1);
+  --n-slow: 900ms;
+  --n-travel: 980ms;
+
+  /* --- Rhythm ----------------------------------------------------------- */
+  --n-gutter: clamp(1.25rem, 4.5vw, 4rem);
+  --n-section: clamp(6rem, 13vh, 11rem);
+
+  font-family: var(--font-manrope), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--n-smoke);
+  background-color: var(--n-night);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+/* ============================================================================
+   TYPE
+   Cormorant Garamond for display, Manrope for everything read at length.
+   The serif is optically small for its point size and its thin strokes go
+   further on a dark ground than on a light one, so display sizes here run
+   larger and one weight heavier than the same scale would on white.
+   ========================================================================= */
+
+.noctura h1,
+.noctura h2,
+.noctura h3 {
+  font-family: var(--font-cormorant), "Times New Roman", serif;
+  color: var(--n-ivory);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+.noctura .n-h1 {
+  font-size: clamp(3rem, 9.2vw, 8.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.018em;
+  font-weight: 300;
+}
+
+.noctura .n-h2 {
+  font-size: clamp(2.15rem, 5.4vw, 4.6rem);
+  line-height: 1;
+}
+
+.noctura .n-h3 {
+  font-size: clamp(1.5rem, 2.4vw, 2.15rem);
+  line-height: 1.1;
+}
+
+/* The serif set at reading size, for a single pulled-out sentence. Italic
+   because that is what this face was drawn to do. */
+.noctura .n-serif-lead {
+  font-family: var(--font-cormorant), "Times New Roman", serif;
+  font-size: clamp(1.4rem, 2.3vw, 2rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.42;
+  color: var(--n-champagne);
+  letter-spacing: 0;
+}
+
+.noctura .n-lead {
+  font-size: clamp(1.06rem, 1.3vw, 1.22rem);
+  line-height: 1.7;
+  color: var(--n-smoke);
+}
+
+.noctura .n-body {
+  font-size: 1.0125rem;
+  line-height: 1.8;
+  color: var(--n-smoke);
+  font-weight: 300;
+}
+
+.noctura .n-small {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--n-ash);
+}
+
+/* The brass label voice. Every eyebrow, floor address, field label and
+   caption on the page is set in it - one utility register, widely tracked,
+   so the serif never has to do a job it is bad at. */
+.noctura .n-label {
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--n-gold);
+}
+
+.noctura .n-label-dim {
+  color: var(--n-ash);
+  letter-spacing: 0.28em;
+}
+
+/* Figures - the count-ups and the prices. Tabular so a rolling number does
+   not shuffle the words next to it. */
+.noctura .n-figure {
+  font-family: var(--font-cormorant), "Times New Roman", serif;
+  font-size: clamp(2.6rem, 4.6vw, 4rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--n-champagne);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================================
+   LAYOUT
+   ========================================================================= */
+
+.noctura .n-wrap {
+  width: 100%;
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: var(--n-gutter);
+}
+
+.noctura .n-wrap-tight {
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: var(--n-gutter);
+}
+
+.noctura .n-section {
+  position: relative;
+  padding-block: var(--n-section);
+}
+
+.noctura .n-rel {
+  position: relative;
+  z-index: 1;
+}
+
+/* A single brass hairline. Fades at both ends so it reads as light catching
+   an edge rather than as a border drawn across the page. */
+.noctura .n-rule {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--n-line) 12%,
+    var(--n-line) 88%,
+    transparent
+  );
+}
+
+/* ============================================================================
+   LIVING GROUND
+   No section on this page is flat black. Two layers do it:
+
+   1. `.n-ambience` - fixed behind everything, three wide pools of warm light
+      that drift on their own long cycles. Because the cycles are 61s, 79s
+      and 97s they never resynchronise, so the page never visibly loops.
+   2. `.n-warm` - a local pool a section can place behind its own content,
+      so each one has its own centre of gravity rather than sharing one
+      global glow.
+
+   Both animate transform and opacity only, so they stay on the compositor.
+   ========================================================================= */
+
+.noctura .n-ambience {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* The floor the pools sit on: not flat, warmer at the top where the tower
+     catches the city's light, colder toward the bottom. */
+  background:
+    radial-gradient(120% 70% at 50% -10%, #16120e 0%, transparent 62%),
+    linear-gradient(180deg, #0c0a0a 0%, var(--n-night) 45%, #08070a 100%);
+}
+
+.noctura .n-pool-a,
+.noctura .n-pool-b,
+.noctura .n-pool-c {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  will-change: transform, opacity;
+}
+
+.noctura .n-pool-a {
+  top: -18vh;
+  left: -10vw;
+  width: 70vw;
+  height: 70vh;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(200 169 106 / 0.075),
+    transparent 66%
+  );
+  animation: n-drift-a 61s ease-in-out infinite;
+}
+
+.noctura .n-pool-b {
+  top: 22vh;
+  right: -22vw;
+  width: 78vw;
+  height: 82vh;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(184 132 62 / 0.062),
+    transparent 68%
+  );
+  animation: n-drift-b 79s ease-in-out infinite;
+}
+
+.noctura .n-pool-c {
+  bottom: -26vh;
+  left: 12vw;
+  width: 84vw;
+  height: 74vh;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(212 186 132 / 0.05),
+    transparent 70%
+  );
+  animation: n-drift-c 97s ease-in-out infinite;
+}
+
+@keyframes n-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(6vw, 5vh, 0) scale(1.14);
+    opacity: 1;
+  }
+}
+
+@keyframes n-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.08);
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(-8vw, -6vh, 0) scale(1);
+    opacity: 0.82;
+  }
+}
+
+@keyframes n-drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate3d(5vw, -4vh, 0) scale(1.16);
+    opacity: 1;
+  }
+}
+
+/* A section's own pool of lamp light. Positioned with --n-warm-x/y so each
+   section can put its centre of gravity where its content actually is. */
+.noctura .n-warm {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    var(--n-warm-size, 60% 70%) at var(--n-warm-x, 50%) var(--n-warm-y, 42%),
+    rgb(200 169 106 / var(--n-warm-strength, 0.06)),
+    transparent 70%
+  );
+}
+
+/* Grain. Static rather than animated: moving grain costs a repaint every
+   frame and, at this opacity, reads as a compression artefact instead of
+   film. Overlay so it speckles both the highlights and the shadows. */
+.noctura .n-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+}
+
+/* The scrim that keeps type legible over photography. Weighted from the
+   bottom, because that is where the words sit on every plate on this page. */
+.noctura .n-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgb(8 7 9 / 0.94) 0%,
+    rgb(8 7 9 / 0.72) 26%,
+    rgb(8 7 9 / 0.28) 58%,
+    rgb(8 7 9 / 0.1) 100%
+  );
+}
+
+.noctura .n-scrim-even {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+      to right,
+      rgb(8 7 9 / 0.9) 0%,
+      rgb(8 7 9 / 0.62) 42%,
+      rgb(8 7 9 / 0.2) 78%
+    ),
+    linear-gradient(to top, rgb(8 7 9 / 0.7), transparent 55%);
+}
+
+/* ============================================================================
+   PLATES
+   Every photograph on the page is seated into the ground rather than laid
+   on top of it: a brass hairline, a warm inner vignette, and a rest-state
+   that is slightly darker than the file so nothing glares.
+   ========================================================================= */
+
+.noctura .n-plate {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--n-radius-plate);
+  background-color: var(--n-char);
+  box-shadow: var(--n-pool);
+}
+
+.noctura .n-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--n-line-soft),
+    inset 0 0 120px -30px rgb(0 0 0 / 0.9);
+}
+
+.noctura .n-plate img,
+.noctura .n-plate video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.94) saturate(1.02);
+}
+
+/* The on-theme stand-in when a file is missing. Never a broken image and
+   never a dead block: it is the page's own warm gradient with the expected
+   filename set in the brass label voice. */
+.noctura .n-slot {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 2rem;
+  background:
+    radial-gradient(70% 80% at 50% 30%, rgb(200 169 106 / 0.1), transparent 70%),
+    linear-gradient(160deg, var(--n-ember), var(--n-night));
+}
+
+/* ============================================================================
+   CONTROLS
+   ========================================================================= */
+
+.noctura .n-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 48px;
+  padding: 0.95rem 2rem;
+  border-radius: var(--n-radius);
+  border: 1px solid transparent;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 320ms var(--n-ease), color 320ms var(--n-ease),
+    border-color 320ms var(--n-ease), box-shadow 420ms var(--n-ease),
+    transform 320ms var(--n-ease);
+}
+
+/* Solid brass with near-black type. The gold is a fill here, and #0a0809 on
+   #c8a96a measures 8.9:1 - a white label on the same fill would be 2.0:1. */
+.noctura .n-btn-gold {
+  background-color: var(--n-gold);
+  color: var(--n-night);
+  box-shadow: 0 0 0 0 rgb(200 169 106 / 0);
+}
+
+.noctura .n-btn-gold:hover {
+  background-color: var(--n-champagne);
+  box-shadow: 0 0 44px -8px rgb(200 169 106 / 0.45);
+  transform: translateY(-1px);
+}
+
+.noctura .n-btn-ghost {
+  background-color: transparent;
+  border-color: var(--n-line);
+  color: var(--n-ivory);
+}
+
+.noctura .n-btn-ghost:hover {
+  border-color: rgb(200 169 106 / 0.55);
+  color: var(--n-champagne);
+  box-shadow: 0 0 40px -14px rgb(200 169 106 / 0.34);
+  transform: translateY(-1px);
+}
+
+/* A quiet text link that grows a brass underline from the left. */
+.noctura .n-link {
+  position: relative;
+  color: var(--n-smoke);
+  text-decoration: none;
+  transition: color 320ms var(--n-ease);
+}
+
+.noctura .n-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background-color: var(--n-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 420ms var(--n-ease);
+}
+
+.noctura .n-link:hover {
+  color: var(--n-champagne);
+}
+
+.noctura .n-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Keyboard focus is brass and always visible. It is never removed anywhere
+   in this file. */
+.noctura a:focus-visible,
+.noctura button:focus-visible,
+.noctura input:focus-visible,
+.noctura select:focus-visible,
+.noctura textarea:focus-visible {
+  outline: 2px solid var(--n-gold);
+  outline-offset: 3px;
+  border-radius: var(--n-radius);
+}
+
+/* ============================================================================
+   THE LIFT — the rooms selector, and the one place this page spends its
+   boldness. NOCTURA is a tower, the categories genuinely live on different
+   floors, so choosing one moves the car: a stacked column of floors that
+   travels vertically on the heaviest curve in the system.
+   ========================================================================= */
+
+.noctura .n-shaft {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--n-radius-plate);
+  background-color: var(--n-char);
+  box-shadow: var(--n-pool);
+  /* Tall enough to read as a shaft rather than as a banner. On a phone the
+     container is only ~335px wide, and a 16/11 window into a hotel room is
+     230px of picture - too small for the one thing this page is built
+     around. Square there, landscape once there is width to spend. */
+  aspect-ratio: 1 / 1;
+}
+
+@media (min-width: 640px) {
+  .noctura .n-shaft {
+    aspect-ratio: 16 / 11;
+  }
+}
+
+@media (min-width: 1024px) {
+  .noctura .n-shaft {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.noctura .n-shaft::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--n-line-soft),
+    inset 0 0 140px -40px rgb(0 0 0 / 0.95);
+}
+
+/* The car. One floor tall per room, translated by whole floors. */
+.noctura .n-car {
+  position: absolute;
+  inset: 0;
+  transform: translate3d(0, calc(var(--n-floor, 0) * -100%), 0);
+  transition: transform var(--n-travel) var(--n-lift);
+  will-change: transform;
+}
+
+.noctura .n-floor {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  top: calc(var(--i) * 100%);
+  overflow: hidden;
+}
+
+/* Counter-travel: each floor's picture moves at a fraction of the car's
+   speed, so the images slide against each other instead of riding the
+   translate as one rigid strip. This is the whole reason the motion reads
+   as depth and not as a slideshow.
+
+   The transform lives on a wrapper rather than on the image because
+   next/image writes `position/inset/width/height` as inline styles when it
+   fills, and inline styles would beat anything set here. The wrapper is
+   over-tall so the counter-travel never exposes an edge. */
+.noctura .n-floor-inner {
+  position: absolute;
+  inset: -8% 0;
+  height: 116%;
+  transform: translate3d(0, calc((var(--n-floor, 0) - var(--i)) * 9%), 0);
+  transition: transform var(--n-travel) var(--n-lift);
+  will-change: transform;
+}
+
+.noctura .n-floor-inner img {
+  object-fit: cover;
+  filter: brightness(0.94) saturate(1.02);
+}
+
+/* The brass floor indicator down the side of the shaft. */
+.noctura .n-indicator {
+  position: absolute;
+  z-index: 4;
+  left: clamp(0.85rem, 2vw, 1.4rem);
+  top: clamp(0.85rem, 2vw, 1.4rem);
+  bottom: clamp(0.85rem, 2vw, 1.4rem);
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--n-line) 10%,
+    var(--n-line) 90%,
+    transparent
+  );
+}
+
+.noctura .n-indicator-dot {
+  position: absolute;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background-color: var(--n-gold);
+  box-shadow: 0 0 14px 2px rgb(200 169 106 / 0.55);
+  top: calc(6% + var(--n-floor, 0) * 44%);
+  transition: top var(--n-travel) var(--n-lift);
+}
+
+/* The floor buttons. Brass rule on the left that fills when chosen. */
+.noctura .n-pick {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 1.05rem 0 1.05rem 1.35rem;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  color: var(--n-ash);
+  transition: color 380ms var(--n-ease);
+}
+
+.noctura .n-pick::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--n-line);
+}
+
+.noctura .n-pick::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--n-gold);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 620ms var(--n-lift);
+  box-shadow: 0 0 12px 0 rgb(200 169 106 / 0.5);
+}
+
+.noctura .n-pick:hover {
+  color: var(--n-smoke);
+}
+
+.noctura .n-pick[aria-selected="true"] {
+  color: var(--n-ivory);
+}
+
+.noctura .n-pick[aria-selected="true"]::after {
+  transform: scaleY(1);
+}
+
+.noctura .n-pick-name {
+  font-family: var(--font-cormorant), "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  line-height: 1.1;
+  color: inherit;
+  transition: color 380ms var(--n-ease);
+}
+
+/* The detail panel's cross-fade. The panel does not slide - only the car
+   travels, so the motion has one subject. */
+.noctura .n-detail {
+  transition: opacity 420ms var(--n-ease), transform 420ms var(--n-ease);
+}
+
+.noctura .n-detail[data-state="out"] {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* One feature line: a brass-labelled row with a hairline above it. */
+.noctura .n-spec {
+  display: grid;
+  gap: 0.3rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--n-line-soft);
+}
+
+/* ============================================================================
+   PIECES
+   ========================================================================= */
+
+/* Guest quotes. The mark is a real typographic quote in the display serif,
+   set large and low-opacity, not an icon. */
+.noctura .n-quote {
+  position: relative;
+  padding: clamp(2rem, 3.4vw, 3rem);
+  border: 1px solid var(--n-line-soft);
+  border-radius: var(--n-radius-plate);
+  background: linear-gradient(
+    165deg,
+    rgb(36 30 24 / 0.55),
+    rgb(12 10 10 / 0.4)
+  );
+  backdrop-filter: blur(2px);
+  transition: border-color 520ms var(--n-ease), box-shadow 520ms var(--n-ease),
+    transform 520ms var(--n-ease);
+}
+
+.noctura .n-quote:hover {
+  border-color: rgb(200 169 106 / 0.28);
+  box-shadow: var(--n-pool-lit);
+  transform: translateY(-3px);
+}
+
+.noctura .n-quote-mark {
+  font-family: var(--font-cormorant), "Times New Roman", serif;
+  font-size: 5.5rem;
+  line-height: 0.6;
+  color: var(--n-gold);
+  opacity: 0.42;
+  display: block;
+  height: 2.2rem;
+  user-select: none;
+}
+
+/* Form controls. Underlined fields rather than boxes: a boxed form on a
+   page this dark reads as an app, and this is meant to read as a card left
+   on a desk at reception. */
+.noctura .n-field {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 0;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--n-line);
+  border-radius: 0;
+  color: var(--n-ivory);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: border-color 320ms var(--n-ease);
+  /* Safari renders date inputs with its own light chrome otherwise. */
+  color-scheme: dark;
+}
+
+.noctura .n-field::placeholder {
+  color: var(--n-ash);
+  opacity: 1;
+}
+
+.noctura .n-field:hover {
+  border-color: rgb(200 169 106 / 0.34);
+}
+
+.noctura .n-field:focus {
+  outline: none;
+  border-color: var(--n-gold);
+}
+
+.noctura .n-field:focus-visible {
+  outline: none;
+  border-color: var(--n-gold);
+  box-shadow: 0 1px 0 0 var(--n-gold);
+}
+
+.noctura select.n-field {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 1.5rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--n-gold) 50%),
+    linear-gradient(135deg, var(--n-gold) 50%, transparent 50%);
+  background-position: right 0.55rem center, right 0.2rem center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.noctura select.n-field option {
+  background-color: var(--n-char);
+  color: var(--n-ivory);
+}
+
+.noctura textarea.n-field {
+  resize: vertical;
+  min-height: 92px;
+}
+
+/* The amenities marquee. Linear on purpose - an eased marquee stutters at
+   the seam. Duplicated content and a -50% travel make the loop seamless. */
+.noctura .n-marquee {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+.noctura .n-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: n-marquee 64s linear infinite;
+  will-change: transform;
+}
+
+.noctura .n-marquee:hover .n-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes n-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* The scroll cue under the hero: a brass thread with a bead falling down it. */
+.noctura .n-thread {
+  position: relative;
+  width: 1px;
+  height: 64px;
+  background: linear-gradient(to bottom, var(--n-line), transparent);
+  overflow: hidden;
+}
+
+.noctura .n-thread::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 3px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, var(--n-gold));
+  animation: n-fall 2.6s var(--n-ease) infinite;
+}
+
+@keyframes n-fall {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(64px);
+    opacity: 0;
+  }
+}
+
+/* ============================================================================
+   REDUCED MOTION
+   Everything that moves on its own stops. Nothing disappears: the ambience
+   holds a lit frame, the lift still changes floors, it just arrives instead
+   of travelling.
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .noctura .n-pool-a,
+  .noctura .n-pool-b,
+  .noctura .n-pool-c,
+  .noctura .n-marquee-track,
+  .noctura .n-thread::after {
+    animation: none !important;
+  }
+
+  .noctura .n-car,
+  .noctura .n-floor-inner,
+  .noctura .n-indicator-dot,
+  .noctura .n-detail,
+  .noctura .n-pick::after {
+    transition-duration: 1ms !important;
+  }
+
+  .noctura .n-btn,
+  .noctura .n-quote {
+    transition-duration: 120ms !important;
+  }
+
+  .noctura .n-btn:hover,
+  .noctura .n-quote:hover {
+    transform: none;
+  }
+}
