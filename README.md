@@ -129,8 +129,20 @@ alone cannot fix banding at this dynamic range.
 
 ## Bilingual EN / RU
 
-English is the default; Russian is a complete second locale, not a
-translation layer. Switching is instant and remembered for the session.
+Russian is the default; English is a complete second locale, not a
+translation layer. Switching is instant and remembered for the session, and
+the switch itself is never hidden — `LocaleSwitch` shows both locales at all
+times.
+
+The default lives in one constant, `DEFAULT_LOCALE` in `lib/i18n/index.ts`.
+`CopyProvider` seeds its state from it and `<html lang>` is set to match, so
+flipping the site's language is that one line plus the attribute.
+
+Because locale is React state rather than a route, only `DEFAULT_LOCALE` is
+server-rendered, and therefore only that one is indexed. Russian being the
+default is what makes the indexed copy the Russian copy. If English search
+traffic ever matters, the fix is `/en` route segments rather than a second
+default.
 
 `lib/i18n/types.ts` is the contract every locale must satisfy — written as an
 explicit interface rather than derived from English, because deriving it

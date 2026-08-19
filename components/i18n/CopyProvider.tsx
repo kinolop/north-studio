@@ -31,10 +31,14 @@ const CopyContext = createContext<CopyContextValue | null>(null);
  * Locale lives in React state rather than in the URL.
  *
  * The site is one page, and the requirement is an instant switch with no
- * reload flash. Locale routing (`/ru`) would navigate on every toggle. The
- * trade-off is that Russian is not server-rendered, so it is not indexed —
- * documented in the README along with how to move to `/ru` segments if
- * Russian search traffic ever matters more than the switch feeling instant.
+ * reload flash. Locale routing (`/ru`) would navigate on every toggle.
+ *
+ * The trade-off is that only DEFAULT_LOCALE is server-rendered, so only
+ * that one is indexed. That used to mean Russian was invisible to search;
+ * since the default moved to `ru` it is the English side that is not
+ * indexed, which is the right way round for a studio whose audience,
+ * contacts and legal documents are all Russian. If English search traffic
+ * ever matters, the fix is `/en` route segments — see the README.
  *
  * The first paint is always the default locale, which keeps the server and
  * client markup identical; a stored preference is applied in an effect,

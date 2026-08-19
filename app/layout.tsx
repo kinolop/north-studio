@@ -90,7 +90,7 @@ export const metadata: Metadata = {
     url: "/",
     title: `${STUDIO.name} — We make small companies look inevitable`,
     description,
-    locale: "en",
+    locale: "ru_RU",
   },
   twitter: {
     card: "summary_large_image",
@@ -111,8 +111,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
+    // `lang` matches DEFAULT_LOCALE and is what the server actually
+    // sends; CopyProvider rewrites it on the client after a switch.
     <html
-      lang="en"
+      lang="ru"
       className={`${archivo.variable} ${golos.variable} ${geist.variable} ${geistMono.variable}`}
     >
       <head>
