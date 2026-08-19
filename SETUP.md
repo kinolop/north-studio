@@ -1,46 +1,10 @@
-# Setup — the three things only you can do
+# Setup — the two things only you can do
 
 Everything else runs as-is. These need your hands.
 
 ---
 
-## 1. Make the brief form deliver (one env var)
-
-The form at **Start a project → Send a brief** posts to
-`app/api/contact/route.ts`, which sends through [Resend](https://resend.com).
-
-Add this in **Vercel → Project → Settings → Environment Variables**:
-
-| Variable | Required | Value |
-| --- | --- | --- |
-| `RESEND_API_KEY` | **yes** | From <https://resend.com/api-keys> |
-| `RESEND_FROM` | no | A verified sender, e.g. `North Studio <hello@yourdomain.ru>` |
-| `CONTACT_TO` | no | Defaults to `danskr2008@gmail.com` |
-
-For local testing, put the same line in `.env.local`:
-
-```bash
-echo "RESEND_API_KEY=re_your_key_here" >> .env.local
-```
-
-**Without the key the site still works.** The route answers 503, and the form
-shows the error state with your email address as a live `mailto:` link — so a
-misconfigured deploy loses nobody. Verified behaviour:
-
-| Case | Response |
-| --- | --- |
-| Valid brief, key set | Email delivered |
-| Valid brief, no key | `503` → form offers the direct address |
-| Honeypot filled (bot) | `200`, silently dropped |
-| Missing or too-short fields | `422` |
-
-Until you verify a domain with Resend, leave `RESEND_FROM` unset: the default
-shared sender only delivers to the Resend account owner's own address, which
-is all this form needs.
-
----
-
-## 2. Drop in the founder portrait
+## 1. Drop in the founder portrait
 
 Put the file in `public/founder.webp`, then set one line in
 `components/sections/Founder.tsx`:
@@ -94,7 +58,7 @@ export const PROJECT_IMAGES: Readonly<Record<string, string>> = {
 
 ---
 
-## 3. Russian copy to proofread
+## 2. Russian copy to proofread
 
 All Russian is authored, not machine-translated, and follows your two rules:
 **hyphens only** (no `—` or `–` anywhere in Russian prose) and no calques.

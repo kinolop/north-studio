@@ -10,17 +10,8 @@ import {
   type ReactNode,
 } from "react";
 
-export type OverlayMode = "choose" | "brief";
-
-export interface OpenOptions {
-  /** "brief" jumps straight to the form; the configurator uses this. */
-  mode?: OverlayMode;
-  /** Seeds the brief form's "what do you need" field. */
-  prefill?: string;
-}
-
 interface OverlayState {
-  open: (options?: OpenOptions) => void;
+  open: () => void;
   close: () => void;
   isOpen: boolean;
 }
@@ -28,8 +19,8 @@ interface OverlayState {
 const OverlayContext = createContext<OverlayState | null>(null);
 
 /**
- * The overlay itself is deferred: it is a whole second screen with a form,
- * and nobody sees it until they ask for it.
+ * The overlay itself is deferred: it is a whole second screen, and nobody
+ * sees it until they ask for it.
  */
 const ChannelOverlay = dynamic(
   () => import("./ChannelOverlay").then((m) => m.ChannelOverlay),
@@ -39,21 +30,20 @@ const ChannelOverlay = dynamic(
 /**
  * One overlay for the whole page.
  *
- * Every "Start a project" on the site — header, hero, final CTA,
- * configurator — calls the same `open()`. Mounting a dialog per button
- * would mean four copies of the same focus trap and four chances for them
- * to drift apart.
+ * Every "Start a project" on the site — header, hero, both product cases,
+ * final CTA — calls the same `open()`. Mounting a dialog per button would
+ * mean six copies of the same focus trap and six chances for them to drift
+ * apart.
+ *
+ * `open()` used to take a mode and a prefill so a caller could jump
+ * straight to the brief form. The form is gone and no caller ever passed
+ * either — every one of them called `open()` bare — so the arguments went
+ * with it rather than staying as options that do nothing.
  */
 export function ChannelOverlayProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [mode, setMode] = useState<OverlayMode>("choose");
-  const [prefill, setPrefill] = useState("");
 
-  const open = useCallback((options?: OpenOptions) => {
-    setMode(options?.mode ?? "choose");
-    setPrefill(options?.prefill ?? "");
-    setIsOpen(true);
-  }, []);
+  const open = useCallback(() => setIsOpen(true), []);
 
   const close = useCallback(() => setIsOpen(false), []);
 
@@ -65,12 +55,7 @@ export function ChannelOverlayProvider({ children }: { children: ReactNode }) {
   return (
     <OverlayContext.Provider value={value}>
       {children}
-      <ChannelOverlay
-        isOpen={isOpen}
-        initialMode={mode}
-        prefill={prefill}
-        onClose={close}
-      />
+      <ChannelOverlay isOpen={isOpen} onClose={close} />
     </OverlayContext.Provider>
   );
 }

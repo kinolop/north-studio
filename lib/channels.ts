@@ -1,9 +1,9 @@
 /**
  * Every way to reach the studio, in one place.
  *
- * The channel chooser, the panel under the CTA and the brief form all read
- * from here. Three copies of a phone number is three chances for one of
- * them to be wrong after a change.
+ * The channel chooser and the panel under the CTA both read from here.
+ * Two copies of a phone number is two chances for one of them to be wrong
+ * after a change.
  *
  * Copy (labels, one-line notes) is NOT here — it lives in the dictionaries
  * so it can be translated. This file holds only what never changes between
@@ -42,8 +42,22 @@ export const CHANNELS = [
   },
 ] as const satisfies readonly Channel[];
 
-/** Where the brief form delivers. Same address as the email channel. */
+/** The studio's public email. Printed in the footer. */
 export const FOUNDER_EMAIL = "danskr2008@gmail.com";
+
+/**
+ * The studio's Telegram channel.
+ *
+ * Deliberately not in `CHANNELS`. That list answers "how do I reach a
+ * person", and every entry in it is a private thread with a handle beside
+ * it. A channel is the opposite: public, one-way, and something you follow
+ * rather than write to. Mixing it in would have put "subscribe" in a row of
+ * "message us", and the chooser would have stopped meaning one thing.
+ */
+export const TELEGRAM_CHANNEL = {
+  href: "https://t.me/northstudio_ru",
+  handle: "@northstudio_ru",
+} as const;
 
 /**
  * Reserved for a prefilled greeting on Telegram/WhatsApp deep links.

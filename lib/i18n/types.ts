@@ -448,6 +448,8 @@ export interface Copy {
     readonly title: readonly string[];
     readonly lede: string;
     readonly action: string;
+    /** Label on the link out to the studio's Telegram channel. */
+    readonly channel: string;
     readonly directLabel: string;
   };
 
@@ -458,28 +460,8 @@ export interface Copy {
     readonly back: string;
     readonly labels: Readonly<Record<ChannelId, string>>;
     readonly notes: Readonly<Record<ChannelId, string>>;
-    readonly briefLabel: string;
-    readonly briefNote: string;
   };
 
-  readonly form: {
-    readonly heading: string;
-    readonly lede: string;
-    readonly name: string;
-    readonly namePlaceholder: string;
-    readonly channel: string;
-    readonly handle: string;
-    readonly handlePlaceholder: string;
-    readonly need: string;
-    readonly needPlaceholder: string;
-    readonly submit: string;
-    readonly sending: string;
-    readonly success: string;
-    readonly errorLead: string;
-    readonly required: string;
-    readonly tooShort: string;
-    readonly optional: string;
-  };
 
   readonly preloader: {
     readonly calibrating: string;

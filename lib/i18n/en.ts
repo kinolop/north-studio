@@ -902,6 +902,7 @@ export const en = {
     title: ["Tell us what", "you need."],
     lede: "Call or write — Telegram, WhatsApp or email. We answer the same day, with what we would build and how long it takes.",
     action: "Call or write",
+    channel: "Our channel",
     directLabel: "Or reach us directly",
   },
 
@@ -920,28 +921,8 @@ export const en = {
       whatsapp: "If Telegram isn't your thing.",
       email: "For briefs, documents, anything longer than a line.",
     },
-    briefLabel: "Send a brief",
-    briefNote: "Two minutes. We reply with scope and a price.",
   },
 
-  form: {
-    heading: "Send a brief",
-    lede: "Three fields. Enough for me to come back with a real answer rather than a question.",
-    name: "Your name",
-    namePlaceholder: "Who am I replying to?",
-    channel: "Where should I reply?",
-    handle: "Handle, number or address",
-    handlePlaceholder: "@handle, +7…, or you@company.com",
-    need: "What do you need?",
-    needPlaceholder: "What the site is for, and what has to change.",
-    submit: "Send the brief",
-    sending: "Sending…",
-    success: "Sent. I'll reply on the channel you gave me.",
-    errorLead: "That didn't send. Write to me directly instead:",
-    required: "This one's needed.",
-    tooShort: "A little more detail, please.",
-    optional: "optional",
-  },
 
   preloader: {
     calibrating: "Calibrating",

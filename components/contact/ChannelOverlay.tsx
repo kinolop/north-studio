@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { setScrollLocked } from "@/components/motion/SmoothScroll";
@@ -9,33 +9,32 @@ import { CHANNELS } from "@/lib/channels";
 import { DURATION, EASE } from "@/lib/motion";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-import { BriefForm } from "./BriefForm";
 import { ChannelIcon } from "./ChannelIcon";
-import type { OverlayMode } from "./ChannelOverlayProvider";
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
+/**
+ * The channel chooser.
+ *
+ * It used to have a second mode holding a brief form, reached from a fourth
+ * card in the grid. The form did not work and is gone, so the dialog now
+ * does exactly one thing: show the three ways to reach a person. The grid
+ * went from two columns to three with it — three cards in a two-column
+ * layout would have left a hole in the second row, which reads as a card
+ * that failed to load rather than as a finished set.
+ */
 export function ChannelOverlay({
   isOpen,
-  initialMode,
-  prefill,
   onClose,
 }: {
   isOpen: boolean;
-  initialMode: OverlayMode;
-  prefill: string;
   onClose: () => void;
 }) {
   const copy = useCopy();
   const reduced = useReducedMotion();
   const panelRef = useRef<HTMLDivElement>(null);
   const restoreRef = useRef<HTMLElement | null>(null);
-  const [mode, setMode] = useState<OverlayMode>(initialMode);
-
-  useEffect(() => {
-    if (isOpen) setMode(initialMode);
-  }, [isOpen, initialMode]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -152,72 +151,35 @@ export function ChannelOverlay({
               </button>
             </div>
 
-            {mode === "choose" ? (
-              <ul className="mt-14 grid gap-4 sm:grid-cols-2">
-                {CHANNELS.map((channel, index) => (
-                  <OptionShell key={channel.id} index={index} reduced={reduced}>
-                    <a
-                      href={channel.href}
-                      {...(channel.external
-                        ? { target: "_blank", rel: "noreferrer noopener" }
-                        : {})}
-                      className="group flex h-full items-start gap-5 p-7"
-                    >
-                      <Glyph>
-                        <ChannelIcon id={channel.id} className="h-5 w-5" />
-                      </Glyph>
-                      <span className="min-w-0">
-                        <span className="block font-display text-[1.35rem] leading-none font-medium tracking-[-0.02em] text-bone">
-                          {copy.channels.labels[channel.id]}
-                        </span>
-                        <span className="data-mono mt-3 block truncate text-signal-lift">
-                          {channel.handle}
-                        </span>
-                        <span className="mt-3 block text-meta text-ash">
-                          {copy.channels.notes[channel.id]}
-                        </span>
-                      </span>
-                    </a>
-                  </OptionShell>
-                ))}
-
-                <OptionShell index={CHANNELS.length} reduced={reduced}>
-                  <button
-                    type="button"
-                    onClick={() => setMode("brief")}
-                    className="group flex h-full w-full items-start gap-5 p-7 text-left"
+            <ul className="mt-14 grid gap-4 sm:grid-cols-3">
+              {CHANNELS.map((channel, index) => (
+                <OptionShell key={channel.id} index={index} reduced={reduced}>
+                  <a
+                    href={channel.href}
+                    {...(channel.external
+                      ? { target: "_blank", rel: "noreferrer noopener" }
+                      : {})}
+                    className="group flex h-full flex-col items-start gap-5 p-7"
                   >
                     <Glyph>
-                      <ChannelIcon id="brief" className="h-5 w-5" />
+                      <ChannelIcon id={channel.id} className="h-5 w-5" />
                     </Glyph>
-                    <span className="min-w-0">
+                    <span className="min-w-0 w-full">
                       <span className="block font-display text-[1.35rem] leading-none font-medium tracking-[-0.02em] text-bone">
-                        {copy.channels.briefLabel}
+                        {copy.channels.labels[channel.id]}
+                      </span>
+                      <span className="data-mono mt-3 block truncate text-signal-lift">
+                        {channel.handle}
                       </span>
                       <span className="mt-3 block text-meta text-ash">
-                        {copy.channels.briefNote}
+                        {copy.channels.notes[channel.id]}
                       </span>
                     </span>
-                  </button>
+                  </a>
                 </OptionShell>
-              </ul>
-            ) : (
-              <motion.div
-                className="mt-12 max-w-[46rem]"
-                initial={reduced ? false : { opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: DURATION.reveal, ease: EASE.north }}
-              >
-                <BriefForm prefill={prefill} />
-                <button
-                  type="button"
-                  onClick={() => setMode("choose")}
-                  className="label-mono mt-6 text-slate transition-colors duration-[var(--duration-state)] hover:text-ash"
-                >
-                  ← {copy.channels.back}
-                </button>
-              </motion.div>
-            )}
+              ))}
+            </ul>
+
           </div>
         </motion.div>
       )}

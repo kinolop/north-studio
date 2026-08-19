@@ -19,9 +19,8 @@ bundle, `npm run typecheck` runs TypeScript with no emit.
 > The first `npm install` and the first build both need network access —
 > `next/font` downloads and self-hosts the typefaces at build time.
 
-**→ [SETUP.md](SETUP.md) covers the three things only the founder can do:**
-the one env var the brief form needs, where to drop the portrait, and the
-Russian strings to proofread.
+**→ [SETUP.md](SETUP.md) covers the two things only the founder can do:**
+where to drop the portrait, and the Russian strings to proofread.
 
 ---
 
@@ -278,21 +277,15 @@ one of them to be wrong after a change.
 Every "Start a project" on the page calls the same `open()` from
 `ChannelOverlayProvider`. One dialog, one focus trap, one scroll lock.
 
-The brief form posts to `app/api/contact/route.ts`. It degrades honestly: if
-the mail key is missing the form surfaces the direct address rather than
-pretending to have sent.
+The close carries a second control beside it, linking out to the studio's
+Telegram channel. It wears the same primary treatment rather than a quieter
+one: the accent, the bloom and the magnetic pull are what make a control read
+as ours, and a downgraded variant would have looked bolted on.
 
-## The configurator
-
-Four questions, all on screen at once, answers changeable in any order — a
-wizard for four questions would be three more screens than the information
-deserves. `lib/recommend.ts` maps the answers to one of the three services
-and to a rough timeline, which shifts one step slower when the job is large
-or when we are writing the copy, because both are real work.
-
-It deliberately produces no number. Finishing carries the answers into the
-brief form, so the first thing the studio receives is a summary the visitor
-already agreed with.
+There was a brief form here, posting to a mail route. It never delivered and
+both are gone — the form, the route, and the `form` block in both
+dictionaries. The site now has no server routes at all and prerenders in
+full.
 
 ## Structure
 
@@ -301,7 +294,6 @@ app/
   layout.tsx        fonts, metadata, the fixed chrome
   page.tsx          section order
   globals.css       ALL design tokens (@theme) + primitives + keyframes
-  api/contact/      brief delivery
   work/north-agent/ the AI-agent product case
   work/north-flow/  the automation product case
   work/orbita/      the site case — an invented brand, its own landing
@@ -309,7 +301,7 @@ components/
   atmosphere/       fog, cursor light, grain, dither — the lit room
   scene/            the chrome N and its rig
   chrome/           header, scroll rail, compass HUD, preloader, sound, footer
-  contact/          channel chooser, channel panel, brief form
+  contact/          channel chooser and channel panel
   i18n/             CopyProvider + locale switch
   motion/           Lenis + GSAP wiring
   sections/         the eleven movements

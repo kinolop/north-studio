@@ -13,6 +13,12 @@ interface MagneticButtonProps {
   /** How far the button may be pulled from rest, in px. */
   pull?: number;
   ariaLabel?: string;
+  /**
+   * Opens `href` in a new tab. Only meaningful alongside `href`, and it
+   * carries its own `rel` — `target="_blank"` without `noopener` hands the
+   * opened page a live reference back to this one.
+   */
+  external?: boolean;
 }
 
 /**
@@ -31,6 +37,7 @@ export function MagneticButton({
   className = "",
   pull = 12,
   ariaLabel,
+  external = false,
 }: MagneticButtonProps) {
   const shellRef = useRef<HTMLElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -124,6 +131,7 @@ export function MagneticButton({
       <a
         ref={shellRef as React.RefObject<HTMLAnchorElement>}
         href={href}
+        {...(external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
         aria-label={ariaLabel}
         className={shellClass}
       >

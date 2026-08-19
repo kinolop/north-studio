@@ -24,8 +24,7 @@ import type { Locale } from "./i18n";
  *   }
  *
  * …with a route handler at `app/api/agent/route.ts` holding the API key
- * server-side (the same shape as `app/api/contact/route.ts` already uses —
- * the key must never reach the browser). Any Anthropic- or
+ * server-side — the key must never reach the browser. Any Anthropic- or
  * OpenAI-compatible endpoint fits; the function returns a string either way.
  *
  * Because it is already async, the UI's typing indicator and error handling
