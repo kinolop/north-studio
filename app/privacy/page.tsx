@@ -10,7 +10,12 @@ export const metadata: Metadata = {
   description:
     "Политика в отношении обработки персональных данных North Studio: какие данные собираются, на каком основании, как хранятся и как отозвать согласие.",
   // A legal page is worth indexing but has nothing to say to a share card.
-  openGraph: { type: "article", title: "Политика конфиденциальности" },
+  alternates: { canonical: "/privacy" },
+  openGraph: {
+    type: "article",
+    url: "/privacy",
+    title: "Политика конфиденциальности",
+  },
 };
 
 /**

@@ -44,9 +44,11 @@ export const metadata: Metadata = {
   // itself to a page that is presenting another brand.
   title: { absolute: "NOCTURA - отель, в котором ночь принадлежит вам" },
   description,
+  alternates: { canonical: "/work/noctura" },
   openGraph: {
     type: "website",
     siteName: "NOCTURA",
+    url: "/work/noctura",
     title: "NOCTURA - отель, в котором ночь принадлежит вам",
     description,
     locale: "ru_RU",

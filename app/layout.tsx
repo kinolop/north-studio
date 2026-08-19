@@ -12,7 +12,7 @@ import { SoundToggle } from "@/components/chrome/SoundToggle";
 import { StudioChrome } from "@/components/chrome/StudioChrome";
 import { CopyProvider } from "@/components/i18n/CopyProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { STUDIO } from "@/lib/studio";
+import { SITE_URL, STUDIO } from "@/lib/studio";
 
 import "./globals.css";
 
@@ -65,7 +65,10 @@ const description =
   "North Studio is a founder-led digital studio. We design and build cinematic websites for ambitious small businesses — in weeks, not quarters.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://north.studio"),
+  // Every relative URL in this file and in every page's metadata resolves
+  // against this, so the canonical host is stated once and inherited.
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: {
     default: `${STUDIO.name} — We make small companies look inevitable`,
     template: `%s — ${STUDIO.name}`,
@@ -84,6 +87,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: STUDIO.name,
+    url: "/",
     title: `${STUDIO.name} — We make small companies look inevitable`,
     description,
     locale: "en",

@@ -1,3 +1,19 @@
+/**
+ * Where the site lives, canonically.
+ *
+ * One constant, because a domain written in several places is a domain that
+ * gets migrated in several places and missed in one. `metadataBase`, the
+ * sitemap and robots.txt all derive from this, so every canonical URL, OG
+ * URL and sitemap entry moves together the next time the address changes.
+ *
+ * No trailing slash: everything downstream appends a rooted path to it.
+ *
+ * The policy text in `content/privacy.txt` names the domain too, in prose,
+ * and cannot read this — a legal document has to state its address in
+ * words. That file is the one other place to update.
+ */
+export const SITE_URL = "https://north-studio.tech";
+
 /** Identity that is the same in every language. */
 export const STUDIO = {
   name: "North Studio",

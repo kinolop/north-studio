@@ -22,9 +22,11 @@ export const metadata: Metadata = {
   title: { absolute: "Orbita — your money, finally in one orbit" },
   description:
     "Orbita brings every bank, card and wallet you already use into a single view, with instant transfers between your own accounts. A demo concept by North Studio.",
+  alternates: { canonical: "/work/orbita" },
   openGraph: {
     type: "website",
     siteName: "Orbita",
+    url: "/work/orbita",
     title: "Orbita — your money, finally in one orbit",
     description:
       "Every account in one view. Instant transfers. Spending explained in a sentence.",

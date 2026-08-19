@@ -14,9 +14,11 @@ export const metadata: Metadata = {
   title: "North Flow — leads that handle themselves",
   description:
     "North Flow collects every enquiry you get, qualifies it, routes it to the right manager and files the card — while you sleep. A demo concept by North Studio, shown running for an invented online store.",
+  alternates: { canonical: "/work/north-flow" },
   openGraph: {
     type: "article",
     siteName: STUDIO.name,
+    url: "/work/north-flow",
     title: "North Flow — leads that handle themselves",
     description:
       "Watch a night's worth of leads file themselves. A demo concept by North Studio.",

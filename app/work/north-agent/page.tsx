@@ -15,9 +15,11 @@ export const metadata: Metadata = {
   title: "North Agent — the assistant that talks to your clients",
   description:
     "North Agent answers your clients instantly, around the clock: it knows your programme, qualifies the enquiry and hands a warm lead to a person. A demo concept by North Studio.",
+  alternates: { canonical: "/work/north-agent" },
   openGraph: {
     type: "article",
     siteName: STUDIO.name,
+    url: "/work/north-agent",
     title: "North Agent — the assistant that talks to your clients",
     description:
       "Watch it close an enrolment. A demo concept by North Studio.",
