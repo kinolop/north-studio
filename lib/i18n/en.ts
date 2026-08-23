@@ -777,9 +777,117 @@ export const en = {
     },
   },
 
+  monolithCase: {
+    demoTag: "Demo concept",
+
+    hero: {
+      line: "Architecture practice · since 2014",
+      stamp: ["Practice", "MONOLITH", "SPB · 2014"],
+      alt: "A concrete volume with stepped cantilevers under a heavy overcast sky.",
+    },
+
+    manifesto: {
+      label: "Manifesto",
+      lines: ["You do not finish concrete.", "You leave it."],
+    },
+
+    projects: {
+      label: "Selected · 2019—2024",
+      items: [
+        {
+          key: "plate",
+          name: "Plate",
+          year: "2019",
+          type: "Cultural centre",
+          place: "Vyborg",
+          alt: "Plate cultural centre: a concrete volume cut by horizontal slots.",
+        },
+        {
+          key: "ridge",
+          name: "Ridge",
+          year: "2021",
+          type: "Private house",
+          place: "Khibiny",
+          alt: "Ridge house: a low concrete volume on a stony slope.",
+        },
+        {
+          key: "slot",
+          name: "Slot",
+          year: "2022",
+          type: "Exhibition hall",
+          place: "Perm",
+          alt: "Slot exhibition hall: a concrete corridor lit by a cut in the ceiling.",
+        },
+        {
+          key: "flight",
+          name: "Flight",
+          year: "2024",
+          type: "Public stair",
+          place: "Kronstadt",
+          alt: "Flight: cantilevered concrete steps along a blank wall.",
+        },
+      ],
+    },
+
+    approach: {
+      label: "Approach",
+      items: [
+        {
+          key: "form",
+          note: "01 · Form",
+          name: "The volume first. Everything else after it.",
+          body: [
+            "We start with one decision about mass and hold it to the end of the build. Plan, light and entrance answer to the volume, never the other way round.",
+            "If a volume has to be rescued by a finish, it was the wrong volume. Then we go back to the model, not to a materials catalogue.",
+          ],
+        },
+        {
+          key: "material",
+          note: "02 · Material",
+          name: "The formwork is the elevation drawing.",
+          body: [
+            "The grain of the boards is the building's last layer. We draw it the way we draw a plan: the pitch of the panel, the position of the tie, the place of the joint.",
+            "So there is no finishes drawing. There is a formwork drawing, and it is also the elevation.",
+          ],
+        },
+        {
+          key: "time",
+          note: "03 · Time",
+          name: "A building should age, not wear out.",
+          body: [
+            "Concrete darkens in rain and lightens in sun. We design that movement in and do not try to stop it.",
+            "In twenty years the building should look older, not worse. That is the only guarantee we give.",
+          ],
+        },
+      ],
+    },
+
+    material: {
+      label: "Material",
+      lines: ["Concrete is the only material", "that remembers how it was made."],
+      body: "Every joint, every blowhole and every tie mark stays on the elevation for good. We do not treat that as a defect and we do not cover it with anything: it is the record of the build, written by the building.",
+      alt: "Board-formed concrete: the grain of the boards and the rusted tie holes.",
+    },
+
+    contact: {
+      label: "Contact",
+      lines: ["Write to us if you are ready", "to leave it as it was poured."],
+      studioLabel: "Studio",
+      address: "74B Obvodny Canal Embankment, Saint Petersburg",
+      mailLabel: "Mail",
+      phoneLabel: "Telephone",
+      hoursLabel: "Hours",
+      hours: "MON—THU · 10:00—18:00",
+      legal:
+        "MONOLITH is an invented architecture practice. The projects, the address and the contacts on this page were made up for a demonstration and describe nothing real.",
+      credit: "Demo concept, North Studio",
+      backToStudio: "Back to the studio's work",
+    },
+  },
+
   work: {
     title: ["Open one", "and try it."],
-    lede: "Four cases you can actually use: our agent, our automation, and two whole brands we invented and built end to end.",
+    lede: "Five cases you can actually use: our agent, our automation, and three whole brands we invented and built end to end.",
     caseCta: "Open the case",
     projects: [
       {
@@ -812,6 +920,14 @@ export const en = {
         discipline: "Demo concept / Hotel brand and site",
         summary:
           "A five-star hotel that does not exist, presented the way it would present itself — its own dark-and-gold identity, full-bleed film, and a lift that carries you between the room floors. A Russian-language concept, built whole.",
+        year: "2026",
+      },
+      {
+        key: "monolith",
+        name: "MONOLITH",
+        discipline: "Demo concept / Practice brand and site",
+        summary:
+          "An architecture practice that does not exist, and one device taken to its limit: every letter pressed into concrete, the light nailed to the top-left corner, and a single burgundy stamp on the whole site.",
         year: "2026",
       },
     ],

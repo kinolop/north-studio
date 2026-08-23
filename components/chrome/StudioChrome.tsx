@@ -8,11 +8,17 @@ import type { ReactNode } from "react";
  *
  * `/work/orbita` presents an invented fintech company with its own light
  * identity; `/work/noctura` an invented hotel with its own dark-and-gold
- * one. The compass, the preloader, the fog, the dark header and the scroll
- * rail are the studio's signature — showing them around somebody else's
- * brand would undo the entire point of those cases.
+ * one; `/work/monolith` an invented architecture practice whose entire
+ * design language is type pressed into concrete. The compass, the preloader,
+ * the fog, the dark header and the scroll rail are the studio's signature —
+ * showing them around somebody else's brand would undo the entire point of
+ * those cases.
  */
-const FOREIGN_ROUTES = ["/work/orbita", "/work/noctura"] as const;
+const FOREIGN_ROUTES = [
+  "/work/orbita",
+  "/work/noctura",
+  "/work/monolith",
+] as const;
 
 /**
  * Studio routes that keep the identity but not the instruments.

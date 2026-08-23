@@ -6,8 +6,8 @@ import { SITE_URL } from "@/lib/studio";
  * Every page on the site, listed for crawlers.
  *
  * Written out by hand rather than discovered from the filesystem: the route
- * count is six and static, and a hand-written list is the one place where a
- * page that should *not* be indexed can be left off deliberately rather
+ * count is seven and static, and a hand-written list is the one place where
+ * a page that should *not* be indexed can be left off deliberately rather
  * than by accident.
  *
  * `priority` and `changeFrequency` are deliberately absent. Google has said
@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/work/north-flow",
     "/work/orbita",
     "/work/noctura",
+    "/work/monolith",
     "/privacy",
   ].map((path) => ({
     url: new URL(path, SITE_URL).toString(),

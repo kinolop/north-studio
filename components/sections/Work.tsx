@@ -20,6 +20,7 @@ const CASE_PAGES: Readonly<Record<string, string>> = {
   "north-flow": "/work/north-flow",
   orbita: "/work/orbita",
   noctura: "/work/noctura",
+  monolith: "/work/monolith",
 };
 
 /**
@@ -32,11 +33,28 @@ const CASE_COVERS: Readonly<Record<string, string>> = {
   "north-flow": "/work/north-flow/assets/cover.png",
   orbita: "/work/orbita/assets/cover.png",
   noctura: "/work/noctura/assets/cover.png",
+  // MONOLITH shipped without a dedicated cover; its hero plate is the same
+  // building the case opens on and crops correctly at both card ratios, so
+  // it stands in rather than a fifth file that would only be a copy of it.
+  monolith: "/work/monolith/hero.webp",
 };
 
 export function Work() {
   const copy = useCopy();
   const [featured, ...rest] = copy.work.projects;
+
+  /**
+   * The tail row must never leave a hole: an empty cell in a grid of cases
+   * reads as a case that failed to load.
+   *
+   * Three cases go straight from one column to three, because at two the odd
+   * one strands a gap. Four divide cleanly at two and at four, so they take
+   * both and skip three entirely. Any other count falls back to the
+   * three-column rhythm — and if the list ever grows to a number that does
+   * not divide, this is the line to fix.
+   */
+  const tailColumns =
+    rest.length === 4 ? "sm:grid-cols-2 xl:grid-cols-4" : "lg:grid-cols-3";
 
   return (
     <Section id={meta.id}>
@@ -56,11 +74,9 @@ export function Work() {
           </Reveal>
         </div>
 
-        {/* Four cases, all of them real, all of them open. The flagship
-            takes the full width and the other three share the row beneath
-            it. That row goes straight from one column to three: at two
-            columns the odd card would strand a hole on the second row, and
-            a visible gap reads as a case that failed to load. */}
+        {/* Five cases, all of them real, all of them open. The flagship
+            takes the full width and the rest share the rows beneath it —
+            see `tailColumns` for why that grid counts its own cards. */}
         <div className="mt-20 space-y-5">
           {featured && (
             <WorkCard
@@ -72,7 +88,7 @@ export function Work() {
             />
           )}
 
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className={`grid gap-5 ${tailColumns}`}>
             {rest.map((project, index) => (
               <WorkCard
                 key={project.key}

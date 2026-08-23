@@ -420,6 +420,83 @@ export interface Copy {
     };
   };
 
+  /**
+   * MONOLITH — an invented architecture practice, and its own site.
+   *
+   * A practice's voice, not the studio's: it talks about concrete and about
+   * its own buildings, and North Studio appears once, in a line at the foot
+   * of the page. Every project, address and telephone below is made up, and
+   * the closing `legal` line says so on the page itself.
+   *
+   * The page this feeds shares nothing visual with the rest of the site —
+   * see components/monolith/monolith.css. Keep the register flat and short:
+   * the whole case rests on the practice sounding like it has nothing to
+   * prove.
+   */
+  readonly monolithCase: {
+    readonly demoTag: string;
+
+    readonly hero: {
+      /** Under the wordmark, in mono. */
+      readonly line: string;
+      /** The burgundy seal in the corner, three lettered lines. */
+      readonly stamp: readonly string[];
+      readonly alt: string;
+    };
+
+    readonly manifesto: {
+      readonly label: string;
+      /** One sentence, authored as its own line breaks. */
+      readonly lines: readonly string[];
+    };
+
+    readonly projects: {
+      readonly label: string;
+      readonly items: readonly {
+        readonly key: "plate" | "ridge" | "slot" | "flight";
+        readonly name: string;
+        readonly year: string;
+        readonly type: string;
+        readonly place: string;
+        readonly alt: string;
+      }[];
+    };
+
+    readonly approach: {
+      readonly label: string;
+      readonly items: readonly {
+        readonly key: "form" | "material" | "time";
+        /** The mono caption over the principle: "01 · ФОРМА". */
+        readonly note: string;
+        readonly name: string;
+        readonly body: readonly string[];
+      }[];
+    };
+
+    readonly material: {
+      readonly label: string;
+      readonly lines: readonly string[];
+      readonly body: string;
+      readonly alt: string;
+    };
+
+    readonly contact: {
+      readonly label: string;
+      readonly lines: readonly string[];
+      readonly studioLabel: string;
+      /** The invented street address. Translatable; the mailbox is not. */
+      readonly address: string;
+      readonly mailLabel: string;
+      readonly phoneLabel: string;
+      readonly hoursLabel: string;
+      readonly hours: string;
+      /** States on the page that the practice is invented. */
+      readonly legal: string;
+      readonly credit: string;
+      readonly backToStudio: string;
+    };
+  };
+
   readonly work: {
     readonly title: readonly string[];
     readonly lede: string;
