@@ -1,15 +1,20 @@
 /* ============================================================================
-   NOCTURA — a hotel's design system, and the third on this site.
+   NOCTURA — a hotel's design system, and the one brand on this site that
+   the studio invented and still renders itself.
 
    Every value is namespaced `--n-*` under a `.noctura` scope so it can
-   neither read the studio's tokens nor leak into ORBITA's. If you are
-   editing this file and reach for `--color-signal`, `--ease-north` or
-   `--o-accent`, you are on the wrong page.
+   neither read the studio's tokens nor leak into anything else. If you are
+   editing this file and reach for `--color-signal` or `--ease-north`, you
+   are on the wrong page.
 
-   The three brands, so the separation stays deliberate:
+   The two systems this file sits between, so the separation stays
+   deliberate:
      North Studio  near-black, cool violet, expanded grotesk
-     ORBITA        off-white, electric mint, Inter
      NOCTURA       warm near-black, brass gold, Cormorant Garamond
+
+   The client cases carry a third and a fourth, but those ship as whole
+   static documents under public/work/ and share no stylesheet with this
+   one in either direction.
 
    The base is deliberately *warm* black. The photography is candlelight and
    lamp-glow on walnut, and a cool charcoal underneath it reads as a colour

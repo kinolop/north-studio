@@ -24,6 +24,12 @@ interface WorkCardProps {
   className?: string;
   /** When set the whole card becomes a link to the case page. */
   href?: string;
+  /**
+   * Marks a case that is not a route in this app. Those are served as whole
+   * static documents out of `public`, so the router has no payload to fetch
+   * for them and has to hand the address to the browser instead.
+   */
+  external?: boolean;
   /** Shown as the card's action when it links somewhere. */
   cta?: string;
   /**
@@ -39,6 +45,7 @@ export function WorkCard({
   delay = 0,
   className = "",
   href,
+  external = false,
   cta,
   cover,
 }: WorkCardProps) {
@@ -89,14 +96,14 @@ export function WorkCard({
   /**
    * The cover.
    *
-   * Two of the three are near-black and would seat into the card on their
-   * own; ORBITA's is a white studio shot, because that is honestly what
-   * that brand looks like. So the treatment is what holds them together as
-   * a set rather than the artwork: one scrim into the card's own ground,
-   * one hairline, and a rest-state dampening that clears under the
-   * pointer. The dampening earns its place twice — it stops the light
-   * plate from glaring beside two dark ones, and it gives all three the
-   * same "wakes up when you reach for it" beat.
+   * These come from five different brands and were never drawn as a set —
+   * two are renders, two are photographs a client shot, one is a bright
+   * clinical plate. So the treatment is what holds them together rather
+   * than the artwork: one scrim into the card's own ground, one hairline,
+   * and a rest-state dampening that clears under the pointer. The
+   * dampening earns its place twice — it stops a light plate from glaring
+   * beside a dark one, and it gives every card the same "wakes up when you
+   * reach for it" beat.
    *
    * The lead runs wider than its source ratio. These are centre-weighted
    * renders with nothing living in the top and bottom eighths, so the crop
@@ -187,7 +194,7 @@ export function WorkCard({
               "radial-gradient(340px circle at var(--px, -20%) var(--py, -20%), rgb(167 155 255 / 0.5), var(--color-hairline) 62%)",
           }}
         >
-          <Shell href={href} name={project.name}>
+          <Shell href={href} external={external} name={project.name}>
             {/* Cover on top, words beneath. The panel underneath is still a
                 flat dark ground with the pointer's light on its edge — the
                 picture is seated into that, not laid on top of it. */}
@@ -206,17 +213,34 @@ export function WorkCard({
  * A case with a page behind it becomes one big link; a placeholder stays
  * inert. Wrapping rather than adding an anchor inside keeps the whole plate
  * clickable, which is what a card this size implies.
+ *
+ * `external` cases get a bare anchor rather than a `<Link>`. They are static
+ * documents with their own `<head>`, their own stylesheet and their own
+ * fonts, so there is nothing for the router to prefetch and nothing it could
+ * usefully render — a full page load is the correct navigation, and asking
+ * for it directly is cheaper than letting the router discover it.
  */
 function Shell({
   href,
+  external,
   name,
   children,
 }: {
   href?: string;
+  external?: boolean;
   name: string;
   children: React.ReactNode;
 }) {
   if (!href) return <>{children}</>;
+
+  if (external) {
+    return (
+      <a href={href} aria-label={name} className="block h-full">
+        {children}
+      </a>
+    );
+  }
+
   return (
     <Link href={href} aria-label={name} className="block h-full">
       {children}

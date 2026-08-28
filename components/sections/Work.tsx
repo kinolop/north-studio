@@ -14,13 +14,19 @@ const meta = sectionById("work");
 /**
  * Which projects have a page behind them. Keyed rather than positional, so
  * reordering the dictionary can never point a card at the wrong case.
+ *
+ * Three are routes in this app. The two client cases are not: they are the
+ * static pages that were delivered to those clients, served whole out of
+ * `public/work/<slug>/` and rewritten onto these clean URLs in
+ * `next.config.ts`. A plain `<Link>` still reaches them — the router just
+ * hands the address to the browser instead of rendering it.
  */
 const CASE_PAGES: Readonly<Record<string, string>> = {
   "north-agent": "/work/north-agent",
   "north-flow": "/work/north-flow",
-  orbita: "/work/orbita",
+  domstroy: "/work/domstroy",
+  "dental-clinic": "/work/dental-clinic",
   noctura: "/work/noctura",
-  monolith: "/work/monolith",
 };
 
 /**
@@ -28,15 +34,25 @@ const CASE_PAGES: Readonly<Record<string, string>> = {
  * beside the case it belongs to rather than in a shared covers folder, so a
  * fourth case arrives as one self-contained directory.
  */
+/**
+ * The cases that are not routes in this app, so the cards linking to them
+ * ask the browser for a full page load rather than the router for a payload
+ * that does not exist. Same slugs as `STATIC_CASES` in `next.config.ts`,
+ * which is what puts them on these URLs in the first place.
+ */
+const STATIC_CASES: ReadonlySet<string> = new Set(["domstroy", "dental-clinic"]);
+
 const CASE_COVERS: Readonly<Record<string, string>> = {
   "north-agent": "/work/north-agent/assets/cover.png",
   "north-flow": "/work/north-flow/assets/cover.png",
-  orbita: "/work/orbita/assets/cover.png",
+  // The two client cases shipped as finished pages rather than as case
+  // studies, so neither has a cover drawn for this grid. Each one's hero
+  // photograph is the first thing the page itself shows and crops correctly
+  // at both card ratios, so it stands in rather than a near-copy of itself
+  // saved under a second name.
+  domstroy: "/work/domstroy/images/hero.jpg",
+  "dental-clinic": "/work/dental-clinic/images/hero-clinic.png",
   noctura: "/work/noctura/assets/cover.png",
-  // MONOLITH shipped without a dedicated cover; its hero plate is the same
-  // building the case opens on and crops correctly at both card ratios, so
-  // it stands in rather than a fifth file that would only be a copy of it.
-  monolith: "/work/monolith/hero.webp",
 };
 
 export function Work() {
@@ -83,6 +99,7 @@ export function Work() {
               project={featured}
               variant="lead"
               href={CASE_PAGES[featured.key]}
+              external={STATIC_CASES.has(featured.key)}
               cover={CASE_COVERS[featured.key]}
               cta={copy.work.caseCta}
             />
@@ -95,6 +112,7 @@ export function Work() {
                 project={project}
                 delay={0.08 * (index + 1)}
                 href={CASE_PAGES[project.key]}
+                external={STATIC_CASES.has(project.key)}
                 cover={CASE_COVERS[project.key]}
                 cta={copy.work.caseCta}
               />

@@ -2,8 +2,8 @@
 
 This is the one case whose *page* carries artwork: the hero plate and the
 three capability panels are images, and the mascot sits in the hero. The
-other two cases (`north-flow`, `orbita`) are drawn entirely in code, and
-carry nothing but a cover.
+`north-flow` case is drawn entirely in code and carries nothing but a
+cover; the client cases bring their own pictures with them.
 
 | File | Ratio | Where it appears |
 | --- | --- | --- |

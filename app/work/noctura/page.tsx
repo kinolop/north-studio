@@ -13,8 +13,8 @@ import { NocturaSite } from "@/components/noctura/NocturaSite";
  * it a weight heavier and a size larger than the same scale would call for
  * on white, and never below 300.
  *
- * Deliberately neither the studio's Archivo nor ORBITA's Inter. Three
- * brands on this site, three faces.
+ * Deliberately not the studio's Archivo, and not either of the faces the
+ * client cases set. Every brand on this site gets its own.
  */
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "cyrillic"],

@@ -6,9 +6,11 @@ import { SITE_URL } from "@/lib/studio";
  * Every page on the site, listed for crawlers.
  *
  * Written out by hand rather than discovered from the filesystem: the route
- * count is seven and static, and a hand-written list is the one place where
+ * count is small and static, and a hand-written list is the one place where
  * a page that should *not* be indexed can be left off deliberately rather
- * than by accident.
+ * than by accident. It is also the only place the two client cases can be
+ * listed at all — those are static files under `public`, invisible to
+ * anything that walks the app directory.
  *
  * `priority` and `changeFrequency` are deliberately absent. Google has said
  * for years that it ignores both, and inventing numbers for them only
@@ -23,9 +25,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     "/work/north-agent",
     "/work/north-flow",
-    "/work/orbita",
+    "/work/domstroy",
+    "/work/dental-clinic",
     "/work/noctura",
-    "/work/monolith",
     "/privacy",
   ].map((path) => ({
     url: new URL(path, SITE_URL).toString(),

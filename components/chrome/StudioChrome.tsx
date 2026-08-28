@@ -6,19 +6,16 @@ import type { ReactNode } from "react";
 /**
  * Routes that are not North Studio and must not wear its chrome.
  *
- * `/work/orbita` presents an invented fintech company with its own light
- * identity; `/work/noctura` an invented hotel with its own dark-and-gold
- * one; `/work/monolith` an invented architecture practice whose entire
- * design language is type pressed into concrete. The compass, the preloader,
- * the fog, the dark header and the scroll rail are the studio's signature —
- * showing them around somebody else's brand would undo the entire point of
- * those cases.
+ * `/work/noctura` presents an invented hotel with its own dark-and-gold
+ * identity. The compass, the preloader, the fog, the dark header and the
+ * scroll rail are the studio's signature — showing them around somebody
+ * else's brand would undo the entire point of that case.
+ *
+ * The two client cases need no entry here. `/work/domstroy` and
+ * `/work/dental-clinic` are static documents served straight out of
+ * `public`, so this layout never runs for them at all.
  */
-const FOREIGN_ROUTES = [
-  "/work/orbita",
-  "/work/noctura",
-  "/work/monolith",
-] as const;
+const FOREIGN_ROUTES = ["/work/noctura"] as const;
 
 /**
  * Studio routes that keep the identity but not the instruments.

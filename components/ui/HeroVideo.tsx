@@ -72,7 +72,7 @@ export function HeroVideo({ src, poster }: HeroVideoProps) {
       {/* Strong under the words and clearing across the frame, so the
           picture still reads as a picture. Below the breakpoint the type
           sits over the middle of the frame, so the scrim turns vertical to
-          follow it — the same rule the ORBITA hero follows.
+          follow it.
 
           The wide stops are held to the end of the type column (~56%) and
           then dropped hard rather than eased away. Measured, not guessed:

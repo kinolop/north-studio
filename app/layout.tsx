@@ -136,9 +136,11 @@ export default function RootLayout({
           <ChannelOverlayProvider>
             <SmoothScroll>
               {/* Everything inside StudioChrome is North Studio's own
-                  identity. The ORBITA case is a different company with a
-                  light theme of its own, so it renders bare — see
-                  components/chrome/StudioChrome.tsx. */}
+                  identity. The NOCTURA case is a different company with a
+                  theme of its own, so it renders bare — see
+                  components/chrome/StudioChrome.tsx. The two client cases
+                  never reach this layout at all: they are static documents
+                  served straight out of public/work/. */}
               <StudioChrome>
                 <Atmosphere />
                 <Header />

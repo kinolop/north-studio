@@ -199,8 +199,8 @@ runs while a pointer is actually over the card, so a dozen of them cost
 nothing until one is touched. Smoothing is a CSS transition, which is why
 the lean has the same weight as the rest of the site.
 
-`--lit-hue` carries the accent, so ORBITA's cards light in its cyan without
-a second copy of any of this. Capability is *watched*, not sampled once: a
+`--lit-hue` carries the accent, so a case with a borrowed palette lights its
+cards in that brand's colour without a second copy of any of this. Capability is *watched*, not sampled once: a
 tablet that gains a mouse, or a visitor who turns reduced motion on
 mid-visit, changes the answer, and a panel that went dead at mount would
 never come back.
@@ -232,33 +232,53 @@ Three rules, and the third is the one that matters:
   draws the coded backdrop and looks finished. The slots are an upgrade
   path, never a dependency.
 
-## The three cases
+## The five cases
 
-`/work/north-agent`, `/work/north-flow` and `/work/orbita` are the studio's
-own, one per direction: the agent, the automation, the site. Each is shown
-running rather than described, each is linked from Work as a full-width card
-alternating sides, and each registers its own compass sweep through
-`SectionRegistry` so the HUD and the rail describe the page you are actually
-on — 310° for the agent, 285° for the flow, 045° for ORBITA.
+Work lists five, and they are not the same kind of thing — which is the
+point of the section.
 
-All three are labelled a demo concept, in both locales, and every figure on
-them says so beside itself. The invented brands (LEKTA, ВОЛНА, ORBITA) exist
-so the work can be shown doing its job on something concrete; nothing on any
-of the three asserts a measured client result.
+**Two are the studio's own products**, `/work/north-agent` and
+`/work/north-flow`: the agent and the automation, shown running rather than
+described. Each registers its own compass sweep through `SectionRegistry` so
+the HUD and the rail describe the page you are actually on — 310° for the
+agent, 285° for the flow. Both are labelled a demo concept in both locales,
+and every figure on them says so beside itself; nothing on either asserts a
+measured client result.
 
-**ORBITA is the odd one, and now completely so.** The other two are our
-products speaking in our voice. This one is a standalone light product site
-for an invented fintech company, and it shares nothing visual with the rest
-of this site: its own tokens (`components/orbita/orbita.css`, all namespaced
-`--o-*` under a `.orbita` scope), its own typeface loaded on that route
-only (Inter, against the studio's Archivo), one mint accent, its own header,
-footer, reveal and image component. The studio's fixed chrome — preloader,
-atmosphere, header, compass, scroll rail, footer, sound — is suppressed for
-the route in `components/chrome/StudioChrome.tsx`, so none of it renders at
-all. The studio appears once, as a footnote in ORBITA's footer.
+**One is an invented brand**, `/work/noctura`: a five-star hotel that does
+not exist, presented the way it would present itself. It shares nothing
+visual with the rest of this site — its own tokens
+(`components/noctura/noctura.css`, all namespaced `--n-*` under a
+`.noctura` scope), its own faces loaded on that route only, its own header
+and footer. The studio's fixed chrome — preloader, atmosphere, header,
+compass, scroll rail, footer, sound — is suppressed for the route in
+`components/chrome/StudioChrome.tsx`, so none of it renders at all.
 
 If you are editing that page and reach for a `--color-*`, `label-mono`,
 `Section`, `Reveal` or `--ease-north`, you are on the wrong page.
+
+**Two are real client work**, `/work/domstroy` and `/work/dental-clinic`,
+and they are not React at all. Both were built and delivered as standalone
+static pages — one HTML file, one stylesheet, one script each — and they
+ship here exactly as the clients received them, under
+`public/work/<slug>/`. Serving the delivered file rather than a port of it
+is deliberate: the case *is* the deliverable.
+
+Three consequences worth knowing before you touch them:
+
+- `next.config.ts` rewrites `/work/<slug>` onto `/work/<slug>/index.html`,
+  so the portfolio link is clean and the address bar keeps it. Both pages
+  declare that same URL as canonical.
+- Their assets are referenced from the site root (`/work/domstroy/css/…`),
+  not relatively, so the rewritten URL and the direct one resolve
+  identically. If you re-import either project from its source folder, redo
+  that rewrite or the stylesheet will 404 on the pretty URL.
+- Their cards link with a bare `<a>`, not `<Link>` — see `STATIC_CASES` in
+  `components/sections/Work.tsx`. There is no route for the router to
+  prefetch, and a full page load is the correct navigation.
+
+Neither carries a `StudioChrome` entry, because this layout never runs for
+them.
 
 Assets: `public/work/<case>/assets/`, each with a README listing the files
 and ratios. Every frame renders a labelled placeholder until the file
@@ -296,7 +316,7 @@ app/
   globals.css       ALL design tokens (@theme) + primitives + keyframes
   work/north-agent/ the AI-agent product case
   work/north-flow/  the automation product case
-  work/orbita/      the site case — an invented brand, its own landing
+  work/noctura/     the hotel case — an invented brand, its own site
 components/
   atmosphere/       fog, cursor light, grain, dither — the lit room
   scene/            the chrome N and its rig
@@ -307,7 +327,7 @@ components/
   sections/         the eleven movements
   agent/            the North Agent case's sections
   flow/             the North Flow case's sections, and the conveyor
-  orbita/           ORBITA's sections, its mark, its orbit, its app screens
+  noctura/          NOCTURA's sections, its lift, its floors
   ui/               Reveal, SplitLines, MagneticButton, Eyebrow, GhostWord
 lib/
   i18n/             types.ts (the contract) + en.ts + ru.ts

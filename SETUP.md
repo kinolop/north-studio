@@ -25,10 +25,11 @@ there is no way to ship without noticing it.
 
 ### North Agent page assets
 
-`/work/north-agent` is the one case that carries artwork; `north-flow` and
-`orbita` are drawn in code and need no files. A missing file never shows a
-broken image — the frame falls back to a labelled placeholder. All of these
-go in `public/work/north-agent/assets/`:
+`/work/north-agent` is the one React case that carries artwork; `north-flow`
+is drawn in code and needs no files, and the two client cases
+(`domstroy`, `dental-clinic`) bring their own pictures with them. A missing
+file never shows a broken image — the frame falls back to a labelled
+placeholder. All of these go in `public/work/north-agent/assets/`:
 
 | File | Ratio | Where |
 | --- | --- | --- |
