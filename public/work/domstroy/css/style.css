@@ -1482,6 +1482,8 @@ html:not(.js) .hero__img{ transform: none; }
 .ftr__legal{ display: flex; gap: 28px; flex-wrap: wrap; }
 .ftr__legal a{ transition: color .25s; }
 .ftr__legal a:hover{ color: var(--bone-2); }
+.ftr__studio{ color: var(--accent-2); }
+.ftr__studio:hover{ color: var(--bone); }
 
 
 /* ==========================================================================

@@ -148,6 +148,18 @@ function NocturaFooter() {
               <a href="/#work" className="n-link n-small">
                 {footer.backToStudio}
               </a>
+              {/* The studio's own line, not the hotel's. NOCTURA is invented,
+                  so the only real contact anywhere on this page is the maker's
+                  — kept in the credit block rather than the fictional footer
+                  columns, and opened in a new tab like any off-site link. */}
+              <a
+                href="https://t.me/Dahilchick"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="n-link n-small"
+              >
+                North Studio · Telegram @Dahilchick
+              </a>
               <p
                 className="n-label n-label-dim"
                 style={{ fontSize: "0.5625rem" }}

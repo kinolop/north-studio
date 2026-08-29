@@ -557,6 +557,9 @@ button{ font:inherit; color:inherit }
 .footer__legal{ display:grid; gap:8px; justify-items:end; text-align:right; font-size:.75rem; line-height:1.6; max-width:42ch }
 .footer__link{ background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px; font-size:.75rem; transition:color .2s ease }
 .footer__link:hover{ color:#fff }
+.footer__studio{ font-size:.75rem; line-height:1.6 }
+.footer__studio a{ color:var(--blue-lift); text-decoration:underline; text-underline-offset:3px; transition:color .2s ease }
+.footer__studio a:hover{ color:#fff }
 
 /* ---------- 17. Модалка ---------- */
 .modal{ position:fixed; inset:0; z-index:150; display:grid; place-items:center; padding:24px }
