@@ -1,82 +1,101 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
+import { useRef } from "react";
+
 import { useCopy } from "@/components/i18n/CopyProvider";
-import { AssetSlot } from "@/components/ui/AssetSlot";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { GhostWord } from "@/components/ui/GhostWord";
-import { Reveal } from "@/components/ui/Reveal";
+import { PrintLines } from "@/components/motion/PrintLines";
+import { TypeText } from "@/components/motion/TypeText";
 import { Section } from "@/components/ui/Section";
-import { SplitLines } from "@/components/ui/SplitLines";
-import { agentSectionById } from "@/lib/sections";
-import { useLitPanel } from "@/lib/useLitPanel";
 
-const meta = agentSectionById("agent-capabilities");
-const ASSETS = "/work/north-agent/assets";
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-/** Image file per capability, in the order the dictionary lists them. */
-const IMAGE: Record<string, string> = {
-  answers: "cap-answers.png",
-  knows: "cap-knows.png",
-  enroll: "cap-enroll.png",
+const IMAGES: Record<"answers" | "knows" | "enroll", string> = {
+  answers: "/work/north-agent/assets/cap-answers.png",
+  knows: "/work/north-agent/assets/cap-knows.png",
+  enroll: "/work/north-agent/assets/cap-enroll.png",
 };
 
-type Capability = ReturnType<typeof useCopy>["agentCase"]["capabilities"]["items"][number];
+/** Each photograph sits at its own height, so the row reads as a spread, not a grid. */
+const OFFSETS = ["lg:mt-0", "lg:mt-32", "lg:mt-14"];
 
-function CapabilityCard({ item, index }: { item: Capability; index: number }) {
-  const lit = useLitPanel<HTMLElement>();
-
-  return (
-    <Reveal delay={index * 0.08} className="h-full">
-      <article
-        ref={lit.ref}
-        {...lit.props}
-        className="glass glass-edge lit-panel group flex h-full flex-col overflow-hidden hover:border-signal/30 hover:shadow-lift"
-      >
-        <AssetSlot
-          src={`${ASSETS}/${IMAGE[item.key]}`}
-          label={item.slotLabel}
-          alt={item.name}
-          ratio="4 / 5"
-          className="rounded-none border-x-0 border-t-0"
-        />
-
-        <div className="flex flex-1 flex-col p-7 lg:p-8">
-          <p className="label-mono text-signal-lift">
-            {String(index + 1).padStart(2, "0")}
-          </p>
-          <h3 className="mt-5 font-display text-[1.35rem] leading-[1.1] font-medium tracking-[-0.02em] text-bone">
-            {item.name}
-          </h3>
-          <p className="mt-4 text-body text-ash">{item.body}</p>
-        </div>
-      </article>
-    </Reveal>
-  );
-}
-
+/**
+ * What the agent does, as three photographs of it doing it. Each picture is
+ * uncovered from the bottom edge as it scrolls in and drifts a little
+ * slower than the page, so the paper it was shot on seems to lie under the
+ * page's own paper.
+ */
 export function AgentCapabilities() {
   const copy = useCopy();
-  const caps = copy.agentCase.capabilities;
+  const capabilities = copy.agentCase.capabilities;
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      if (!root) return;
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.utils.toArray<HTMLElement>("[data-plate]", root).forEach((plate) => {
+          const picture = plate.querySelector<HTMLElement>("[data-picture]");
+          gsap.fromTo(
+            plate,
+            { clipPath: "inset(100% 0% 0% 0%)" },
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              duration: 1.4,
+              ease: "expo.out",
+              scrollTrigger: { trigger: plate, start: "top 85%", once: true },
+            },
+          );
+          if (picture) {
+            gsap.fromTo(
+              picture,
+              { yPercent: -6, scale: 1.12 },
+              {
+                yPercent: 6,
+                scale: 1.12,
+                ease: "none",
+                scrollTrigger: { trigger: plate, start: "top bottom", end: "bottom top", scrub: true },
+              },
+            );
+          }
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: rootRef },
+  );
 
   return (
-    <Section id={meta.id}>
-      <div className="container-north">
-        <div className="max-w-[46rem]">
-          <Eyebrow bearing={meta.bearing} label={copy.sections[meta.id]} />
-          <SplitLines
-            as="h2"
-            lines={caps.title}
-            className="mt-8 text-display font-display font-medium text-bone"
-          />
+    <Section id="agent-capabilities" flush className="py-band">
+      <div ref={rootRef} className="sheet">
+        <div className="border-t border-ink pt-8 lg:pt-10">
+          <TypeText as="h2" lines={capabilities.title} className="poster text-[clamp(3.6rem,9vw,9.5rem)] text-ink" />
         </div>
 
-        <div className="relative mt-20 grid gap-6 lg:grid-cols-3 lg:gap-5">
-          <GhostWord className="-z-10">AGENT</GhostWord>
-
-          {caps.items.map((item, index) => (
-            <CapabilityCard key={item.key} item={item} index={index} />
+        <ul className="mt-14 grid gap-14 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-8">
+          {capabilities.items.map((item, index) => (
+            <li key={item.key} className={OFFSETS[index] ?? ""}>
+              <div data-plate className="relative aspect-[4/5] overflow-hidden bg-paper-deep">
+                <div data-picture className="absolute inset-0">
+                  <Image
+                    src={IMAGES[item.key]}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              <h3 className="mt-6 text-[clamp(1.4rem,1.9vw,1.85rem)] leading-[1.1] font-bold text-ink">{item.name}</h3>
+              <PrintLines text={item.body} className="mt-3 max-w-[38ch] text-copy text-ink-soft" />
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </Section>
   );

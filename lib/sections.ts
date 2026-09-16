@@ -19,15 +19,17 @@ export interface SectionMeta {
   readonly degrees: number;
 }
 
+/**
+ * The home page. The compass that read these bearings is gone; the numbers
+ * stay only because the product cases' dark chrome still indexes by them.
+ */
 export const SECTIONS = [
   { id: "origin", bearing: "000°", degrees: 0 },
-  { id: "studio", bearing: "040°", degrees: 40 },
-  { id: "founder", bearing: "072°", degrees: 72 },
+  { id: "pains", bearing: "040°", degrees: 40 },
   { id: "services", bearing: "110°", degrees: 110 },
-  // The agent demo sits immediately after the services that names it:
-  // the claim and its proof should not be separated by anything.
-  { id: "agent", bearing: "148°", degrees: 148 },
   { id: "work", bearing: "196°", degrees: 196 },
+  { id: "play", bearing: "220°", degrees: 220 },
+  { id: "about", bearing: "232°", degrees: 232 },
   { id: "process", bearing: "244°", degrees: 244 },
   { id: "questions", bearing: "302°", degrees: 302 },
   { id: "start", bearing: "355°", degrees: 355 },
@@ -85,10 +87,10 @@ export function flowSectionById(id: FlowSectionId): (typeof FLOW_SECTIONS)[numbe
 
 /** The four carried in the header. The footer indexes all of them. */
 export const NAV_IDS = [
-  "studio",
   "services",
   "work",
   "process",
+  "questions",
 ] as const satisfies readonly SectionId[];
 
 export function sectionAt(index: number): (typeof SECTIONS)[number] {

@@ -6,23 +6,20 @@ import { useEffect, useRef } from "react";
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { setScrollLocked } from "@/components/motion/SmoothScroll";
 import { CHANNELS } from "@/lib/channels";
-import { DURATION, EASE } from "@/lib/motion";
 import { useReducedMotion } from "@/lib/useReducedMotion";
-
-import { ChannelIcon } from "./ChannelIcon";
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
+const EASE = [0.76, 0, 0.24, 1] as const;
+
 /**
  * The channel chooser.
  *
- * It used to have a second mode holding a brief form, reached from a fourth
- * card in the grid. The form did not work and is gone, so the dialog now
- * does exactly one thing: show the three ways to reach a person. The grid
- * went from two columns to three with it — three cards in a two-column
- * layout would have left a hole in the second row, which reads as a card
- * that failed to load rather than as a finished set.
+ * A fresh sheet drops over the page from the top edge and the three ways
+ * to reach a person are set as a short index, as large as the headings
+ * they came from. One dialog for the whole site: focus is trapped, Escape
+ * closes, and focus returns to whatever opened it.
  */
 export function ChannelOverlay({
   isOpen,
@@ -50,8 +47,6 @@ export function ChannelOverlay({
       }
       if (event.key !== "Tab") return;
 
-      // Contain focus. A dialog that lets Tab wander onto the page behind it
-      // is a dialog a keyboard user cannot get out of predictably.
       const panel = panelRef.current;
       if (!panel) return;
       const items = [...panel.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
@@ -73,7 +68,7 @@ export function ChannelOverlay({
     document.addEventListener("keydown", onKeyDown);
     const focusTimer = window.setTimeout(() => {
       panelRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
-    }, 60);
+    }, 80);
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
@@ -90,132 +85,62 @@ export function ChannelOverlay({
           role="dialog"
           aria-modal="true"
           aria-label={copy.channels.overlayTitle}
-          className="fixed inset-0 z-[100] overflow-y-auto"
-          initial={reduced ? { opacity: 0 } : { opacity: 0, backdropFilter: "blur(0px)" }}
-          animate={reduced ? { opacity: 1 } : { opacity: 1, backdropFilter: "blur(22px)" }}
-          exit={reduced ? { opacity: 0 } : { opacity: 0, backdropFilter: "blur(0px)" }}
-          transition={{ duration: reduced ? 0.01 : 0.5, ease: EASE.north }}
-          style={{ backgroundColor: "rgb(7 8 11 / 0.9)" }}
+          className="fixed inset-0 z-[100] overflow-y-auto bg-paper text-ink"
+          initial={reduced ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)" }}
+          animate={reduced ? { opacity: 1 } : { clipPath: "inset(0 0 0% 0)" }}
+          exit={reduced ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)" }}
+          transition={{ duration: reduced ? 0.01 : 0.7, ease: EASE }}
         >
-          {/* Click-out. A button rather than a div so it is reachable and
-              announced, but visually it is just the backdrop. */}
-          <button
-            type="button"
-            aria-label={copy.channels.close}
-            onClick={onClose}
-            className="absolute inset-0 h-full w-full cursor-default"
-            tabIndex={-1}
-          />
-
-          <div
-            ref={panelRef}
-            className="relative container-north flex min-h-dvh flex-col justify-center py-24"
-          >
-            <div className="flex items-start justify-between gap-8">
-              <div>
-                <p className="label-mono flex items-center gap-3">
-                  <span
-                    aria-hidden
-                    className="inline-block h-1 w-1 rounded-full bg-signal shadow-[0_0_10px_2px_rgb(109_92_255/0.6)]"
-                  />
-                  <span className="text-signal-lift">355°</span>
-                  <span aria-hidden className="h-px w-6 bg-hairline" />
-                  {copy.sections.start}
-                </p>
-                <h2 className="mt-7 font-display text-display font-medium text-bone">
-                  {copy.channels.overlayTitle}
-                </h2>
-                <p className="mt-5 max-w-[44ch] text-lead text-ash">
-                  {copy.channels.overlayLede}
-                </p>
-              </div>
-
+          <div ref={panelRef} className="sheet flex min-h-dvh flex-col py-5">
+            <div className="flex items-center justify-between gap-6 border-b border-ink pb-5">
+              <p className="text-small font-semibold">{copy.channels.overlayLede}</p>
               <button
                 type="button"
                 onClick={onClose}
-                aria-label={copy.channels.close}
-                className="group mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-hairline transition-colors duration-[var(--duration-state)] ease-[var(--ease-north)] hover:border-signal/50"
+                className="group flex items-center gap-3 text-small font-semibold"
               >
-                <svg
-                  aria-hidden
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4 text-ash transition-colors group-hover:text-bone"
-                >
-                  <path
-                    d="M5 5l14 14M19 5L5 19"
-                    stroke="currentColor"
-                    strokeWidth="1.25"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <span className="ink-link">{copy.channels.close}</span>
+                <span aria-hidden className="relative block h-5 w-5 transition-transform duration-500 ease-[var(--ease-print)] group-hover:rotate-90">
+                  <span className="absolute top-1/2 left-0 h-[2px] w-full -translate-y-1/2 rotate-45 bg-ink" />
+                  <span className="absolute top-1/2 left-0 h-[2px] w-full -translate-y-1/2 -rotate-45 bg-ink" />
+                </span>
               </button>
             </div>
 
-            <ul className="mt-14 grid gap-4 sm:grid-cols-3">
+            <h2 className="poster mt-10 text-[clamp(3.5rem,10vw,10rem)] lg:mt-14">
+              {copy.channels.overlayTitle}
+            </h2>
+
+            <ul className="mt-auto border-t-2 border-ink pt-2">
               {CHANNELS.map((channel, index) => (
-                <OptionShell key={channel.id} index={index} reduced={reduced}>
+                <motion.li
+                  key={channel.id}
+                  className="border-b border-rule"
+                  initial={reduced ? false : { opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: reduced ? 0 : 0.35 + index * 0.07 }}
+                >
                   <a
                     href={channel.href}
-                    {...(channel.external
-                      ? { target: "_blank", rel: "noreferrer noopener" }
-                      : {})}
-                    className="group flex h-full flex-col items-start gap-5 p-7"
+                    {...(channel.external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+                    className="group grid grid-cols-12 items-baseline gap-x-4 gap-y-2 py-5 lg:py-6"
                   >
-                    <Glyph>
-                      <ChannelIcon id={channel.id} className="h-5 w-5" />
-                    </Glyph>
-                    <span className="min-w-0 w-full">
-                      <span className="block font-display text-[1.35rem] leading-none font-medium tracking-[-0.02em] text-bone">
-                        {copy.channels.labels[channel.id]}
-                      </span>
-                      <span className="data-mono mt-3 block truncate text-signal-lift">
-                        {channel.handle}
-                      </span>
-                      <span className="mt-3 block text-meta text-ash">
-                        {copy.channels.notes[channel.id]}
-                      </span>
+                    <span className="poster col-span-12 text-[clamp(3rem,7vw,6.5rem)] transition-[color,transform] duration-500 ease-[var(--ease-print)] group-hover:translate-x-3 group-hover:text-cobalt md:col-span-6">
+                      {copy.channels.labels[channel.id]}
+                    </span>
+                    <span className="col-span-12 text-copy font-semibold break-all md:col-span-3">
+                      {channel.handle}
+                    </span>
+                    <span className="col-span-12 text-small text-ink-soft md:col-span-3">
+                      {copy.channels.notes[channel.id]}
                     </span>
                   </a>
-                </OptionShell>
+                </motion.li>
               ))}
             </ul>
-
           </div>
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-function Glyph({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-hairline text-ash transition-[color,border-color] duration-[var(--duration-state)] ease-[var(--ease-north)] group-hover:border-signal/45 group-hover:text-signal-lift">
-      {children}
-    </span>
-  );
-}
-
-function OptionShell({
-  children,
-  index,
-  reduced,
-}: {
-  children: React.ReactNode;
-  index: number;
-  reduced: boolean;
-}) {
-  return (
-    <motion.li
-      className="glass glass-edge overflow-hidden transition-[border-color,transform] duration-[420ms] ease-[var(--ease-north)] hover:-translate-y-0.5 hover:border-signal/30"
-      initial={reduced ? false : { opacity: 0, y: 22 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: DURATION.reveal,
-        ease: EASE.north,
-        delay: reduced ? 0 : 0.12 + index * 0.06,
-      }}
-    >
-      {children}
-    </motion.li>
   );
 }

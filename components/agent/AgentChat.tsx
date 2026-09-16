@@ -1,185 +1,192 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useCopy, useLocale } from "@/components/i18n/CopyProvider";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Reveal } from "@/components/ui/Reveal";
+import { PrintLines } from "@/components/motion/PrintLines";
+import { TypeText } from "@/components/motion/TypeText";
 import { Section } from "@/components/ui/Section";
-import { SplitLines } from "@/components/ui/SplitLines";
-import { getAgentReply } from "@/lib/northAgent";
-import { agentSectionById } from "@/lib/sections";
+import { classifyAgentIntent, getAgentReply, type AgentIntent } from "@/lib/northAgent";
 import { useReducedMotion } from "@/lib/useReducedMotion";
-import { useReveal } from "@/lib/useReveal";
-
-const meta = agentSectionById("agent-chat");
-
-const THINKING_MS = 900;
-const BEAT_MS = 1300;
 
 interface Turn {
-  from: "student" | "agent";
+  id: number;
+  from: "agent" | "visitor";
   text: string;
 }
 
+/** If the visitor only watches, the chat asks its own first question. */
+const SELF_START_MS = 8000;
+
+type Level = "cold" | "warm" | "hot";
+
+function readiness(intents: readonly AgentIntent[]): Level {
+  const real = intents.filter((intent) => intent !== "other");
+  if (real.some((intent) => intent === "trial" || intent === "human" || intent === "instalments") || real.length >= 3) {
+    return "hot";
+  }
+  return real.length > 0 ? "warm" : "cold";
+}
+
 /**
- * The centrepiece: the agent closing an enrolment.
+ * The agent, working, next to what the manager gets out of it.
  *
- * Every reply — scripted or typed — goes through `getAgentReply` in
- * lib/northAgent.ts. That function is the entire seam to a live model, and
- * routing the scripted turns through the same async path means the timing,
- * the typing indicator and the failure handling are already correct when a
- * real endpoint replaces it.
+ * On the left, a conversation with LEKTA's assistant: it greets you, you
+ * ask (by tapping a question or typing your own) and it answers, typed out
+ * as it writes. On the right, the client card a manager would open: every
+ * question you ask is written into it by hand, readiness climbs as the
+ * conversation turns into intent, and the next step changes with it. The
+ * point of the section is that second panel: the agent does not only talk,
+ * it hands over a client who has already been understood.
+ *
+ * Every reply goes through `getAgentReply`, the one seam to a live model.
  */
 export function AgentChat() {
   const copy = useCopy();
   const { locale } = useLocale();
   const reduced = useReducedMotion();
-
-  const hostRef = useRef<HTMLDivElement>(null);
-  const phase = useReveal(hostRef);
-  const started = phase !== "armed";
-
   const chat = copy.agentCase.chat;
-  const script = chat.script;
+  const lead = chat.lead;
 
+  const rootRef = useRef<HTMLDivElement>(null);
+  const logRef = useRef<HTMLDivElement>(null);
+  const ids = useRef(0);
+  const touched = useRef(false);
+  const [started, setStarted] = useState(false);
   const [turns, setTurns] = useState<Turn[]>([]);
   const [thinking, setThinking] = useState(false);
   const [draft, setDraft] = useState("");
-  const [scriptDone, setScriptDone] = useState(false);
-  /** Bumping this re-runs the transcript effect — replay and first play
-   *  therefore share one code path instead of two that can drift. */
-  const [runId, setRunId] = useState(0);
-  const logRef = useRef<HTMLDivElement>(null);
+  const [intents, setIntents] = useState<AgentIntent[]>([]);
 
-  // Play the transcript once the window is on screen. A conversation that
-  // finished before you scrolled to it is a wall of text, not a demo.
+  const push = useCallback((from: Turn["from"], text: string) => {
+    ids.current += 1;
+    const turn = { id: ids.current, from, text };
+    setTurns((current) => [...current, turn]);
+  }, []);
+
+  // Greet once the chat is in view.
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setStarted(true);
+        observer.disconnect();
+      },
+      { rootMargin: "0px 0px -30% 0px" },
+    );
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
+  // Once per visit, however many times effects run in development.
+  const greeted = useRef(false);
+  useEffect(() => {
+    if (!started || greeted.current) return;
+    greeted.current = true;
+    push("agent", chat.greeting);
+  }, [started, chat.greeting, push]);
+
+  const ask = useCallback(
+    async (text: string, byVisitor = true) => {
+      const clean = text.trim();
+      if (!clean || thinking) return;
+      if (byVisitor) touched.current = true;
+      push("visitor", clean);
+      setDraft("");
+      const intent = classifyAgentIntent(clean);
+      setIntents((current) => (current.includes(intent) ? current : [...current, intent]));
+      setThinking(true);
+      const reply = await getAgentReply(clean, locale);
+      setThinking(false);
+      push("agent", reply);
+    },
+    [thinking, push, locale],
+  );
+
+  // Nobody asked anything: ask the first question, once, to show the loop.
   useEffect(() => {
     if (!started) return;
+    const id = window.setTimeout(() => {
+      if (!touched.current) void ask(chat.suggestions[0] ?? "", false);
+    }, SELF_START_MS);
+    return () => window.clearTimeout(id);
+    // Only the first greeting schedules this.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [started]);
 
-    if (reduced) {
-      setTurns([...script]);
-      setScriptDone(true);
-      return;
-    }
-
-    setTurns([]);
-    setThinking(false);
-    setScriptDone(false);
-
-    let index = 0;
-    const timers: number[] = [];
-
-    const step = () => {
-      if (index >= script.length) {
-        setScriptDone(true);
-        return;
-      }
-      const turn = script[index]!;
-      index += 1;
-
-      if (turn.from === "agent") {
-        setThinking(true);
-        timers.push(
-          window.setTimeout(() => {
-            setThinking(false);
-            setTurns((prev) => [...prev, turn]);
-            timers.push(window.setTimeout(step, BEAT_MS));
-          }, THINKING_MS),
-        );
-      } else {
-        setTurns((prev) => [...prev, turn]);
-        timers.push(window.setTimeout(step, BEAT_MS));
-      }
-    };
-
-    timers.push(window.setTimeout(step, 500));
-    return () => timers.forEach(window.clearTimeout);
-  }, [started, reduced, script, runId]);
-
+  // Keep the latest line in view while it is still being typed, not only
+  // when it arrives: an answer grows a character at a time.
+  const threadRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const log = logRef.current;
-    if (log) log.scrollTop = log.scrollHeight;
-  }, [turns, thinking]);
+    const thread = threadRef.current;
+    if (!log || !thread || typeof ResizeObserver === "undefined") return;
+    const follow = new ResizeObserver(() => {
+      log.scrollTop = log.scrollHeight;
+    });
+    follow.observe(thread);
+    return () => follow.disconnect();
+  }, []);
 
-  async function send(event: React.FormEvent) {
-    event.preventDefault();
-    const text = draft.trim();
-    if (text.length === 0 || thinking) return;
-
-    setTurns((prev) => [...prev, { from: "student", text }]);
-    setDraft("");
-    setThinking(true);
-
-    // Already async, so swapping in a real endpoint needs no change here.
-    const reply = await getAgentReply(text, locale);
+  const restart = () => {
+    touched.current = true;
+    ids.current += 1;
+    setTurns([{ id: ids.current, from: "agent", text: chat.greeting }]);
+    setIntents([]);
     setThinking(false);
-    setTurns((prev) => [...prev, { from: "agent", text: reply }]);
-  }
+  };
 
-  function replay() {
-    setRunId((n) => n + 1);
-  }
+  const level = readiness(intents);
+  const levelIndex = level === "cold" ? 1 : level === "warm" ? 2 : 3;
+  const asked = intents.map((intent) => lead.intents[intent]);
 
   return (
-    <Section id={meta.id}>
-      <div className="container-north grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-10">
-        <div className="lg:col-span-5">
-          <Eyebrow bearing={meta.bearing} label={copy.sections[meta.id]} />
-
-          <SplitLines
+    <Section id="agent-chat" flush className="py-band">
+      <div ref={rootRef} className="sheet">
+        <div className="sheet-grid items-end gap-y-6 border-t border-ink pt-8 lg:pt-10">
+          <TypeText
             as="h2"
             lines={chat.title}
-            className="mt-8 text-display font-display font-medium text-bone"
+            className="poster col-span-12 text-[clamp(3.4rem,8.4vw,9rem)] text-ink lg:col-span-7"
           />
-
-          <Reveal delay={0.08}>
-            <p className="mt-8 max-w-[46ch] text-body text-ash">{chat.lede}</p>
-          </Reveal>
-
-          <Reveal delay={0.14}>
-            {/* An honesty note, not a caption: six lines of uppercase mono
-                is a wall. Set as small body text so it is actually read. */}
-            <p className="mt-8 flex max-w-[46ch] gap-3 text-meta leading-[1.7] text-slate">
-              <span
-                aria-hidden
-                className="mt-[0.5em] inline-block h-1 w-1 shrink-0 rounded-full bg-signal/70"
-              />
-              {copy.agentCase.brandNote}
-            </p>
-          </Reveal>
+          <div className="col-span-12 lg:col-span-5">
+            <PrintLines text={chat.lede} className="max-w-[44ch] text-[clamp(1.15rem,1.5vw,1.4rem)] leading-[1.35] text-ink" />
+            <p className="mt-4 max-w-[48ch] text-small text-ink-soft">{copy.agentCase.brandNote}</p>
+          </div>
         </div>
 
-        <div ref={hostRef} className="lg:col-span-6 lg:col-start-7">
-          <Reveal>
-            <div className="glass flex flex-col overflow-hidden">
-              <div className="flex items-center justify-between gap-4 border-b border-hairline px-6 py-4">
-                <p className="label-mono flex items-center gap-2.5 text-ash">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-60 motion-reduce:hidden" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-signal" />
-                  </span>
-                  {chat.agentRole}
-                </p>
-                <p className="label-mono text-slate">{chat.demoLabel}</p>
+        <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-10 lg:mt-16 lg:grid-cols-12 lg:items-start lg:gap-8">
+          {/* The conversation. */}
+          <div className="min-w-0 lg:col-span-7">
+            <div className="flex flex-col border-2 border-ink bg-[#f8f7f3]">
+              <div className="flex items-center justify-between gap-4 border-b border-ink px-4 py-3">
+                <span className="flex items-center gap-3">
+                  <MiniBot />
+                  <span className="text-small font-bold text-ink">{chat.agentRole}</span>
+                </span>
+                <span className="mark text-ink-mute">{chat.demoLabel}</span>
               </div>
 
-              <div ref={logRef} aria-live="polite" className="h-[27rem] overflow-y-auto p-6">
-                <div className="flex min-h-full flex-col justify-end gap-4">
-                  {turns.map((turn, index) => (
-                    <Bubble
-                      key={`${index}-${turn.text.slice(0, 14)}`}
-                      turn={turn}
-                      label={turn.from === "agent" ? chat.agentRole : chat.studentRole}
-                    />
+              {/* data-lenis-prevent: the page's smooth scroll must let this
+                  panel scroll on its own. */}
+              <div
+                ref={logRef}
+                aria-live="polite"
+                data-lenis-prevent
+                className="h-[19rem] overflow-y-auto overscroll-contain px-4 py-5 sm:h-[26rem] sm:px-5"
+              >
+                <div ref={threadRef} className="flex min-h-full flex-col justify-end gap-3">
+                  {turns.map((turn) => (
+                    <Bubble key={turn.id} turn={turn} typed={!reduced && turn.from === "agent"} />
                   ))}
-
                   {thinking && (
-                    <div className="flex items-center gap-1.5 self-start rounded-[var(--radius-plate)] border border-hairline bg-white/[0.03] px-4 py-3">
+                    <div className="flex items-center gap-1.5 self-start rounded-[12px] rounded-bl-[3px] border-[1.5px] border-cobalt bg-paper px-4 py-3.5">
                       {[0, 1, 2].map((i) => (
                         <span
                           key={i}
-                          className="h-1.5 w-1.5 rounded-full bg-slate motion-safe:animate-[thinkPulse_1.1s_ease-in-out_infinite]"
+                          className="h-1.5 w-1.5 rounded-full bg-cobalt motion-safe:animate-[thinkPulse_1.1s_ease-in-out_infinite]"
                           style={{ animationDelay: `${i * 160}ms` }}
                         />
                       ))}
@@ -188,69 +195,170 @@ export function AgentChat() {
                 </div>
               </div>
 
+              <div className="border-t border-rule px-4 py-3">
+                <p className="mark text-ink-mute">{chat.suggestionsLabel}</p>
+                {/* One swipeable row on phones, so the questions do not push the answer off screen. */}
+                <div className="-mx-4 mt-2 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+                  {chat.suggestions.map((suggestion) => (
+                    <button
+                      key={suggestion}
+                      type="button"
+                      disabled={thinking}
+                      onClick={() => void ask(suggestion)}
+                      className="shrink-0 border-2 border-rule px-3 py-1.5 text-small font-semibold whitespace-nowrap text-ink transition-colors duration-200 hover:border-cobalt hover:text-cobalt disabled:opacity-40"
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <form
-                onSubmit={send}
-                className="flex items-center gap-3 border-t border-hairline p-4"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void ask(draft);
+                }}
+                className="flex items-stretch border-t border-ink"
               >
-                <label htmlFor="lekta-draft" className="sr-only">
+                <label htmlFor="agent-draft" className="sr-only">
                   {chat.placeholder}
                 </label>
                 <input
-                  id="lekta-draft"
+                  id="agent-draft"
                   type="text"
                   value={draft}
-                  onChange={(e) => setDraft(e.target.value)}
+                  maxLength={160}
+                  onChange={(event) => setDraft(event.target.value)}
                   placeholder={chat.placeholder}
-                  className="w-full rounded-[var(--radius-control)] border border-hairline bg-white/[0.025] px-4 py-2.5 text-meta text-bone placeholder:text-slate transition-[border-color] duration-[var(--duration-state)] focus:border-signal/60 focus:outline-none"
+                  className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-copy text-ink placeholder:text-ink-mute focus:outline-none"
                 />
                 <button
                   type="submit"
-                  disabled={draft.trim().length === 0 || thinking}
-                  className="shrink-0 rounded-[var(--radius-control)] border border-hairline px-4 py-2.5 text-meta text-bone transition-[border-color,opacity] duration-[var(--duration-state)] hover:border-signal/50 disabled:opacity-40"
+                  disabled={!draft.trim() || thinking}
+                  className="shrink-0 bg-ink px-5 text-small font-semibold text-paper transition-colors hover:bg-cobalt disabled:opacity-40"
                 >
                   {chat.send}
                 </button>
               </form>
             </div>
-          </Reveal>
-
-          {scriptDone && !reduced && (
-            <button
-              type="button"
-              onClick={replay}
-              className="label-mono mt-4 text-slate transition-colors duration-[var(--duration-state)] hover:text-ash"
-            >
-              ↺ {chat.replay}
+            <button type="button" onClick={restart} className="mark ink-link mt-4 text-ink-soft hover:text-ink">
+              {chat.restart}
             </button>
-          )}
+          </div>
+
+          {/* What the manager gets. */}
+          <aside className="lg:col-span-5 lg:pt-6">
+            <article className="relative rotate-[1.2deg] border-2 border-ink bg-[#f8f7f3] shadow-[0_40px_80px_-50px_rgb(18_18_17/0.7)]">
+              <span aria-hidden className="absolute -top-3 left-10 h-6 w-24 -rotate-[4deg] bg-cobalt/85" />
+              <header className="border-b border-ink px-5 pt-6 pb-4">
+                <p className="text-[1.35rem] leading-tight font-bold text-ink">{lead.title}</p>
+                <p className="mark mt-1 text-ink-mute">{lead.subtitle}</p>
+              </header>
+
+              <dl className="space-y-5 px-5 py-5">
+                <div>
+                  <dt className="mark text-cobalt">{lead.asked}</dt>
+                  <dd className="mt-2 min-h-[2.2rem]">
+                    {asked.length === 0 ? (
+                      <span className="text-small text-ink-mute">{lead.empty}</span>
+                    ) : (
+                      <ul className="flex flex-wrap gap-x-4 gap-y-1">
+                        {asked.map((label) => (
+                          <li
+                            key={label}
+                            className="animate-[captionIn_500ms_var(--ease-print)_both] font-[family-name:var(--font-hand)] text-[1.55rem] leading-none font-semibold text-cobalt"
+                          >
+                            {label}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </dd>
+                </div>
+
+                <div>
+                  <dt className="mark text-cobalt">{lead.readiness}</dt>
+                  <dd className="mt-2 flex items-center gap-4">
+                    <span className="flex gap-1.5" aria-hidden>
+                      {[1, 2, 3].map((step) => (
+                        <span
+                          key={step}
+                          className={`block h-3 w-8 border-2 border-cobalt transition-colors duration-500 ${step <= levelIndex && intents.length > 0 ? "bg-cobalt" : "bg-transparent"}`}
+                        />
+                      ))}
+                    </span>
+                    <span key={level} className="animate-[captionIn_400ms_var(--ease-print)_both] text-copy font-semibold text-ink">
+                      {intents.length > 0 ? lead.levels[level] : <span className="text-ink-mute">—</span>}
+                    </span>
+                  </dd>
+                </div>
+
+                <div>
+                  <dt className="mark text-cobalt">{lead.next}</dt>
+                  <dd
+                    key={`${level}-${intents.length > 0}`}
+                    className="mt-2 flex animate-[captionIn_500ms_var(--ease-print)_both] items-center gap-2 font-[family-name:var(--font-hand)] text-[1.7rem] leading-none font-semibold text-cobalt"
+                  >
+                    {intents.length > 0 ? (
+                      <>
+                        <svg aria-hidden viewBox="0 0 30 16" className="h-4 w-7 overflow-visible">
+                          <path d="M1 9 C 10 6, 18 10, 27 8 M21 3 27 8 21 13" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        {lead.actions[level]}
+                      </>
+                    ) : (
+                      <span className="text-copy text-ink-mute">—</span>
+                    )}
+                  </dd>
+                </div>
+              </dl>
+            </article>
+          </aside>
         </div>
       </div>
     </Section>
   );
 }
 
-function Bubble({ turn, label }: { turn: Turn; label: string }) {
-  const isAgent = turn.from === "agent";
-
+/** The mascot's head, reduced to what an avatar needs: a dark face and two eyes. */
+function MiniBot() {
   return (
-    <div
+    <span aria-hidden className="relative block h-9 w-9 rounded-full bg-ink">
+      <span className="absolute top-[42%] left-[30%] h-2.5 w-1.5 rounded-full bg-cobalt shadow-[0_0_6px_1px_rgb(27_46_216/0.7)]" />
+      <span className="absolute top-[42%] right-[30%] h-2.5 w-1.5 rounded-full bg-cobalt shadow-[0_0_6px_1px_rgb(27_46_216/0.7)]" />
+    </span>
+  );
+}
+
+/** One message. The agent's are typed out as they arrive. */
+function Bubble({ turn, typed }: { turn: Turn; typed: boolean }) {
+  const [shown, setShown] = useState(typed ? 0 : turn.text.length);
+
+  useEffect(() => {
+    if (!typed) return;
+    let frame = 0;
+    const started = performance.now();
+    const tick = (now: number) => {
+      const count = Math.min(turn.text.length, Math.floor((now - started) / 14) + 1);
+      setShown(count);
+      if (count < turn.text.length) frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [typed, turn.text]);
+
+  const agent = turn.from === "agent";
+  return (
+    <p
       className={[
-        "flex max-w-[86%] flex-col gap-1.5",
-        isAgent ? "self-start" : "items-end self-end",
-        "motion-safe:animate-[bubbleIn_420ms_var(--ease-north)_both]",
+        "max-w-[86%] animate-[bubbleIn_420ms_var(--ease-print)_both] px-4 py-3 text-copy leading-[1.45]",
+        agent
+          ? "self-start rounded-[12px] rounded-bl-[3px] border-[1.5px] border-cobalt bg-paper text-ink"
+          : "self-end rounded-[12px] rounded-br-[3px] bg-ink text-paper",
       ].join(" ")}
     >
-      <span className="label-mono text-slate">{label}</span>
-      <p
-        className={[
-          "rounded-[var(--radius-plate)] border px-4 py-3 text-meta leading-[1.6]",
-          isAgent
-            ? "border-signal/25 bg-signal/[0.07] text-bone"
-            : "border-hairline bg-white/[0.03] text-ash",
-        ].join(" ")}
-      >
-        {turn.text}
-      </p>
-    </div>
+      <span className="sr-only">{turn.text}</span>
+      <span aria-hidden>{turn.text.slice(0, shown)}</span>
+    </p>
   );
 }

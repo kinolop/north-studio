@@ -1,14 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Geist, Geist_Mono, Golos_Text } from "next/font/google";
+import {
+  Caveat,
+  Martian_Mono,
+  Sofia_Sans,
+  Sofia_Sans_Extra_Condensed,
+} from "next/font/google";
 
-import { Atmosphere } from "@/components/atmosphere/Atmosphere";
 import { ChannelOverlayProvider } from "@/components/contact/ChannelOverlayProvider";
-import { CompassHUD } from "@/components/chrome/CompassHUD";
-import { Footer } from "@/components/chrome/Footer";
-import { Header } from "@/components/chrome/Header";
-import { Preloader } from "@/components/chrome/Preloader";
-import { ScrollRail } from "@/components/chrome/ScrollRail";
-import { SoundToggle } from "@/components/chrome/SoundToggle";
 import { StudioChrome } from "@/components/chrome/StudioChrome";
 import { CopyProvider } from "@/components/i18n/CopyProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
@@ -17,52 +15,38 @@ import { SITE_URL, STUDIO } from "@/lib/studio";
 import "./globals.css";
 
 /**
- * Display face. Archivo is a variable grotesk with a `wdth` axis — pushed
- * wide it reads machined at hero sizes, and it separates the display voice
- * from the body voice by width rather than by genre.
+ * The studio's three voices. Sofia Sans was drawn with Cyrillic as a first
+ * language rather than an afterthought, and its extra-condensed cut runs
+ * from hairline to black on one axis: that range is the whole poster voice.
  */
-const archivo = Archivo({
-  subsets: ["latin", "latin-ext"],
-  axes: ["wdth"],
-  display: "swap",
-  variable: "--font-archivo",
-});
-
-/**
- * The display face for Cyrillic.
- *
- * Archivo has no Cyrillic, and the alternative — replacing it with a face
- * that covers both — would cost the `wdth` axis the whole display voice is
- * built on. So the stack is layered instead: Latin resolves to Archivo,
- * Cyrillic falls through to Golos, a grotesk actually drawn for Cyrillic
- * rather than a Latin face with Cyrillic bolted on. Two scripts, two faces
- * chosen for them, one voice.
- */
-const golos = Golos_Text({
+const sofiaExtraCondensed = Sofia_Sans_Extra_Condensed({
   subsets: ["latin", "cyrillic"],
   display: "swap",
-  variable: "--font-golos",
+  variable: "--font-sofia-xc",
 });
 
-/**
- * Cyrillic is not optional here: the site ships a full Russian locale, and
- * without the subset every heading and paragraph in RU would fall back to
- * a system face and lose the type design entirely.
- */
-const geist = Geist({
+const sofia = Sofia_Sans({
   subsets: ["latin", "cyrillic"],
   display: "swap",
-  variable: "--font-geist",
+  variable: "--font-sofia",
 });
 
-const geistMono = Geist_Mono({
+const martian = Martian_Mono({
   subsets: ["latin", "cyrillic"],
   display: "swap",
-  variable: "--font-geist-mono",
+  variable: "--font-martian",
 });
 
+/** The editor's pen: corrections written over the hero, and a signature. */
+const caveat = Caveat({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  variable: "--font-caveat",
+});
+
+const title = `${STUDIO.name} - сайты, AI-агенты и автоматизация`;
 const description =
-  "North Studio is a founder-led digital studio. We design and build cinematic websites for ambitious small businesses — in weeks, not quarters.";
+  "Авторская студия: сайты, которые приводят клиентов, AI-агенты, которые им отвечают, и автоматизация, которая доводит заявку до CRM.";
 
 export const metadata: Metadata = {
   // Every relative URL in this file and in every page's metadata resolves
@@ -70,17 +54,17 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
   title: {
-    default: `${STUDIO.name} — We make small companies look inevitable`,
-    template: `%s — ${STUDIO.name}`,
+    default: title,
+    template: `%s - ${STUDIO.name}`,
   },
   description,
   applicationName: STUDIO.name,
   keywords: [
-    "design studio",
-    "web design",
-    "cinematic websites",
-    "founder-led studio",
-    "premium web development",
+    "разработка сайтов",
+    "дизайн сайтов",
+    "AI-агент для бизнеса",
+    "автоматизация заявок",
+    "авторская студия",
   ],
   authors: [{ name: STUDIO.name }],
   creator: STUDIO.name,
@@ -88,21 +72,21 @@ export const metadata: Metadata = {
     type: "website",
     siteName: STUDIO.name,
     url: "/",
-    title: `${STUDIO.name} — We make small companies look inevitable`,
+    title,
     description,
     locale: "ru_RU",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${STUDIO.name} — We make small companies look inevitable`,
+    title,
     description,
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07080b",
-  colorScheme: "dark",
+  themeColor: "#ecebe6",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -115,55 +99,29 @@ export default function RootLayout({
     // sends; CopyProvider rewrites it on the client after a switch.
     <html
       lang="ru"
-      className={`${archivo.variable} ${golos.variable} ${geist.variable} ${geistMono.variable}`}
+      className={`${sofiaExtraCondensed.variable} ${sofia.variable} ${martian.variable} ${caveat.variable}`}
+      // The loader adds `intro-running` before hydration finishes.
+      suppressHydrationWarning
     >
       <head>
-        {/* The intro is server-rendered so the hero never flashes behind it.
-            Without JS it would then never dismiss, so no-JS removes it. */}
+        {/* The loader is server-rendered so the page never flashes behind
+            it. Without JS it would never dismiss, so no-JS removes it. */}
         <noscript>
-          <style>{`.north-preloader{display:none!important}`}</style>
+          <style>{`.north-intro,.north-intro+div{display:none!important}`}</style>
         </noscript>
       </head>
       <body>
         <a
-          href="#origin"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:rounded-[var(--radius-control)] focus:bg-riser focus:px-4 focus:py-2 focus:text-meta focus:text-bone"
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
         >
-          Skip to content
+          Перейти к содержанию
         </a>
 
         <CopyProvider>
           <ChannelOverlayProvider>
             <SmoothScroll>
-              {/* Everything inside StudioChrome is North Studio's own
-                  identity. The NOCTURA case is a different company with a
-                  theme of its own, so it renders bare — see
-                  components/chrome/StudioChrome.tsx. The two client cases
-                  never reach this layout at all: they are static documents
-                  served straight out of public/work/. */}
-              <StudioChrome>
-                <Atmosphere />
-                <Header />
-              </StudioChrome>
-
-              {/* Section-aware chrome. `/privacy` is a studio page but has
-                  no bearings to point at, so the instruments sit it out —
-                  see QUIET_ROUTES in StudioChrome. */}
-              <StudioChrome instruments>
-                <Preloader />
-                <ScrollRail />
-                <CompassHUD />
-              </StudioChrome>
-
-              <main id="main">{children}</main>
-
-              <StudioChrome>
-                <Footer />
-              </StudioChrome>
-
-              <StudioChrome instruments>
-                <SoundToggle />
-              </StudioChrome>
+              <StudioChrome>{children}</StudioChrome>
             </SmoothScroll>
           </ChannelOverlayProvider>
         </CopyProvider>

@@ -4,21 +4,21 @@ export const en = {
   localeName: "English",
 
   studio: {
-    availability: "Two project slots open",
-    startProject: "Get in touch",
+    availability: "Taking on projects",
+    startProject: "Discuss your task",
     languageLabel: "Language",
   },
 
   sections: {
     origin: "Origin",
-    studio: "Studio",
-    founder: "Founder",
+    pains: "Sound familiar?",
     services: "Services",
-    agent: "Live agent",
     work: "Work",
+    play: "Play",
+    about: "About",
     process: "Process",
     questions: "Questions",
-    start: "Start",
+    start: "Contact",
     "agent-hero": "North Agent",
     "agent-chat": "Live dialog",
     "agent-capabilities": "Capabilities",
@@ -33,228 +33,323 @@ export const en = {
   },
 
   hero: {
-    // Split across two lines deliberately — the break carries the emphasis.
-    headline: ["Sites, AI agents", "and automation."],
-    lede: "One studio for three jobs: a site that brings people in, an agent that answers them, and automation that takes the routine off your desk.",
-    scrollHint: "Scroll",
-    founderLed: "Founder-led",
-  },
-
-  manifesto: {
-    title: ["We don't ship pages.", "We ship working machinery."],
-    body: [
-      "A site brings people in. An agent answers them while you sleep. Automation makes sure nothing is lost between the two. Separately they are tools; together they are a system that runs without you.",
-      "North Studio is founder-led. The person you brief is the person who designs it and the person who writes the code. Nothing is translated through a project manager, and nothing arrives diluted.",
-      "Our pipeline is AI-assisted, which is not the same as AI-generated. The mechanical hours collapse — scaffolding, variants, the fourth pass. The hours that remain go into judgement. That is why work an agency would quote at a quarter takes us weeks.",
-    ],
-    principles: [
-      { term: "Restraint", definition: "The luxury is in what we left out." },
-      { term: "Speed", definition: "Weeks, not quarters — the pipeline is built, not improvised." },
-      { term: "Ownership", definition: "You leave with the code, the accounts and the keys." },
-    ],
-  },
-
-  founder: {
-    title: ["The studio is", "one person."],
-    // NOTE FOR THE FOUNDER: this is an honest draft in your voice, not a
-    // biography. No names, dates, employers or numbers are asserted.
-    // Confirm or rewrite before launch — and add your name to `signature`.
-    body: [
-      "You will not be handed to an account manager, and there is no team behind me to point at. I take the brief, I draw it, I build it, and I am the person who answers when something is wrong.",
-      "That is the whole pitch. A studio this small survives only on work good enough to be passed on, so that is the only kind I take.",
-    ],
-    signature: "Founder, North Studio",
-    portraitNote:
-      "NORTH — FOUNDER PORTRAIT · REPLACE THIS · recommended 4:5, dark cinematic",
-  },
-
-  services: {
-    title: ["Three directions.", "One team."],
-    lede: "Take one, or take all three — they are built to fit together.",
-    ghost: "SERVICES",
-    discuss: "Discuss",
-    items: [
+    runningHead: ["North Studio", "Daniil Skrylev", "Websites, AI agents, automation"],
+    headline:
+      "Websites, AI agents and automation that bring clients in and keep them from slipping away.",
+    proofs: [
       {
         key: "sites",
-        name: "Sites and landing pages",
-        short: "Site",
-        summary:
-          "A page, or a whole site, that explains why you are the better choice and carries a visitor to the point of asking. Direction, copy and build in one pass.",
-        includes: [
-          "Art direction and the words",
-          "Motion and interaction design",
-          "Built, deployed, handed over",
-        ],
+        tab: "Website",
+        before: "You have a website, ",
+        struck: "but no leads",
+        fix: "and it brings leads",
+        after: ".",
+        note: "I rebuild the site so a visitor understands in a minute why you, and leaves a request.",
       },
       {
         key: "agents",
-        name: "AI agents · North Agent",
-        short: "Agent",
-        summary:
-          "An assistant that answers your clients in seconds at any hour, works out what they actually need, and hands you someone already warm.",
-        includes: [
-          "Trained on how you actually sell",
-          "Qualifies before it hands over",
-          "Lives where your clients already are",
-        ],
+        tab: "AI agent",
+        before: "A client wrote at 23:40 ",
+        struck: "and heard back at noon",
+        fix: "and got an answer at once",
+        after: ".",
+        note: "An AI agent answers clients day and night, finds out what they need and hands you the ones ready to buy.",
       },
       {
         key: "automation",
-        name: "Automation · North Flow",
-        short: "Automation",
-        summary:
-          "Every enquiry from every channel in one place, sorted and filed in your CRM, with the morning report waiting in Telegram. Nothing retyped, nothing lost.",
-        includes: [
-          "Routed the moment it lands",
-          "Your tools wired to each other",
-          "Reports that arrive without asking",
-        ],
+        tab: "Automation",
+        before: "Leads ",
+        struck: "get lost in chats",
+        fix: "land in your CRM",
+        after: ".",
+        note: "I gather leads from every channel into one place. Each has an owner, and nobody forgets to call back.",
+      },
+    ],
+    lede: "I'm Daniil. I find where a business loses clients and fix it with a website, an AI agent or automation.",
+    secondary: "What I do",
+    hint: "Cross the problem out",
+  },
+
+  marquee: {
+    items: [
+      "Websites that bring leads",
+      "AI agents that answer at night",
+      "No lost enquiries",
+      "Code and accounts stay yours",
+      "Same-day replies",
+    ],
+  },
+
+  pains: {
+    title: "Sound familiar?",
+    lede: "Most people come to me with one of these. Each one quietly eats the leads you have already paid for.",
+    items: [
+      {
+        key: "old",
+        pain: "The site is years old and you'd rather not send the link.",
+        mark: "rather not send the link",
+        cost: "Someone opens it, sees it's outdated and goes to a competitor. You never find out.",
+      },
+      {
+        key: "ads",
+        pain: "The ads are running, but enquiries barely come in.",
+        mark: "barely come in",
+        cost: "People arrive but can't tell why you're better or what to do next. Budget goes out, the phone stays quiet.",
+      },
+      {
+        key: "slow",
+        pain: "Clients write in the evening and at weekends, and nobody answers.",
+        mark: "nobody answers",
+        cost: "By the time you reply, they have already agreed with whoever answered first.",
+      },
+      {
+        key: "lost",
+        pain: "Leads are scattered across WhatsApp, Telegram, email and calls.",
+        mark: "scattered",
+        cost: "Someone was never called back, someone was noted on a scrap of paper. Every lost lead is ad money gone.",
+      },
+    ],
+    closing: "All of this can be fixed. Here's how I do it.",
+  },
+
+  about: {
+    title: ["One person", "from idea to launch"],
+    statement:
+      "My name is Daniil. I work through your task myself, write the copy, design and write the code. There are no managers or contractors between you and the result, so nothing gets lost on the way and you never explain the same thing to three different people.",
+    signature: "Daniil",
+    principles: [
+      {
+        key: "direct",
+        term: "Direct",
+        definition: "You talk to the person doing the work. Nothing retold through a manager.",
+      },
+      {
+        key: "yours",
+        term: "It's yours",
+        definition: "Code, domain and accounts stay with you. No monthly fee.",
+      },
+      {
+        key: "honest",
+        term: "Price upfront",
+        definition: "You get the price and timeline before work starts, and they don't grow along the way.",
       },
     ],
   },
 
-  agent: {
-    title: ["It answers at 03:00.", "You read it at nine."],
-    lede: "A scripted demonstration of the kind of agent we build. It replies instantly, collects the contact, works out what the job actually is, and hands a warm lead to a person.",
-    demoLabel: "Demo — a script, not a live model",
-    visitorRole: "Visitor",
-    agentRole: "North agent",
-    script: [
-      { from: "visitor", text: "Hi — what does a landing page cost?" },
+  services: {
+    title: ["What I", "do"],
+    lede: "Three directions. Start with one, but together they cover the client's whole path: from the first visit to the deal.",
+    discuss: "Discuss your task",
+    labels: {
+      problem: "What people come with",
+      what: "What I do",
+      result: "What you get",
+      term: "Timeline",
+    },
+    items: [
       {
-        from: "agent",
-        text: "That depends on the scope, and we give you a real number once we understand the job rather than guess at it here. Two quick questions and you'll have an answer today. What's the page for?",
+        key: "sites",
+        name: "Websites and landing pages",
+        short: "Websites",
+        summary: "A site that explains why to choose you and carries a visitor to the enquiry.",
+        problem:
+          "You have a site, but it doesn't sell: it's outdated, it's unclear what you do, or it's a business card nobody writes from.",
+        what: [
+          "I learn who your clients are and what stops them",
+          "I write the copy and plan the structure",
+          "I design and build the site",
+          "I connect enquiries and analytics, hand over access",
+        ],
+        result: "A site you're happy to share, with a clear path from the first screen to the enquiry.",
+        term: "A landing page in about two weeks, a full site in four to five.",
       },
-      { from: "visitor", text: "We're launching a coffee subscription." },
       {
-        from: "agent",
-        text: "Good — one page, one action, nothing in the way of it. Roughly when would you want it live?",
+        key: "agents",
+        name: "AI agents",
+        short: "Agents",
+        summary: "An assistant that answers your clients in seconds at any hour.",
+        problem:
+          "Clients wait hours for a reply, a manager spends the day on the same questions, and evening enquiries sit until morning.",
+        what: [
+          "I gather common questions, prices and terms",
+          "I set the agent up to speak your language",
+          "I connect it to your site, Telegram or WhatsApp",
+          "It hands you clients who are ready to talk",
+        ],
+        result: "No client waits for an answer. The people who reach you already know what they want.",
+        term: "Usually quicker than a website.",
       },
-      { from: "visitor", text: "Some time next month." },
       {
-        from: "agent",
-        text: "That's comfortable. Leave a Telegram handle or an email and we come back today with the scope and a fixed price.",
+        key: "automation",
+        name: "Automation",
+        short: "Automation",
+        summary: "Every enquiry from every channel in one place, with no copying by hand and nothing lost.",
+        problem:
+          "Enquiries arrive in five places at once, get retyped by hand, and reports are pieced together in the evening.",
+        what: [
+          "I map how an enquiry moves through your team now",
+          "I connect your site, messengers, email and CRM",
+          "I set who each enquiry goes to",
+          "I build a report that arrives in Telegram on its own",
+        ],
+        result: "Every enquiry is in place and has an owner. The report arrives without reminders.",
+        term: "Live within a few days.",
       },
     ],
-    reply:
-      "Noted. In the real agent this is where I would take your details and hand you to a person. Here, the button below is faster.",
-    placeholder: "Type anything…",
-    send: "Send",
-    cta: "Build me one of these",
-    replaying: "Replay",
+    diagram: {
+      label: "Diagram: where enquiries come from and where they end up",
+      inputs: ["Website", "Ads", "Telegram", "WhatsApp", "Calls"],
+      core: "North",
+      outputs: ["Reply to client", "CRM record", "Manager", "Morning report"],
+    },
+  },
+
+  play: {
+    title: ["While you think,", "play a round."],
+    lede: "Pong against North. Your paddle is on the left, first to five wins.",
+    start: "Start game",
+    again: "Play again",
+    you: "You",
+    north: "North",
+    win: "You won. Since you're here, write to me.",
+    lose: "North won. Rematch?",
+    controls: "Mouse, finger or arrow keys",
+    canvasLabel: "Pong table",
   },
 
   agentCase: {
     demoTag: "Demo concept",
     backToWork: "All work",
     productName: "North Agent",
-    promise: [
-      "The assistant that talks to your clients",
-      "for you — instantly, around the clock.",
-    ],
-    heroCta: "Want North Agent working for you?",
-    brand: "LEKTA",
     brandNote:
-      "The school below is invented, and so is every figure on this page. It exists so the agent can be shown doing its job on something concrete rather than in the abstract.",
+      "The agent is shown working for LEKTA, an invented online school, so you can see it on a concrete example. Replies in the demo are scripted.",
+
+    hero: {
+      title: ["Answers your clients", "while you're busy"],
+      lede: "An AI assistant for your site and messengers. It replies in seconds at any hour, works out what a person needs and hands you the ones ready to buy.",
+      cta: "I want this agent",
+      secondary: "Talk to it",
+    },
 
     chat: {
-      title: ["Watch it close", "an enrolment."],
-      lede: "Deployed here as the assistant for LEKTA, a made-up online school. Course dates, payment, instalments, holding the seat — the questions a real school answers forty times a day.",
+      title: ["Talk to it", "yourself"],
+      lede: "Here the agent works as an online school's assistant. Ask a question and watch the client card for the manager fill in beside the chat.",
       demoLabel: "Scripted demo",
-      studentRole: "Student",
+      visitorRole: "You",
       agentRole: "LEKTA assistant",
-      script: [
-        { from: "student", text: "Hi! When does the next Python cohort start?" },
-        {
-          from: "agent",
-          text: "Hello! The next one starts on the 3rd. There are still seats in the morning and the evening group. Want me to match one to your schedule?",
-        },
-        { from: "student", text: "Evening. Do you do instalments?" },
-        {
-          from: "agent",
-          text: "We do — six months, no interest added. I can hold a seat for you in the evening group and send the payment link right here.",
-        },
-        { from: "student", text: "Yes, please." },
-        {
-          from: "agent",
-          text: "Done — the seat is held for 24 hours. I have sent the link and the first module's syllabus. Any questions about the course, I am here at any hour.",
-        },
+      greeting:
+        "Hello! I'm the assistant at LEKTA online school. I can help with dates, price, format and instalments. What would you like to know?",
+      suggestionsLabel: "Try asking",
+      suggestions: [
+        "When does the next cohort start?",
+        "Can I pay in instalments?",
+        "How long is the course?",
+        "Is there a trial lesson?",
+        "Get me a person",
       ],
-      placeholder: "Ask it something…",
+      placeholder: "Type your question",
       send: "Send",
-      replay: "Replay",
+      restart: "Start again",
+      lead: {
+        title: "Client card",
+        subtitle: "How your manager sees the conversation",
+        empty: "Ask a question and the card starts filling in",
+        asked: "Asked about",
+        readiness: "Readiness",
+        next: "Next step",
+        levels: { cold: "browsing", warm: "interested", hot: "ready to enrol" },
+        actions: {
+          cold: "send the programme",
+          warm: "offer a trial lesson",
+          hot: "call today",
+        },
+        intents: {
+          start: "start date",
+          price: "price",
+          instalments: "instalments",
+          duration: "duration",
+          format: "format",
+          certificate: "certificate",
+          job: "jobs",
+          trial: "trial lesson",
+          human: "wants a person",
+          other: "something else",
+        },
+      },
     },
 
     capabilities: {
-      title: ["What it does", "all day."],
+      title: ["What it does", "for you"],
       items: [
         {
           key: "answers",
-          name: "Answers instantly, 24/7",
-          body: "No question waits until morning. Nights, weekends, the hour your ads run hottest — it replies in seconds, every time.",
-          slotLabel: "CAPABILITY · ANSWERS · REPLACE · 4:5",
+          name: "Replies at once, at any hour",
+          body: "At night, at weekends and at peak hour the answer comes in seconds. Clients don't drift to whoever replied first.",
         },
         {
           key: "knows",
-          name: "Knows your programme cold",
-          body: "Trained on your courses, your terms and your FAQ, answering in your brand's voice rather than a generic assistant's.",
-          slotLabel: "CAPABILITY · KNOWS · REPLACE · 4:5",
+          name: "Knows your terms",
+          body: "Works from your prices, terms and common questions, and answers in your voice rather than like a faceless bot.",
         },
         {
           key: "enroll",
-          name: "Drives to enrolment",
-          body: "Qualifies, handles the usual objections, holds the seat and sends the link. Anything it should not decide alone goes to a person.",
-          slotLabel: "CAPABILITY · ENROL · REPLACE · 4:5",
+          name: "Carries them to booking",
+          body: "Finds out what they need, settles the usual doubts and hands you a client ready to buy. Hard questions go to a person.",
         },
       ],
     },
 
+    night: {
+      title: ["One enquiry", "at 23:40"],
+      lede: "What happens to a client who writes late in the evening. Flip the switch and compare.",
+      without: "Without the agent",
+      with: "With the agent",
+      withoutMoments: [
+        { time: "23:40", text: "The client writes: “Any places left on the course?”" },
+        { time: "23:41", text: "Silence. The working day ended hours ago." },
+        { time: "09:30", text: "A manager replies in the morning." },
+        { time: "09:31", text: "“Thanks, I've already signed up elsewhere.”" },
+      ],
+      withMoments: [
+        { time: "23:40", text: "The client writes: “Any places left on the course?”" },
+        { time: "23:40", text: "The agent replies: yes, it starts on the 3rd." },
+        { time: "23:43", text: "It finds a format that suits them and explains instalments." },
+        { time: "09:00", text: "The manager opens the CRM: the client's card and the whole conversation are there." },
+      ],
+      withoutVerdict: "Client lost",
+      withVerdict: "Client waiting for a call",
+    },
+
     deploy: {
-      title: ["How it lands", "on your site."],
+      title: ["How it gets", "to you"],
       items: [
         {
           key: "widget",
           name: "One line of code",
-          body: "A widget on your site, or inside the chat your clients already use.",
+          body: "A widget on your site, or right inside Telegram and WhatsApp where your clients already write.",
         },
         {
           key: "trained",
-          name: "Trained on your data",
-          body: "Courses, terms, policies — the answers you already repeat every day.",
+          name: "Trained on your answers",
+          body: "Prices, terms, rules and the answers you already repeat every day.",
         },
         {
           key: "handoff",
-          name: "Hands off cleanly",
-          body: "Straight into your CRM and Telegram, with the whole thread attached.",
+          name: "Hands over to a person",
+          body: "The client goes to your CRM and Telegram with the whole conversation attached.",
         },
         {
           key: "analytics",
-          name: "Dialogue analytics",
-          body: "What people actually ask, where they hesitate, what wins the seat.",
+          name: "Shows what people ask",
+          body: "You see which questions come up most and where clients hesitate.",
         },
-      ],
-    },
-
-    numbers: {
-      title: ["The shape of", "the result."],
-      disclaimer: "Demo concept — illustrative figures, not measured client results.",
-      items: [
-        { key: "reply", value: 2, suffix: " sec", label: "Average reply" },
-        { key: "hours", value: null, suffix: "", literal: "24/7", label: "Always answering" },
-        { key: "missed", value: 0, suffix: "", label: "Missed enquiries" },
       ],
     },
 
     cta: {
-      title: ["Want North Agent", "working for you?"],
-      lede: "Tell us what your clients keep asking. We will show you this trained on your own answers.",
-      action: "Start a project",
-    },
-
-    slots: {
-      hero: "HERO BG · hero-bg.png · REPLACE · 16:9 · hero.mp4 overrides if present",
-      cta: "CTA BG · cta-bg.png · REPLACE · 16:9 · dark, low-key",
-      mascot: "NORTH AGENT MASCOT · REPLACE · ~1:1 · dark chrome",
+      title: ["Want this agent", "working for you?"],
+      lede: "Tell me what clients ask most often. I'll show you how the agent would answer your own clients.",
+      action: "Discuss your task",
     },
   },
 
@@ -262,407 +357,299 @@ export const en = {
     demoTag: "Demo concept",
     backToWork: "All work",
     productName: "North Flow",
-    promise: [
-      "Leads that handle themselves —",
-      "collected, qualified and filed",
-      "while you sleep.",
-    ],
-    heroCta: "Want North Flow running your leads?",
-    brand: "VOLNA",
     brandNote:
-      "The store below is invented, and so is every figure on this page. It exists so the line can be shown running on something concrete rather than in the abstract.",
+      "The line is shown on an invented furniture store. The enquiries are made up; the mechanics are the ones you would get.",
 
-    conveyor: {
-      title: ["A night's worth of leads,", "filing themselves."],
-      lede: "Everything that reaches VOLNA — a form on the site, Telegram, WhatsApp, Avito, a missed call — enters the same line. It is read, tagged warm or cold, handed to the manager who should have it, and filed. Nobody retypes anything, and nothing waits until morning.",
-      lineLabel: "North Flow · line 01",
-      runningLabel: "Running",
-      clientLabel: "VOLNA · online store",
-      stages: [
-        { key: "in", name: "New lead", note: "Every channel, one queue" },
-        {
-          key: "qualify",
-          name: "AI qualification",
-          note: "Warm or cold, and how urgent",
-        },
-        {
-          key: "route",
-          name: "Manager",
-          note: "The person who should have it",
-        },
-        { key: "crm", name: "CRM card", note: "Filed with the whole thread" },
-      ],
-      cardsLabel: "cards",
-      filedLabel: "In CRM",
+    channels: {
+      telegram: "Telegram",
+      whatsapp: "WhatsApp",
+      site: "Website",
+      avito: "Marketplace",
+      call: "Call",
+      email: "Email",
+    },
+    stations: ["Intake", "AI tagging", "Manager", "CRM"],
+    managers: ["Anna", "Igor", "Mira"],
+    nurture: "Nurture",
+    tones: { warm: "warm", cold: "nurture" },
+    priorities: { high: "urgent", normal: "normal", low: "not urgent" },
+
+    hero: {
+      title: ["Enquiries that", "sort themselves"],
+      lede: "North Flow gathers enquiries from every channel, tags them and hands them out to managers in your CRM. Nobody retypes anything, and no enquiry gets lost.",
+      cta: "I want this line",
+      chaosNote: "enquiries without a system",
+      orderNote: "and after the line",
+      filedLabel: "in CRM",
       leads: [
-        {
-          key: "tg-size",
-          channel: "Telegram",
-          source: "lead from Telegram",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "high",
-          route: "Anna",
-        },
-        {
-          key: "site-cart",
-          channel: "Site",
-          source: "form on the site",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "normal",
-          route: "Igor",
-        },
-        {
-          key: "avito-price",
-          channel: "Avito",
-          source: "message on Avito",
-          tone: "cold",
-          toneLabel: "cold",
-          priority: "low",
-          route: "nurture",
-        },
-        {
-          key: "call-missed",
-          channel: "Call",
-          source: "missed call",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "high",
-          route: "Mira",
-        },
-        {
-          key: "wa-delivery",
-          channel: "WhatsApp",
-          source: "lead on WhatsApp",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "normal",
-          route: "Pavel",
-        },
-        {
-          key: "site-bulk",
-          channel: "Site",
-          source: "wholesale form on the site",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "high",
-          route: "Anna",
-        },
-        {
-          key: "tg-return",
-          channel: "Telegram",
-          source: "returns question in Telegram",
-          tone: "cold",
-          toneLabel: "cold",
-          priority: "low",
-          route: "nurture",
-        },
-        {
-          key: "avito-stock",
-          channel: "Avito",
-          source: "message on Avito",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "normal",
-          route: "Igor",
-        },
-        {
-          key: "site-night",
-          channel: "Site",
-          source: "form on the site, night",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "normal",
-          route: "Mira",
-        },
-        {
-          key: "wa-photo",
-          channel: "WhatsApp",
-          source: "photo on WhatsApp",
-          tone: "cold",
-          toneLabel: "cold",
-          priority: "low",
-          route: "nurture",
-        },
-        {
-          key: "call-second",
-          channel: "Call",
-          source: "second missed call",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "high",
-          route: "Pavel",
-        },
-        {
-          key: "tg-gift",
-          channel: "Telegram",
-          source: "gift sets, in Telegram",
-          tone: "warm",
-          toneLabel: "warm",
-          priority: "normal",
-          route: "Anna",
-        },
+        { key: "h1", channel: "telegram", tone: "warm", text: "Do you have this sofa in grey? Need it by Friday" },
+        { key: "h2", channel: "site", tone: "warm", text: "Order me 2 armchairs, paying now" },
+        { key: "h3", channel: "avito", tone: "cold", text: "Any discount?" },
+        { key: "h4", channel: "call", tone: "warm", text: "Missed call at 21:14" },
+        { key: "h5", channel: "whatsapp", tone: "warm", text: "How much is delivery out of town?" },
+        { key: "h6", channel: "email", tone: "warm", text: "Invoice for a company, 5 dressers" },
+        { key: "h7", channel: "telegram", tone: "cold", text: "Just browsing, send the catalogue" },
+        { key: "h8", channel: "whatsapp", tone: "warm", text: "The chair arrived chipped, what now?" },
+        { key: "h9", channel: "avito", tone: "cold", text: "Still available?" },
+        { key: "h10", channel: "site", tone: "warm", text: "20 tables wholesale for a cafe" },
       ],
+    },
 
-      journal: {
-        title: "Automation journal",
-        liveLabel: "Live",
-        note: "Every line is the machine writing down what it just did.",
+    lab: {
+      title: ["Send an enquiry", "down the line"],
+      lede: "Pick where the enquiry came from and write what your client would ask. The line sorts it in front of you.",
+      channelLabel: "Came from",
+      messageLabel: "What the client writes",
+      placeholder: "For example: need a sofa by Friday, how much is delivery?",
+      presetsLabel: "Or take one of these",
+      presets: [
+        "Need a sofa by Friday, urgent",
+        "How much is delivery?",
+        "Just looking around",
+        "Call me back, I want to order",
+      ],
+      send: "Send down the line",
+      queued: "queued",
+      yours: "yours",
+      autoNote: "While you think, the line sorts enquiries on its own",
+      boardTitle: "CRM",
+      journalTitle: "Line log",
+      journalEmpty: "The line is waiting for enquiries",
+      log: {
+        received: "enquiry from {channel}",
+        qualified: "AI: {tone}, {priority}",
+        routed: "assigned to {route}",
+        filed: "record created in CRM",
       },
+      samples: [
+        { key: "s1", channel: "whatsapp", text: "Can I see the armchair in the showroom today?" },
+        { key: "s2", channel: "site", text: "I want to order a kitchen table, how long?" },
+        { key: "s3", channel: "avito", text: "Is the price negotiable?" },
+        { key: "s4", channel: "telegram", text: "What are the wardrobe dimensions?" },
+        { key: "s5", channel: "call", text: "Missed call at 22:05" },
+        { key: "s6", channel: "email", text: "Send the invoice, we'll pay tomorrow" },
+        { key: "s7", channel: "telegram", text: "I'll look later, thanks" },
+        { key: "s8", channel: "whatsapp", text: "Need 3 chairs before the weekend" },
+      ],
+    },
 
-      tally: {
-        label: "This demo, since the line started",
-        hoursSuffix: " h",
-        items: [
-          { key: "processed", label: "Leads processed" },
-          { key: "warm", label: "Warm" },
-          { key: "cold", label: "To nurture" },
-          { key: "hours", label: "Hours saved" },
-        ],
-      },
-
-      stats: {
-        disclaimer:
-          "Demo concept — illustrative figures, not measured client results.",
-        items: [
-          {
-            key: "qualify",
-            value: 0.8,
-            decimals: 1,
-            suffix: " s",
-            label: "To read and tag a lead",
-          },
-          {
-            key: "always",
-            value: null,
-            suffix: "",
-            literal: "24/7",
-            label: "The line never sleeps",
-          },
-          { key: "missed", value: 0, suffix: "", label: "Leads missed" },
-        ],
-      },
-
-      stillLabel:
-        "Held still — your system asks for reduced motion, so the line is drawn as it stands.",
+    report: {
+      title: ["In the morning this", "lands in your Telegram"],
+      lede: "The report is built from the enquiries that went down the line on this page: the ten above, and every one you sent.",
+      heading: "North Flow, overnight report",
+      time: "09:00",
+      processed: "Enquiries sorted",
+      warm: "Warm",
+      cold: "To nurture",
+      yours: "Sent by you",
+      lost: "Lost",
+      byManager: "By manager",
+      reset: "Clear the line",
     },
 
     inside: {
-      title: ["What it wires", "together."],
-      lede: "Six jobs, none of which anyone should still be doing by hand.",
+      title: ["What the line", "takes off your hands"],
       items: [
         {
           key: "collect",
-          name: "One queue for every channel",
-          body: "Site forms, Telegram, WhatsApp, Avito, missed calls. They land in one place, in one format, with the source kept.",
+          name: "Every channel, one queue",
+          body: "Website, Telegram, WhatsApp, marketplaces, email and missed calls land in one place, in one format.",
         },
         {
           key: "qualify",
-          name: "AI qualification",
-          body: "Warm or cold, how urgent it is and what the person actually wants — decided in under a second and written onto the lead.",
+          name: "AI tagging",
+          body: "The line understands what the client needs and how urgent it is, and tags the enquiry in a second.",
         },
         {
-          key: "write",
-          name: "Straight into your CRM",
-          body: "A card with the whole thread, the source and the tag. Your sheets updated, and a Telegram notification the moment it lands.",
+          key: "route",
+          name: "To the right manager",
+          body: "The enquiry goes straight to whoever owns it. Nobody decides by hand who should take it.",
+        },
+        {
+          key: "crm",
+          name: "A CRM record",
+          body: "With the whole conversation, the source and the tag. Nothing to copy out of messengers.",
         },
         {
           key: "reply",
-          name: "The client is answered first",
-          body: "An instant first reply that holds the conversation — polite, specific, in your voice — while your manager is asleep.",
+          name: "A first reply to the client",
+          body: "The client hears back at once, even at night, and doesn't go to whoever replied first.",
         },
         {
           key: "report",
-          name: "A morning report in Telegram",
-          body: "Volume, sources, conversion and who is carrying the load. Waiting for you before the first coffee, without anyone assembling it.",
-        },
-        {
-          key: "always",
-          name: "The same speed at 3am",
-          body: "It runs around the clock, at peak ad spend and on a dead Tuesday. It does not tire, and it does not forget one.",
+          name: "A morning report",
+          body: "How many enquiries came in, from where, and who is carrying what. No spreadsheets, no reminders.",
         },
       ],
     },
 
     deploy: {
-      title: ["How we put it", "on your channels."],
+      title: ["How it gets", "to you"],
       items: [
         {
-          key: "connects",
-          name: "Connects to what you have",
-          body: "Your CRM, your messengers, your sheets. No migration and nothing to relearn.",
+          key: "map",
+          name: "I map your process",
+          body: "Where enquiries come from and where they get lost today.",
         },
         {
-          key: "process",
-          name: "Built around your process",
-          body: "We map how a lead actually travels through your team, then wire that — not a template of it.",
+          key: "connect",
+          name: "I connect your tools",
+          body: "Your CRM, messengers and spreadsheets. No moving anywhere.",
         },
         {
-          key: "live",
-          name: "Live in days",
-          body: "A working line on your real channels within days, watched closely through the first week.",
+          key: "launch",
+          name: "Live within a few days",
+          body: "The line runs on your real channels, and for the first week I watch it with you.",
         },
         {
           key: "yours",
-          name: "Yours to keep",
-          body: "The scenarios, the keys and the documentation. No monthly fee to keep your own automation running.",
+          name: "It all stays yours",
+          body: "Scenarios, access and instructions. No monthly fee to keep the line running.",
         },
       ],
     },
 
     cta: {
-      title: ["Want North Flow", "running your leads?"],
-      lede: "Tell us where your leads come in and where they go missing. We will show you this line built on your own channels.",
-      action: "Start a project",
-    },
-
-    slots: {
-      mascot:
-        "REUSES THE NORTH AGENT MASCOT · /work/north-agent/assets/mascot.png · ~1:1",
+      title: ["Want this line", "working for you?"],
+      lede: "Tell me where enquiries come from and where they get lost. I'll show you the line running on your channels.",
+      action: "Discuss your task",
     },
   },
 
   work: {
-    title: ["Open one", "and try it."],
-    lede: "Five cases you can actually use: our agent, our automation, two sites we built for clients, and a whole brand we invented and built end to end.",
-    caseCta: "Open the case",
+    title: ["Work"],
+    lede: "Sites for clients, a brand invented from scratch, and my own products. Every one can be opened and tried.",
+    hint: "Drag the ribbon",
+    caseCta: "Open",
     projects: [
+      {
+        key: "domstroy",
+        name: "Domstroy",
+        discipline: "Website for a home builder",
+        summary:
+          "Turnkey houses outside Moscow. A cost calculator, a map of finished builds and an open estimate.",
+        year: "2026",
+      },
+      {
+        key: "dental-clinic",
+        name: "Dental Clinic",
+        discipline: "Website for a dental clinic",
+        summary:
+          "Treatments, doctors, prices, a before-and-after slider and booking from anywhere on the page.",
+        year: "2026",
+      },
+      {
+        key: "noctura",
+        name: "Noctura",
+        discipline: "Hotel brand and site, concept",
+        summary:
+          "A hotel that does not exist: its own identity, full-screen film and a lift between floors.",
+        year: "2026",
+      },
       {
         key: "north-agent",
         name: "North Agent",
-        discipline: "Our own product / AI agent",
+        discipline: "AI agent, my product",
         summary:
-          "The assistant we build for clients, shown working end to end: it answers, qualifies and closes an enrolment while you read it. A demo concept you can talk to.",
+          "An assistant that answers clients, finds out what they need and carries them to booking. You can talk to it.",
         year: "2026",
       },
       {
         key: "north-flow",
         name: "North Flow",
-        discipline: "Our own product / Automation",
+        discipline: "Automation, my product",
         summary:
-          "The line we build for clients, running live on the page: leads arrive from every channel, get qualified, routed to a manager and filed in the CRM. A demo concept you can stand and watch.",
-        year: "2026",
-      },
-      {
-        key: "domstroy",
-        name: "DOMSTROY",
-        discipline: "Client project / Construction company site",
-        summary:
-          "Turnkey houses outside Moscow. A dark page where the price assembles itself in front of you: a one-minute calculator, a map of the 202 houses already handed over across eight districts, and an itemised estimate for a 156 m² build — all before anyone has to call a manager.",
-        year: "2026",
-      },
-      {
-        key: "dental-clinic",
-        name: "DENTAL CLINIC",
-        discipline: "Client project / Dental clinic site",
-        summary:
-          "A full-service dental practice: treatments, doctors, prices, and a before-and-after slider that drags with a mouse, a finger or the arrow keys. Booking opens from anywhere on the page — phone mask, validation, and a \"request received\" screen.",
-        year: "2026",
-      },
-      {
-        key: "noctura",
-        name: "NOCTURA",
-        discipline: "Demo concept / Hotel brand and site",
-        summary:
-          "A five-star hotel that does not exist, presented the way it would present itself — its own dark-and-gold identity, full-bleed film, and a lift that carries you between the room floors. A Russian-language concept, built whole.",
+          "Enquiries from every channel land on one line, get tagged and filed into the CRM.",
         year: "2026",
       },
     ],
   },
 
   process: {
-    title: ["How a project", "actually runs."],
-    lede: "Four movements. You know the price and the date before the second one starts.",
+    title: ["How I", "work"],
+    lede: "You know the price and timeline before I start.",
     ofLabel: "of",
-    leavesYouWith: "Leaves you with",
+    leavesYouWith: "You get",
     steps: [
       {
         key: "orientation",
-        name: "Getting to know it",
-        body: "You write on whatever channel suits you and say what you need. We answer the same day with what we would build and how long it takes.",
-        artifact: "Scope, fixed price, start date",
+        name: "Intro",
+        body: "You write on whatever messenger suits you and describe the task. The same day I reply with what I'd do, what it costs and how long it takes.",
+        artifact: "Plan, price and timeline",
       },
       {
         key: "direction",
         name: "Direction",
-        body: "Art direction, structure and the real copy. No wireframes, no lorem — you review the actual thing on the actual screen, in week one.",
-        artifact: "Live direction, approved",
+        body: "I get to know your business and clients. In week one you see the structure, copy and design on a live screen, not in a slide deck.",
+        artifact: "Approved direction",
       },
       {
         key: "build",
         name: "Build",
-        body: "Designed and coded in the same pass, so nothing is lost in translation. A staging link goes up on day one and you watch it assemble.",
-        artifact: "Staging link, updated daily",
+        body: "I do design and code myself, with no hand-offs. A link to the working version exists from day one, so you see every step.",
+        artifact: "Working version, updated daily",
       },
       {
         key: "launch",
         name: "Launch",
-        body: "Deployed, measured, handed over. Code, files, domain, analytics — all of it yours. Two weeks of support after go-live.",
-        artifact: "Keys, and everything they open",
+        body: "I launch, check that enquiries arrive and hand over every account. For two weeks after launch I stay in touch and fix anything needed.",
+        artifact: "Code, domain, accounts and support",
       },
     ],
   },
 
   questions: {
-    title: ["Before you", "ask."],
+    title: ["Questions"],
     items: [
       {
         key: "speed",
-        q: "How fast is fast?",
-        a: "A landing page runs about two weeks, a full site four to five. An agent or an automation is usually quicker than either. The clock starts when the content exists — and since waiting on content is the single biggest cause of delay, we write it for you unless you'd rather not.",
-      },
-      {
-        key: "ai",
-        q: "What does “AI-assisted” actually mean?",
-        a: "The mechanical hours compress: scaffolding, layout variants, refactors, boilerplate. It does not mean a model generates your product. Every design decision, every line of copy and every interaction was chosen by a person. The pipeline buys time; the time goes into craft.",
-      },
-      {
-        key: "ownership",
-        q: "Do I own it?",
-        a: "Completely. Source code, design files, domain, hosting, analytics, and the agent's scenarios. No licence, no lock-in, no monthly fee to keep your own work online. If you want a different studio to take it over next year, they can.",
+        q: "How long does it take?",
+        a: "A landing page takes about two weeks, a full site four to five. An agent or automation is usually quicker. I give an exact timeline after our first conversation.",
       },
       {
         key: "price",
-        q: "Why does this cost more than a freelancer?",
-        a: "Because you're not buying pages. You're buying the judgement that decides what goes on them, and a build that still looks current in three years. If price is the deciding factor, a template will serve you better — and we'll say so.",
+        q: "How much does it cost?",
+        a: "It depends on the task. After a short conversation I name the price, and it doesn't change during the work.",
+      },
+      {
+        key: "alone",
+        q: "You work alone. Isn't that a risk?",
+        a: "You deal directly with the person doing the work, so nothing gets lost between people. Code and accounts are yours from day one.",
+      },
+      {
+        key: "agent",
+        q: "Won't the AI agent tell clients something wrong?",
+        a: "The agent answers only from what you give it: prices, terms, common questions. If a question is complicated, it hands the client to you.",
+      },
+      {
+        key: "ownership",
+        q: "Will the site be mine?",
+        a: "Yes. Code, domain, hosting and accounts stay with you. No monthly payments to keep the site running.",
       },
       {
         key: "revisions",
-        q: "How many revisions do I get?",
-        a: "Two structured rounds per phase, which is enough because you approve direction before anything gets built. We've never reached the limit. It exists to keep scope finite, not to bill you.",
+        q: "What if I don't like something?",
+        a: "Every stage has two rounds of changes. You approve the direction before the build, so nothing has to be redone from scratch.",
       },
       {
         key: "input",
         q: "What do you need from me?",
-        a: "Half an hour of your attention, your logo and any photography you own, and one person who can say yes. That is the entire list.",
+        a: "Half an hour to talk, your logo and any photos you have. I can write the copy myself.",
       },
     ],
   },
 
-  trust: {
-    // Qualitative and verifiable. No counts, no percentages, no client
-    // names — nothing here asserts anything that isn't already true on
-    // this page. See TrustStrip.tsx for where real stats go later.
-    items: [
-      "Founder-led",
-      "Weeks, not quarters",
-      "Sites, agents, automation",
-      "Two slots open",
-    ],
-  },
-
   cta: {
-    title: ["Tell us what", "you need."],
-    lede: "Call or write — Telegram, WhatsApp or email. We answer the same day, with what we would build and how long it takes.",
-    action: "Call or write",
-    channel: "Our channel",
-    directLabel: "Or reach us directly",
+    title: ["Tell me where", "you lose", "clients"],
+    lede: "Write on whatever messenger suits you. I'll reply the same day and tell you what to fix first.",
+    action: "Discuss your task",
+    channel: "My channel",
+    directLabel: "Or write directly",
   },
 
   channels: {
-    overlayTitle: "How do you want to talk?",
-    overlayLede: "Pick a channel. Every one of them reaches us directly.",
+    overlayTitle: "Where suits you?",
+    overlayLede: "Every channel reaches me directly.",
     close: "Close",
     back: "All channels",
     labels: {
@@ -671,29 +658,23 @@ export const en = {
       email: "Email",
     },
     notes: {
-      telegram: "Fastest. Usually a reply within the hour.",
+      telegram: "Fastest. I usually reply within the hour.",
       whatsapp: "If Telegram isn't your thing.",
-      email: "For briefs, documents, anything longer than a line.",
+      email: "For briefs, documents and long letters.",
     },
   },
 
-
-  preloader: {
-    calibrating: "Calibrating",
+  intro: {
+    label: "Loading",
     skip: "Skip",
   },
 
-  sound: {
-    label: "Sound",
-    enable: "Turn sound on",
-    disable: "Turn sound off",
-  },
-
   footer: {
+    top: "Back to top",
     index: "Index",
-    elsewhere: "Direct",
-    colophon: "Designed and built in-house. No template was harmed.",
-    place: "Moscow · Remote worldwide",
+    elsewhere: "Contact",
+    colophon: "Daniil Skrylev. Websites, AI agents and automation for business.",
+    place: "Moscow, working remotely",
     privacy: "Privacy policy",
   },
 } as const satisfies Copy;

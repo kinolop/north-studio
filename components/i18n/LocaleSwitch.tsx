@@ -6,10 +6,9 @@ import { useCopy, useLocale } from "./CopyProvider";
 
 /**
  * Two states, one control. A dropdown for a binary choice would be a click
- * more than it deserves, so both locales are always visible and the active
- * one carries the accent — the same treatment as the active nav item.
+ * more than it deserves, so both locales are always visible.
  */
-export function LocaleSwitch({ className = "" }: { className?: string }) {
+export function LocaleSwitch({ className = "" }: { className?: string; tone?: "paper" }) {
   const { locale, setLocale } = useLocale();
   const copy = useCopy();
 
@@ -24,7 +23,7 @@ export function LocaleSwitch({ className = "" }: { className?: string }) {
         return (
           <span key={option} className="flex items-center">
             {index > 0 && (
-              <span aria-hidden className="mr-1 text-hairline select-none">
+              <span aria-hidden className="mr-1 text-ink-mute select-none">
                 /
               </span>
             )}
@@ -32,10 +31,7 @@ export function LocaleSwitch({ className = "" }: { className?: string }) {
               type="button"
               onClick={() => setLocale(option)}
               aria-pressed={active}
-              className={[
-                "label-mono rounded-[2px] px-1 py-0.5 transition-colors duration-[var(--duration-state)] ease-[var(--ease-north)]",
-                active ? "text-signal-lift" : "text-slate hover:text-ash",
-              ].join(" ")}
+              className={`px-1 py-0.5 text-small font-semibold transition-colors duration-300 ${active ? "text-ink" : "text-ink-mute hover:text-ink"}`}
             >
               {option.toUpperCase()}
             </button>

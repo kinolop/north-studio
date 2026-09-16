@@ -22,8 +22,6 @@ const STATIC_CASES = ["dental-clinic", "domstroy"] as const;
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // three ships untranspiled ESM in a few example paths; let Next handle it.
-  transpilePackages: ["three"],
 
   async rewrites() {
     return STATIC_CASES.map((slug) => ({

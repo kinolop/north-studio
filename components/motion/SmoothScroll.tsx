@@ -10,6 +10,12 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 gsap.registerPlugin(ScrollTrigger);
 
 let lenis: Lenis | null = null;
+/**
+ * The lock outlives the instance. The loader asks for it before Lenis
+ * exists, so a scroller created later has to start stopped rather than
+ * miss the request.
+ */
+let locked = false;
 
 /**
  * Anchor navigation routed through Lenis so nav jumps share the page's
@@ -34,10 +40,11 @@ export function scrollToSection(id: string) {
  * itself, so `overflow: hidden` alone would leave the virtual scroller
  * happily moving the page underneath the dialog.
  */
-export function setScrollLocked(locked: boolean) {
-  if (locked) lenis?.stop();
+export function setScrollLocked(next: boolean) {
+  locked = next;
+  if (next) lenis?.stop();
   else lenis?.start();
-  document.documentElement.style.overflow = locked ? "hidden" : "";
+  document.documentElement.style.overflow = next ? "hidden" : "";
 }
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
@@ -59,6 +66,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       touchMultiplier: 1.6,
     });
     lenis = instance;
+    if (locked) instance.stop();
 
     instance.on("scroll", ScrollTrigger.update);
 

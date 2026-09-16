@@ -1,4 +1,5 @@
 import type { ChannelId } from "@/lib/channels";
+import type { AgentIntent } from "@/lib/northAgent";
 import type { AgentSectionId, FlowSectionId, SectionId } from "@/lib/sections";
 
 /**
@@ -14,10 +15,27 @@ import type { AgentSectionId, FlowSectionId, SectionId } from "@/lib/sections";
 export interface Service {
   readonly key: "sites" | "agents" | "automation";
   readonly name: string;
-  /** Short form, for the work cards' footer. */
+  /** The one word set in poster type on the services index. */
   readonly short: string;
   readonly summary: string;
-  readonly includes: readonly string[];
+  /** The situation a client is in before they write. */
+  readonly problem: string;
+  readonly what: readonly string[];
+  readonly result: string;
+  readonly term: string;
+}
+
+/** One correction on the hero's proof sheet. */
+export interface ProofCopy {
+  readonly key: "sites" | "agents" | "automation";
+  readonly tab: string;
+  readonly before: string;
+  /** The words that get struck out. */
+  readonly struck: string;
+  /** Written above them by hand. */
+  readonly fix: string;
+  readonly after: string;
+  readonly note: string;
 }
 
 export interface ProjectCopy {
@@ -41,39 +59,19 @@ export interface QuestionCopy {
   readonly a: string;
 }
 
-/**
- * A counted figure. `value` is what it counts to; `literal` opts out of
- * counting entirely for things like "24/7" that are not quantities.
- */
-export interface FigureCopy {
+/** One lead in the North Flow demo: where it came from and what it says. */
+export interface FlowLeadCopy {
   readonly key: string;
-  readonly value: number | null;
-  readonly suffix: string;
-  /** Decimal places, for figures like 0.8 s. Whole numbers by default. */
-  readonly decimals?: number;
-  readonly literal?: string;
-  readonly label: string;
+  readonly channel: FlowChannel;
+  readonly text: string;
 }
 
-/** One piece of cargo on the North Flow conveyor. */
-export interface FlowLead {
-  readonly key: string;
-  /** Short channel name, printed on the chip. */
-  readonly channel: string;
-  /** How the journal announces the arrival: "lead from Telegram". */
-  readonly source: string;
-  /** Drives the colour. The label beside it is authored per locale. */
-  readonly tone: "warm" | "cold";
-  readonly toneLabel: string;
-  readonly priority: string;
-  /** A manager's name, or the nurture list for the cold ones. */
-  readonly route: string;
-}
+export type FlowChannel = "telegram" | "whatsapp" | "site" | "avito" | "call" | "email";
 
-export interface FlowStage {
-  readonly key: "in" | "qualify" | "route" | "crm";
-  readonly name: string;
-  readonly note: string;
+/** A moment in the agent case's night-time comparison. */
+export interface MomentCopy {
+  readonly time: string;
+  readonly text: string;
 }
 
 export interface Copy {
@@ -95,47 +93,78 @@ export interface Copy {
   >;
 
   readonly hero: {
-    readonly headline: readonly string[];
+    /** The three items across the top of the sheet. */
+    readonly runningHead: readonly string[];
+    /** What the proof sheet says, for readers that cannot watch it. */
+    readonly headline: string;
+    readonly proofs: readonly ProofCopy[];
     readonly lede: string;
-    readonly scrollHint: string;
-    readonly founderLed: string;
+    readonly secondary: string;
+    /** Invites the visitor to strike the problem out themselves. */
+    readonly hint: string;
   };
 
-  readonly manifesto: {
-    readonly title: readonly string[];
-    readonly body: readonly string[];
-    readonly principles: readonly { readonly term: string; readonly definition: string }[];
+  readonly marquee: {
+    readonly items: readonly string[];
   };
 
-  readonly founder: {
+  readonly pains: {
+    readonly title: string;
+    readonly lede: string;
+    readonly items: readonly {
+      readonly key: string;
+      readonly pain: string;
+      /** The words in `pain` the pen circles. Must appear in it verbatim. */
+      readonly mark: string;
+      readonly cost: string;
+    }[];
+    readonly closing: string;
+  };
+
+  readonly about: {
     readonly title: readonly string[];
-    readonly body: readonly string[];
+    /** One paragraph, inked in word by word as it is read. */
+    readonly statement: string;
     readonly signature: string;
-    /** Build instruction shown inside the empty portrait frame. */
-    readonly portraitNote: string;
+    readonly principles: readonly {
+      readonly key: "direct" | "yours" | "honest";
+      readonly term: string;
+      readonly definition: string;
+    }[];
   };
 
   readonly services: {
     readonly title: readonly string[];
     readonly lede: string;
-    /** The huge low-opacity word behind the trio. */
-    readonly ghost: string;
     readonly discuss: string;
+    readonly labels: {
+      readonly problem: string;
+      readonly what: string;
+      readonly result: string;
+      readonly term: string;
+    };
     readonly items: readonly Service[];
+    /** The wiring diagram: where enquiries come from and where they end up. */
+    readonly diagram: {
+      readonly label: string;
+      readonly inputs: readonly string[];
+      readonly core: string;
+      readonly outputs: readonly string[];
+    };
   };
 
-  readonly agent: {
+  /** The pong table that stands where the founder portrait used to. */
+  readonly play: {
     readonly title: readonly string[];
     readonly lede: string;
-    readonly demoLabel: string;
-    readonly visitorRole: string;
-    readonly agentRole: string;
-    readonly script: readonly { readonly from: "visitor" | "agent"; readonly text: string }[];
-    readonly reply: string;
-    readonly placeholder: string;
-    readonly send: string;
-    readonly cta: string;
-    readonly replaying: string;
+    readonly start: string;
+    readonly again: string;
+    readonly you: string;
+    readonly north: string;
+    readonly win: string;
+    readonly lose: string;
+    readonly controls: string;
+    readonly canvasLabel: string;
   };
 
   /** The North Agent product case page at /work/north-agent. */
@@ -143,22 +172,38 @@ export interface Copy {
     readonly demoTag: string;
     readonly backToWork: string;
     readonly productName: string;
-    readonly promise: readonly string[];
-    readonly heroCta: string;
-    /** The fictional brand the demo agent is deployed for. */
-    readonly brand: string;
     readonly brandNote: string;
+
+    readonly hero: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly cta: string;
+      readonly secondary: string;
+    };
 
     readonly chat: {
       readonly title: readonly string[];
       readonly lede: string;
       readonly demoLabel: string;
-      readonly studentRole: string;
+      readonly visitorRole: string;
       readonly agentRole: string;
-      readonly script: readonly { readonly from: "student" | "agent"; readonly text: string }[];
+      readonly greeting: string;
+      readonly suggestionsLabel: string;
+      readonly suggestions: readonly string[];
       readonly placeholder: string;
       readonly send: string;
-      readonly replay: string;
+      readonly restart: string;
+      readonly lead: {
+        readonly title: string;
+        readonly subtitle: string;
+        readonly empty: string;
+        readonly asked: string;
+        readonly readiness: string;
+        readonly next: string;
+        readonly levels: { readonly cold: string; readonly warm: string; readonly hot: string };
+        readonly actions: { readonly cold: string; readonly warm: string; readonly hot: string };
+        readonly intents: Readonly<Record<AgentIntent, string>>;
+      };
     };
 
     readonly capabilities: {
@@ -167,8 +212,18 @@ export interface Copy {
         readonly key: "answers" | "knows" | "enroll";
         readonly name: string;
         readonly body: string;
-        readonly slotLabel: string;
       }[];
+    };
+
+    readonly night: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly without: string;
+      readonly with: string;
+      readonly withoutMoments: readonly MomentCopy[];
+      readonly withMoments: readonly MomentCopy[];
+      readonly withoutVerdict: string;
+      readonly withVerdict: string;
     };
 
     readonly deploy: {
@@ -176,22 +231,10 @@ export interface Copy {
       readonly items: readonly { readonly key: string; readonly name: string; readonly body: string }[];
     };
 
-    readonly numbers: {
-      readonly title: readonly string[];
-      readonly disclaimer: string;
-      readonly items: readonly FigureCopy[];
-    };
-
     readonly cta: {
       readonly title: readonly string[];
       readonly lede: string;
       readonly action: string;
-    };
-
-    readonly slots: {
-      readonly hero: string;
-      readonly cta: string;
-      readonly mascot: string;
     };
   };
 
@@ -200,75 +243,71 @@ export interface Copy {
     readonly demoTag: string;
     readonly backToWork: string;
     readonly productName: string;
-    readonly promise: readonly string[];
-    readonly heroCta: string;
-    /** The fictional online store the line is shown running for. */
-    readonly brand: string;
     readonly brandNote: string;
 
-    readonly conveyor: {
+    readonly channels: Readonly<Record<FlowChannel, string>>;
+    readonly stations: readonly string[];
+    readonly managers: readonly string[];
+    readonly nurture: string;
+    readonly tones: { readonly warm: string; readonly cold: string };
+    readonly priorities: { readonly high: string; readonly normal: string; readonly low: string };
+
+    readonly hero: {
       readonly title: readonly string[];
       readonly lede: string;
-      /** Mono readouts across the head of the machine. */
-      readonly lineLabel: string;
-      readonly runningLabel: string;
-      /** Whose line this is — the invented store, named on the machine. */
-      readonly clientLabel: string;
-      readonly stages: readonly FlowStage[];
-      /** Under the CRM station's running count. */
-      readonly cardsLabel: string;
-      /** The badge a chip earns once it is filed. */
+      readonly cta: string;
+      readonly chaosNote: string;
+      readonly orderNote: string;
       readonly filedLabel: string;
-      /** Cycled through the line, in order, one per chip. */
-      readonly leads: readonly FlowLead[];
+      readonly leads: readonly (FlowLeadCopy & { readonly tone: "warm" | "cold" })[];
+    };
 
-      readonly journal: {
-        readonly title: string;
-        readonly liveLabel: string;
-        readonly note: string;
+    readonly lab: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly channelLabel: string;
+      readonly messageLabel: string;
+      readonly placeholder: string;
+      readonly presetsLabel: string;
+      readonly presets: readonly string[];
+      readonly send: string;
+      readonly queued: string;
+      readonly yours: string;
+      readonly autoNote: string;
+      readonly boardTitle: string;
+      readonly journalTitle: string;
+      readonly journalEmpty: string;
+      readonly log: {
+        readonly received: string;
+        readonly qualified: string;
+        readonly routed: string;
+        readonly filed: string;
       };
+      readonly samples: readonly FlowLeadCopy[];
+    };
 
-      readonly tally: {
-        readonly label: string;
-        readonly hoursSuffix: string;
-        readonly items: readonly {
-          readonly key: "processed" | "warm" | "cold" | "hours";
-          readonly label: string;
-        }[];
-      };
-
-      readonly stats: {
-        readonly disclaimer: string;
-        readonly items: readonly FigureCopy[];
-      };
-
-      /** Printed in place of the motion when the visitor asked for calm. */
-      readonly stillLabel: string;
+    readonly report: {
+      readonly title: readonly string[];
+      readonly lede: string;
+      readonly heading: string;
+      readonly time: string;
+      readonly processed: string;
+      readonly warm: string;
+      readonly cold: string;
+      readonly yours: string;
+      readonly lost: string;
+      readonly byManager: string;
+      readonly reset: string;
     };
 
     readonly inside: {
       readonly title: readonly string[];
-      readonly lede: string;
-      readonly items: readonly {
-        readonly key:
-          | "collect"
-          | "qualify"
-          | "write"
-          | "reply"
-          | "report"
-          | "always";
-        readonly name: string;
-        readonly body: string;
-      }[];
+      readonly items: readonly { readonly key: string; readonly name: string; readonly body: string }[];
     };
 
     readonly deploy: {
       readonly title: readonly string[];
-      readonly items: readonly {
-        readonly key: string;
-        readonly name: string;
-        readonly body: string;
-      }[];
+      readonly items: readonly { readonly key: string; readonly name: string; readonly body: string }[];
     };
 
     readonly cta: {
@@ -276,15 +315,13 @@ export interface Copy {
       readonly lede: string;
       readonly action: string;
     };
-
-    readonly slots: {
-      readonly mascot: string;
-    };
   };
 
   readonly work: {
     readonly title: readonly string[];
     readonly lede: string;
+    /** Tells a visitor the ribbon can be dragged. */
+    readonly hint: string;
     readonly caseCta: string;
     readonly projects: readonly ProjectCopy[];
   };
@@ -300,10 +337,6 @@ export interface Copy {
   readonly questions: {
     readonly title: readonly string[];
     readonly items: readonly QuestionCopy[];
-  };
-
-  readonly trust: {
-    readonly items: readonly string[];
   };
 
   readonly cta: {
@@ -325,18 +358,13 @@ export interface Copy {
   };
 
 
-  readonly preloader: {
-    readonly calibrating: string;
+  readonly intro: {
+    readonly label: string;
     readonly skip: string;
   };
 
-  readonly sound: {
-    readonly label: string;
-    readonly enable: string;
-    readonly disable: string;
-  };
-
   readonly footer: {
+    readonly top: string;
     readonly index: string;
     readonly elsewhere: string;
     readonly colophon: string;

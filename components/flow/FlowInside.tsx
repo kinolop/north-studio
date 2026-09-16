@@ -1,133 +1,84 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { GhostWord } from "@/components/ui/GhostWord";
-import { Reveal } from "@/components/ui/Reveal";
+import { PrintLines } from "@/components/motion/PrintLines";
+import { TypeText } from "@/components/motion/TypeText";
 import { Section } from "@/components/ui/Section";
-import { SplitLines } from "@/components/ui/SplitLines";
-import { flowSectionById } from "@/lib/sections";
-import { useLitPanel } from "@/lib/useLitPanel";
 
-const meta = flowSectionById("flow-inside");
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 /**
- * Six diagrams, drawn rather than photographed.
- *
- * Stock imagery of "automation" is all glowing circuit boards, and the one
- * thing this page cannot afford is to look like everything else. These are
- * hairline schematics in the same language as the compass and the case
- * plates: one accent mark each, and nothing that needs a caption.
+ * What the line takes off your hands, as a checklist ticked off by hand.
+ * The title holds the left margin; each job gets its own row and its own
+ * cobalt tick, drawn as the row reaches the reading line.
  */
-const GLYPH: Record<string, ReactNode> = {
-  collect: (
-    <>
-      <path d="M2 4c6 0 8 8 14 8M2 9c6 0 9 3 14 3M2 15c6 0 9-3 14-3M2 20c6 0 8-8 14-8" />
-      <circle cx="18.5" cy="12" r="1.6" className="fill-signal stroke-none" />
-    </>
-  ),
-  qualify: (
-    <>
-      <path d="M2 12h8M10 12c4 0 4-7 11-7M10 12c4 0 4 7 11 7" />
-      <circle cx="21" cy="5" r="1.6" className="fill-signal stroke-none" />
-      <circle cx="21" cy="19" r="1.4" />
-    </>
-  ),
-  write: (
-    <>
-      <rect x="2.5" y="4.5" width="19" height="15" rx="1.5" />
-      <path d="M6 9h7M6 12.5h5" />
-      <path d="M13.5 15l2.2 2.2L20 12.8" className="stroke-signal-lift" />
-    </>
-  ),
-  reply: (
-    <>
-      <path d="M3.5 5.5h17v11h-9l-5 3.5v-3.5h-3z" />
-      <path
-        d="M12.4 8.2l-2.6 4.2h2.2l-.6 3.4 3.4-4.6h-2.3z"
-        className="fill-signal stroke-none"
-      />
-    </>
-  ),
-  report: (
-    <>
-      <rect x="4" y="2.5" width="16" height="19" rx="1.5" />
-      <path d="M8 17v-3M12 17v-6" />
-      <path d="M16 17V8" className="stroke-signal-lift" />
-    </>
-  ),
-  always: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 6.5V12l3.4 2" className="stroke-signal-lift" />
-      <circle cx="12" cy="12" r="1.1" className="fill-signal stroke-none" />
-    </>
-  ),
-};
-
-type InsideItem = ReturnType<typeof useCopy>["flowCase"]["inside"]["items"][number];
-
-function InsideCard({ item, index }: { item: InsideItem; index: number }) {
-  const lit = useLitPanel<HTMLElement>();
-
-  return (
-    <Reveal delay={(index % 3) * 0.08} className="h-full">
-      <article
-        ref={lit.ref}
-        {...lit.props}
-        className="glass glass-edge lit-panel group flex h-full flex-col p-7 hover:border-signal/30 hover:shadow-lift lg:p-8"
-      >
-        <div className="flex items-start justify-between gap-5">
-          <p className="label-mono text-signal-lift">
-            {String(index + 1).padStart(2, "0")}
-          </p>
-          <svg
-            aria-hidden
-            viewBox="0 0 24 24"
-            className="h-7 w-7 shrink-0 fill-none stroke-ash stroke-[1.15] transition-colors duration-[var(--duration-state)] ease-[var(--ease-north)] group-hover:stroke-bone [stroke-linecap:round] [stroke-linejoin:round]"
-          >
-            {GLYPH[item.key]}
-          </svg>
-        </div>
-
-        <h3 className="mt-8 font-display text-[1.25rem] leading-[1.15] font-medium tracking-[-0.02em] text-bone">
-          {item.name}
-        </h3>
-        <p className="mt-4 text-body text-ash">{item.body}</p>
-      </article>
-    </Reveal>
-  );
-}
-
 export function FlowInside() {
   const copy = useCopy();
   const inside = copy.flowCase.inside;
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      if (!root) return;
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.utils.toArray<SVGPathElement>("[data-tick]", root).forEach((tick) => {
+          const length = tick.getTotalLength();
+          gsap.fromTo(
+            tick,
+            { strokeDasharray: length, strokeDashoffset: length },
+            {
+              strokeDashoffset: 0,
+              duration: 0.7,
+              ease: "power2.inOut",
+              scrollTrigger: { trigger: tick, start: "top 78%", once: true },
+            },
+          );
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: rootRef },
+  );
 
   return (
-    <Section id={meta.id}>
-      <div className="container-north">
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-6">
-            <Eyebrow bearing={meta.bearing} label={copy.sections[meta.id]} />
-            <SplitLines
-              as="h2"
-              lines={inside.title}
-              className="mt-8 text-display font-display font-medium text-bone"
-            />
+    <Section id="flow-inside" flush className="py-band">
+      <div ref={rootRef} className="sheet">
+        <div className="sheet-grid gap-y-10 border-t border-ink pt-8 lg:pt-10">
+          <div className="col-span-12 lg:col-span-5">
+            <div className="lg:sticky lg:top-28">
+              <TypeText as="h2" lines={inside.title} className="poster text-[clamp(3.4rem,7.6vw,8rem)] text-ink" />
+            </div>
           </div>
-          <Reveal className="lg:col-span-5 lg:col-start-8" delay={0.08}>
-            <p className="max-w-[42ch] text-body text-ash">{inside.lede}</p>
-          </Reveal>
-        </div>
 
-        <div className="relative mt-20 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <GhostWord className="-z-10">FLOW</GhostWord>
-
-          {inside.items.map((item, index) => (
-            <InsideCard key={item.key} item={item} index={index} />
-          ))}
+          <ul className="col-span-12 lg:col-span-7">
+            {inside.items.map((item, i) => (
+              <li
+                key={item.key}
+                className={`grid grid-cols-[3rem_1fr] gap-x-5 py-7 sm:grid-cols-[3.5rem_1fr_1fr] sm:gap-x-8 ${i > 0 ? "border-t border-rule" : ""}`}
+              >
+                <svg aria-hidden viewBox="0 0 48 40" className="h-9 w-11 overflow-visible">
+                  <path
+                    data-tick
+                    d={i % 2 === 0 ? "M4 22 C 9 26, 12 31, 15 34 C 22 22, 32 11, 44 4" : "M3 20 C 8 25, 13 30, 16 33 C 24 20, 33 12, 45 6"}
+                    fill="none"
+                    stroke="var(--color-cobalt)"
+                    strokeWidth="3.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <h3 className="text-[clamp(1.3rem,1.8vw,1.7rem)] leading-[1.15] font-bold text-ink">{item.name}</h3>
+                <PrintLines text={item.body} className="col-start-2 mt-2 text-copy text-ink-soft sm:col-start-3 sm:mt-0" />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </Section>

@@ -48,6 +48,9 @@ type Intent =
   | "trial"
   | "human";
 
+/** What a message was about. `other` is anything the script has no answer for. */
+export type AgentIntent = Intent | "other";
+
 /** Both locales, because the demo is shown in both. */
 const PATTERNS: Record<Intent, RegExp> = {
   start: /start|begin|when|дат|старт|начин|когда|поток/i,
@@ -94,6 +97,15 @@ const FALLBACK: Record<Locale, string> = {
 
 /** Mimics thinking time so the demo does not feel instant and fake. */
 const LATENCY_MS = 700;
+
+/**
+ * Which question a message is. The demo's client card uses this to fill in
+ * what a manager would see; a live agent would return the same from the
+ * model alongside its reply.
+ */
+export function classifyAgentIntent(message: string): AgentIntent {
+  return (Object.keys(PATTERNS) as Intent[]).find((key) => PATTERNS[key].test(message)) ?? "other";
+}
 
 export async function getAgentReply(
   message: string,
