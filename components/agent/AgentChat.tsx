@@ -88,6 +88,9 @@ export function AgentChat() {
     push("agent", chat.greeting);
   }, [started, chat.greeting, push]);
 
+  /** Bumped whenever the conversation starts over, so a reply still on its way to the old one is dropped. */
+  const conversation = useRef(0);
+
   const ask = useCallback(
     async (text: string, byVisitor = true) => {
       const clean = text.trim();
@@ -98,12 +101,29 @@ export function AgentChat() {
       const intent = classifyAgentIntent(clean);
       setIntents((current) => (current.includes(intent) ? current : [...current, intent]));
       setThinking(true);
+      const asked = conversation.current;
       const reply = await getAgentReply(clean, locale);
+      if (asked !== conversation.current) return;
       setThinking(false);
       push("agent", reply);
     },
     [thinking, push, locale],
   );
+
+  // A language switch before the visitor has asked anything starts the
+  // conversation over in the new language. Once they have, the conversation
+  // is theirs and stays as it was written.
+  const shownLocale = useRef(locale);
+  useEffect(() => {
+    if (shownLocale.current === locale) return;
+    shownLocale.current = locale;
+    if (touched.current || !greeted.current) return;
+    conversation.current += 1;
+    ids.current += 1;
+    setTurns([{ id: ids.current, from: "agent", text: chat.greeting }]);
+    setIntents([]);
+    setThinking(false);
+  }, [locale, chat.greeting]);
 
   // Nobody asked anything: ask the first question, once, to show the loop.
   useEffect(() => {
@@ -132,6 +152,7 @@ export function AgentChat() {
 
   const restart = () => {
     touched.current = true;
+    conversation.current += 1;
     ids.current += 1;
     setTurns([{ id: ids.current, from: "agent", text: chat.greeting }]);
     setIntents([]);

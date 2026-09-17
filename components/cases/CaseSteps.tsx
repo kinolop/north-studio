@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { PrintLines } from "@/components/motion/PrintLines";
 import { TypeText } from "@/components/motion/TypeText";
 import { Section } from "@/components/ui/Section";
+import { cssColor } from "@/lib/cssColor";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -38,7 +39,7 @@ export function CaseSteps({
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const lines = gsap.utils.toArray<HTMLElement>("[data-route]", root);
         const stops = gsap.utils.toArray<HTMLElement>("[data-stop]", root);
-        gsap.set(stops, { backgroundColor: "var(--color-paper)" });
+        gsap.set(stops, { backgroundColor: cssColor("--color-paper", "#ecebe6") });
         lines.forEach((line) => {
           const vertical = line.dataset.route === "y";
           gsap.fromTo(
@@ -58,7 +59,7 @@ export function CaseSteps({
         });
         stops.forEach((stop) => {
           gsap.to(stop, {
-            backgroundColor: "var(--color-cobalt)",
+            backgroundColor: cssColor("--color-cobalt", "#1b2ed8"),
             duration: 0.35,
             scrollTrigger: { trigger: stop, start: "top 62%", toggleActions: "play none none reverse" },
           });

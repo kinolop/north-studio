@@ -28,6 +28,13 @@ interface CopyContextValue {
 const CopyContext = createContext<CopyContextValue | null>(null);
 
 /**
+ * Fired on `window` just before the language changes, while the page still
+ * has its old layout, so whatever has to survive the reflow (the reading
+ * position) can be noted first.
+ */
+export const LOCALE_WILL_CHANGE = "north:locale-will-change";
+
+/**
  * Locale lives in React state rather than in the URL.
  *
  * The site is one page, and the requirement is an instant switch with no
@@ -49,10 +56,14 @@ export function CopyProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = window.sessionStorage.getItem(LOCALE_STORAGE_KEY);
-    if (isLocale(stored) && stored !== DEFAULT_LOCALE) setLocaleState(stored);
+    if (isLocale(stored) && stored !== DEFAULT_LOCALE) {
+      window.dispatchEvent(new Event(LOCALE_WILL_CHANGE));
+      setLocaleState(stored);
+    }
   }, []);
 
   const setLocale = useCallback((next: Locale) => {
+    window.dispatchEvent(new Event(LOCALE_WILL_CHANGE));
     setLocaleState(next);
     document.documentElement.lang = next;
     try {

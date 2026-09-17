@@ -9,6 +9,7 @@ import { useCopy } from "@/components/i18n/CopyProvider";
 import { scrollToSection } from "@/components/motion/SmoothScroll";
 import { TypeText } from "@/components/motion/TypeText";
 import { Section } from "@/components/ui/Section";
+import { cssColor } from "@/lib/cssColor";
 import { remeasureSections } from "@/lib/scroll";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -42,6 +43,9 @@ export function Pains() {
         const closing = root.querySelector<HTMLElement>("[data-closing]");
         if (!stage || items.length === 0) return;
 
+        const ink = cssColor("--color-ink", "#121211");
+        const cobalt = cssColor("--color-cobalt", "#1b2ed8");
+
         root.dataset.story = "on";
         gsap.set(items, { autoAlpha: 0 });
         gsap.set(bars, { scaleX: 0 });
@@ -66,20 +70,20 @@ export function Pains() {
           const words = item.querySelectorAll<HTMLElement>("[data-cost]");
           gsap.set(chars, { opacity: 0 });
           gsap.set(words, { yPercent: 115 });
-          if (mark) gsap.set(mark, { backgroundSize: "0% 0.78em", color: "var(--color-ink)" });
+          if (mark) gsap.set(mark, { backgroundSize: "0% 0.78em", color: ink });
 
           const label = `pain-${i}`;
           timeline.addLabel(label);
           if (i > 0) {
             timeline
               .to(items[i - 1]!, { autoAlpha: 0, y: -40, duration: 0.5, ease: "power2.in" }, label)
-              .to(bars[i - 1]!, { backgroundColor: "var(--color-ink)", duration: 0.2 }, label);
+              .to(bars[i - 1]!, { backgroundColor: ink, duration: 0.2 }, label);
           }
           timeline
             .fromTo(item, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" })
             .to(bars[i]!, { scaleX: 1, duration: 3.2 }, "<")
             .to(chars, { opacity: 1, duration: chars.length * 0.035, stagger: 0.035 }, "<")
-            .to(mark, { backgroundSize: "100% 0.78em", color: "var(--color-cobalt)", duration: 0.7, ease: "power2.inOut" })
+            .to(mark, { backgroundSize: "100% 0.78em", color: cobalt, duration: 0.7, ease: "power2.inOut" })
             .to(words, { yPercent: 0, duration: 0.9, stagger: 0.025, ease: "power3.out" })
             .to({}, { duration: 0.9 });
         });
@@ -95,7 +99,7 @@ export function Pains() {
 
       return () => mm.revert();
     },
-    { scope: pinRef, dependencies: [pains] },
+    { scope: pinRef, dependencies: [pains], revertOnUpdate: true },
   );
 
   return (

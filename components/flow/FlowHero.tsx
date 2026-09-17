@@ -216,10 +216,11 @@ export function FlowHero() {
             { ...slot, scale: filedScale, zIndex: 20 + k, duration: 0.5, ease: "power3.inOut" },
             start + 1.98,
           );
-        filedAt.push(start + 2.48);
+        // Counted as it settles into the column, not on the last pixel of the drop.
+        filedAt.push(start + 2.26);
       });
 
-      const end = (filedAt[filedAt.length - 1] ?? 1) + 0.1;
+      const end = (filedAt[filedAt.length - 1] ?? 1) + 0.32;
       timeline.to(orderNote, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, end);
       timeline.to({}, { duration: 0.5 });
 

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
-import { setScrollLocked } from "@/components/motion/SmoothScroll";
+import { scrollToSection, setScrollLocked } from "@/components/motion/SmoothScroll";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 import { markIntroDone } from "./introSignal";
@@ -71,6 +71,12 @@ export function Intro() {
     setPhase("fly");
     markIntroDone();
     setScrollLocked(false);
+
+    // Arrived by a link to a section (back from a case, a shared address):
+    // the loader held the page at the top, so put the reader where the link
+    // pointed while the sheet is still covering the jump.
+    const hash = decodeURIComponent(window.location.hash.slice(1));
+    if (hash && document.getElementById(hash)) scrollToSection(hash, { immediate: true });
     timers.current.push(window.setTimeout(land, FLY_MS + 40));
   }, [land]);
 

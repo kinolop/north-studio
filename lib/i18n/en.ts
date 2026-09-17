@@ -669,6 +669,14 @@ export const en = {
     skip: "Skip",
   },
 
+  notFound: {
+    meta: "Page not found",
+    title: ["There is no", "such page here"],
+    lede: "The link may be out of date, or there is a typo in the address. Everything on the site starts from the home page.",
+    home: "Back to home",
+    work: "See the work",
+  },
+
   footer: {
     top: "Back to top",
     index: "Index",

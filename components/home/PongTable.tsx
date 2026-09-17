@@ -254,6 +254,11 @@ export function PongTable() {
     };
 
     const onKey = (event: KeyboardEvent, down: boolean) => {
+      // The keys belong to the game only while the table is on screen and
+      // nobody is typing: anywhere else they scroll the page and write text.
+      const target = event.target as HTMLElement | null;
+      const typing = !!target?.closest("input, textarea, select, [contenteditable='true']");
+      if (down && (!visible || typing || event.altKey || event.ctrlKey || event.metaKey)) return;
       if (event.key === "ArrowUp" || event.key === "w" || event.key === "W") {
         world.current.keys.up = down;
         event.preventDefault();

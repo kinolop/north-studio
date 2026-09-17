@@ -363,6 +363,15 @@ export interface Copy {
     readonly skip: string;
   };
 
+  /** The page for an address that does not exist. */
+  readonly notFound: {
+    readonly meta: string;
+    readonly title: readonly string[];
+    readonly lede: string;
+    readonly home: string;
+    readonly work: string;
+  };
+
   readonly footer: {
     readonly top: string;
     readonly index: string;

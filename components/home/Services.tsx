@@ -50,7 +50,7 @@ export function Services() {
           </div>
         </div>
 
-        <Reveal className="mt-14 border-y border-rule py-8 lg:mt-20 lg:py-10" distance={0}>
+        <Reveal className="mt-14 border-t border-rule pt-8 pb-4 lg:mt-20 lg:pt-10 lg:pb-6" distance={0}>
           <WireDiagram
             inputs={services.diagram.inputs}
             outputs={services.diagram.outputs}

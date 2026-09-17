@@ -83,7 +83,7 @@ export function About() {
       });
       return () => mm.revert();
     },
-    { scope: rootRef, dependencies: [about] },
+    { scope: rootRef, dependencies: [about], revertOnUpdate: true },
   );
 
   return (

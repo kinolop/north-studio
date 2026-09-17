@@ -74,6 +74,10 @@
   html {
     /* Lenis owns scrolling; native smooth-scroll would fight it. */
     scroll-behavior: auto;
+    /* So does GSAP's pinning: when a pinned story is rebuilt, its spacer
+       leaves and returns in one pass, and the browser's own anchoring
+       would move the reader by its height in between. */
+    overflow-anchor: none;
     -webkit-text-size-adjust: 100%;
   }
 

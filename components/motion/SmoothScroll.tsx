@@ -3,8 +3,9 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
+import { LOCALE_WILL_CHANGE, useLocale } from "@/components/i18n/CopyProvider";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -22,12 +23,18 @@ let locked = false;
  * easing instead of snapping. Falls back to native scrolling when smooth
  * scroll is off (reduced motion), which is the correct behaviour there.
  */
-export function scrollToSection(id: string) {
+export function scrollToSection(id: string, { immediate = false }: { immediate?: boolean } = {}) {
   const target = document.getElementById(id);
   if (!target) return;
+  // The first screen stays pinned under the sheets that slide over it, so
+  // its box never leaves the top of the window and measuring it says "you
+  // are already there". The first section is simply the top of the page.
+  const first = target === document.querySelector("main section[id]");
 
   if (lenis) {
-    lenis.scrollTo(target, { offset: 0, duration: 1.4 });
+    lenis.scrollTo(first ? 0 : target, { offset: 0, duration: 1.4, immediate, force: immediate });
+  } else if (first) {
+    window.scrollTo(0, 0);
   } else {
     target.scrollIntoView({ behavior: "auto", block: "start" });
   }
@@ -49,6 +56,55 @@ export function setScrollLocked(next: boolean) {
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const reduced = useReducedMotion();
+  const { locale } = useLocale();
+  const firstLocale = useRef(true);
+  /** Where the reader was when the language was switched: a section and how far into it. */
+  const anchor = useRef<{ id: string; offset: number } | null>(null);
+
+  useEffect(() => {
+    const remember = () => {
+      const sections = document.querySelectorAll<HTMLElement>("main section[id]");
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.bottom > 0) {
+          anchor.current = { id: section.id, offset: Math.max(0, -rect.top) };
+          return;
+        }
+      }
+      anchor.current = null;
+    };
+    window.addEventListener(LOCALE_WILL_CHANGE, remember);
+    return () => window.removeEventListener(LOCALE_WILL_CHANGE, remember);
+  }, []);
+
+  // A language switch reflows the whole page. The pinned stories are torn
+  // down and rebuilt around their new text, and while they are down the
+  // page is several screens shorter, which drags the scroll position up
+  // with it. This runs after every section has rebuilt and before the frame
+  // is painted: each trigger is measured again, top to bottom, and the
+  // reader is put back in the section they were reading.
+  useLayoutEffect(() => {
+    if (firstLocale.current) {
+      firstLocale.current = false;
+      return;
+    }
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+
+    const saved = anchor.current;
+    anchor.current = null;
+    const section = saved && document.getElementById(saved.id);
+    if (!saved || !section) return;
+    const top =
+      section.getBoundingClientRect().top +
+      window.scrollY +
+      Math.min(saved.offset, Math.max(section.offsetHeight - 1, 0));
+    // The native position first: Lenis may still believe it is where the
+    // reader was, and would skip a jump to a place it thinks it already is.
+    window.scrollTo(0, top);
+    lenis?.scrollTo(top, { immediate: true, force: true });
+    ScrollTrigger.update();
+  }, [locale]);
 
   useEffect(() => {
     if (reduced) {
@@ -80,7 +136,27 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     document.fonts?.ready.then(refresh).catch(() => {});
     window.addEventListener("load", refresh);
 
+    // So do triggers below anything that opens and closes (a service row, a
+    // question): once the page has settled at its new height, measure again,
+    // or a reveal near the end could wait for a scroll position that no
+    // longer exists.
+    let height = document.body.offsetHeight;
+    let settle = 0;
+    const grew = new ResizeObserver(() => {
+      const next = document.body.offsetHeight;
+      if (Math.abs(next - height) < 2) return;
+      height = next;
+      window.clearTimeout(settle);
+      settle = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+        height = document.body.offsetHeight;
+      }, 250);
+    });
+    grew.observe(document.body);
+
     return () => {
+      grew.disconnect();
+      window.clearTimeout(settle);
       window.removeEventListener("load", refresh);
       gsap.ticker.remove(tick);
       gsap.ticker.lagSmoothing(500, 33);
