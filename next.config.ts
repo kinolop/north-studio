@@ -1,11 +1,11 @@
 import type { NextConfig } from "next";
 
 /**
- * The two client cases that are not React.
+ * The client cases that are not React.
  *
- * DENTAL CLINIC and DOMSTROY were built and delivered as standalone static
- * pages, and they ship here exactly as the clients received them — their own
- * HTML, their own stylesheet, their own script — under `public/work/<slug>/`.
+ * AVEN, DENTAL CLINIC and DOMSTROY were built as standalone static pages, and
+ * they ship here exactly as they were built — their own HTML, their own
+ * stylesheet, their own script — under `public/work/<slug>/`.
  * Serving the real file rather than a port of it is the point: the case is
  * the deliverable, not a reconstruction of it.
  *
@@ -18,7 +18,7 @@ import type { NextConfig } from "next";
  * Their assets are referenced from the site root rather than relatively, so
  * the rewritten URL and the direct one both resolve identically.
  */
-const STATIC_CASES = ["dental-clinic", "domstroy"] as const;
+const STATIC_CASES = ["aven", "dental-clinic", "domstroy"] as const;
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,

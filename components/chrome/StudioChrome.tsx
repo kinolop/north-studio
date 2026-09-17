@@ -13,9 +13,9 @@ import { PenTrail } from "@/components/paper/PenTrail";
  * `/work/noctura` presents an invented hotel with its own dark-and-gold
  * identity, its own header and its own footer.
  *
- * The two client cases need no entry here. `/work/domstroy` and
- * `/work/dental-clinic` are static documents served straight out of
- * `public`, so this layout never runs for them at all.
+ * The static client cases need no entry here. `/work/aven`,
+ * `/work/domstroy` and `/work/dental-clinic` are documents served straight
+ * out of `public`, so this layout never runs for them at all.
  */
 const FOREIGN_ROUTES = ["/work/noctura"] as const;
 

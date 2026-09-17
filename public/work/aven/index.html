@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AVEN. Архитектурное бюро: частные дома и интерьеры</title>
+<meta name="description" content="AVEN проектирует и строит частные дома и интерьеры: концепция, рабочая документация, авторский надзор и реализация одной командой.">
+<meta name="theme-color" content="#1B1B18">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="AVEN. Архитектурное бюро">
+<meta property="og:description" content="Проектируем и строим частные дома, в которых архитектура становится частью повседневной жизни.">
+<meta property="og:image" content="https://north-studio.tech/work/aven/images/hero.jpg">
+<meta property="og:url" content="https://north-studio.tech/work/aven">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%231B1B18'/%3E%3Cpath d='M3 15h18' stroke='%23EDECE7' stroke-width='1.6'/%3E%3Cpath d='M7 15V9l5-3 5 3v6' fill='none' stroke='%23EDECE7' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/work/aven/images/hero.jpg"
+      imagesrcset="/work/aven/images/hero-960.jpg 960w, /work/aven/images/hero.jpg 1672w" imagesizes="100vw" fetchpriority="high">
+<link rel="canonical" href="https://north-studio.tech/work/aven">
+<link rel="stylesheet" href="/work/aven/css/style.css">
+
+<!-- Документ «со скриптами»: без JS заставка не показывается, а всё
+     содержимое остаётся на месте. Если main.js так и не запустится,
+     страховка через 6 секунд снимает заставку сама. -->
+<script>
+  document.documentElement.className += " js";
+  window.__avenFailsafe = setTimeout(function () {
+    document.documentElement.className += " is-failsafe";
+  }, 6000);
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержанию</a>
+
+<!-- ==========================================================================
+     ЗАСТАВКА
+     Линия чертежа растёт, пока грузятся шрифты и главное фото, потом
+     расходится на две и открывает дом, как горизонт.
+     ========================================================================== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__half loader__half--top"></div>
+  <div class="loader__half loader__half--bottom"></div>
+  <div class="loader__stage">
+    <p class="loader__mark"><span>A</span><span>V</span><span>E</span><span>N</span></p>
+    <div class="loader__rule">
+      <i class="loader__line" id="loaderLine"></i>
+    </div>
+    <p class="loader__caption">Архитектурное бюро</p>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     ШАПКА
+     ========================================================================== -->
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#top" aria-label="AVEN, в начало страницы">AVEN</a>
+
+  <nav class="nav__links" aria-label="Разделы">
+    <a href="#projects"><span class="roll"><span data-text="Проекты">Проекты</span></span></a>
+    <a href="#services"><span class="roll"><span data-text="Услуги">Услуги</span></span></a>
+    <a href="#about"><span class="roll"><span data-text="О бюро">О бюро</span></span></a>
+    <a href="#contact"><span class="roll"><span data-text="Контакты">Контакты</span></span></a>
+  </nav>
+
+  <a class="btn nav__cta" href="#contact"><span class="roll"><span data-text="Обсудить проект">Обсудить проект</span></span></a>
+
+  <button class="nav__burger" id="burger" type="button"
+          aria-label="Открыть меню" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <nav class="menu__links" aria-label="Разделы">
+    <a href="#projects"><span>Проекты</span></a>
+    <a href="#services"><span>Услуги</span></a>
+    <a href="#about"><span>О бюро</span></a>
+    <a href="#process"><span>Процесс</span></a>
+    <a href="#contact"><span>Контакты</span></a>
+  </nav>
+</div>
+
+<main id="main">
+
+  <!-- ========================================================================
+       ГЕРОЙ
+       ======================================================================== -->
+  <section class="hero" id="top" data-section data-theme="ink" data-label="Листайте вниз">
+    <div class="hero__media" id="heroMedia">
+      <img class="hero__img" id="heroImg"
+           src="/work/aven/images/hero.jpg"
+           srcset="/work/aven/images/hero-960.jpg 960w, /work/aven/images/hero.jpg 1672w" sizes="100vw"
+           alt="Частный дом с бетонным козырьком на скале над морем"
+           width="1672" height="940" fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero__shade" aria-hidden="true"></div>
+
+    <div class="hero__body" id="heroBody">
+      <p class="hero__eyebrow" data-intro>Архитектура / Интерьеры / Строительство</p>
+      <h1 class="display display--hero" id="heroTitle">Пространства<br>для жизни,<br>которые<br>остаются с вами</h1>
+      <p class="hero__lede" data-intro>Проектируем и строим частные дома, в которых архитектура становится частью повседневной жизни.</p>
+      <a class="link-arrow link-arrow--light" href="#contact" data-intro>
+        <span>Обсудить проект</span><span class="link-arrow__icon" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <p class="hero__caption" data-intro>Частный дом<br><span>Сочи, 2026</span></p>
+  </section>
+
+  <!-- ========================================================================
+       О БЮРО
+       ======================================================================== -->
+  <section class="about band" id="about" data-section data-theme="paper" data-label="О бюро">
+    <div class="about__text">
+      <h2 class="display display--section" data-split>Мы создаём<br>архитектуру,<br>которая остаётся</h2>
+      <p class="lede" data-fade>AVEN проектирует дома и интерьеры, в которых архитектура, материал и образ жизни соединяются в одно целое.</p>
+    </div>
+
+    <dl class="stats" data-stagger>
+      <div class="stat">
+        <dt class="stat__num">12+</dt>
+        <dd class="stat__label">лет практики</dd>
+      </div>
+      <div class="stat">
+        <dt class="stat__num">80+</dt>
+        <dd class="stat__label">реализованных<br>проектов</dd>
+      </div>
+      <div class="stat">
+        <dt class="stat__num">6</dt>
+        <dd class="stat__label">архитекторов<br>в команде</dd>
+      </div>
+    </dl>
+
+    <figure class="about__media" data-wipe>
+      <img src="/work/aven/images/about.jpg"
+           srcset="/work/aven/images/about-960.jpg 960w, /work/aven/images/about.jpg 1672w" sizes="(min-width: 1024px) 45vw, 100vw"
+           alt="Бетонная плита перекрытия, вынесенная над склоном среди деревьев"
+           width="1672" height="940" loading="lazy" decoding="async" data-drift>
+    </figure>
+  </section>
+
+  <!-- ========================================================================
+       ПРОЕКТЫ
+       На широком экране лента едет вбок, пока страница листается вниз.
+       ======================================================================== -->
+  <section class="works" id="projects" data-section data-theme="ink" data-label="Проекты">
+    <div class="works__pin" id="worksPin">
+      <div class="works__track" id="worksTrack">
+
+        <div class="works__intro">
+          <h2 class="works__word" id="worksWord">Проекты</h2>
+          <p class="works__lede" data-fade>Три дома последних лет: в горах, у моря и в лесу. Откройте любой, чтобы посмотреть подробнее.</p>
+        </div>
+
+        <article class="work work--wide" data-work>
+          <button class="work__open" type="button" data-open="0" aria-haspopup="dialog">
+            <span class="work__frame">
+              <img src="/work/aven/images/project-mountain.jpg"
+                   srcset="/work/aven/images/project-mountain-960.jpg 960w, /work/aven/images/project-mountain.jpg 1672w"
+                   sizes="(min-width: 1024px) 50vw, 100vw"
+                   alt="Дом с длинным бетонным выносом над горной долиной на закате"
+                   width="1672" height="940" loading="lazy" decoding="async">
+            </span>
+            <span class="work__meta">
+              <span class="work__name">Дом в горах</span>
+              <span class="work__place">Сочи, 2026</span>
+            </span>
+          </button>
+        </article>
+
+        <article class="work work--tall" data-work>
+          <button class="work__open" type="button" data-open="1" aria-haspopup="dialog">
+            <span class="work__frame">
+              <img src="/work/aven/images/project-sea.jpg"
+                   srcset="/work/aven/images/project-sea-960.jpg 960w, /work/aven/images/project-sea.jpg 1672w"
+                   sizes="(min-width: 1024px) 35vw, 100vw"
+                   alt="Вилла с бассейном-инфинити над морем в час заката"
+                   width="1672" height="940" loading="lazy" decoding="async">
+            </span>
+            <span class="work__meta">
+              <span class="work__name">Вилла у моря</span>
+              <span class="work__place">Крым, 2025</span>
+            </span>
+          </button>
+        </article>
+
+        <article class="work work--low" data-work>
+          <button class="work__open" type="button" data-open="2" aria-haspopup="dialog">
+            <span class="work__frame">
+              <img src="/work/aven/images/project-forest.jpg"
+                   srcset="/work/aven/images/project-forest-960.jpg 960w, /work/aven/images/project-forest.jpg 1672w"
+                   sizes="(min-width: 1024px) 40vw, 100vw"
+                   alt="Дом со сплошным остеклением на скальном выступе в хвойном лесу"
+                   width="1672" height="940" loading="lazy" decoding="async">
+            </span>
+            <span class="work__meta">
+              <span class="work__name">Дом в лесу</span>
+              <span class="work__place">Подмосковье, 2025</span>
+            </span>
+          </button>
+        </article>
+
+        <div class="works__outro">
+          <p class="works__note">Ещё восемьдесят домов в архиве. Показываем их на первой встрече.</p>
+          <a class="link-arrow link-arrow--light" href="#contact">
+            <span>Обсудить проект</span><span class="link-arrow__icon" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       УСЛУГИ
+       ======================================================================== -->
+  <section class="services band" id="services" data-section data-theme="paper" data-label="Услуги">
+    <div class="services__text">
+      <h2 class="display display--section" data-split>От первой идеи<br>до готового<br>пространства</h2>
+      <p class="lede" data-fade>Берём проект целиком: от архитектурной концепции и интерьера до реализации. Один подход, одна команда, один результат.</p>
+    </div>
+
+    <ol class="services__list" id="servicesList" data-stagger>
+      <li class="service is-active">
+        <span class="service__num">01</span>
+        <div class="service__body">
+          <h3 class="service__title">Архитектурное проектирование</h3>
+          <p class="service__text">Концепция, планировки, фасады и рабочая документация.</p>
+        </div>
+      </li>
+      <li class="service">
+        <span class="service__num">02</span>
+        <div class="service__body">
+          <h3 class="service__title">Дизайн интерьера</h3>
+          <p class="service__text">Материалы, свет, мебель и атмосфера пространства.</p>
+        </div>
+      </li>
+      <li class="service">
+        <span class="service__num">03</span>
+        <div class="service__body">
+          <h3 class="service__title">Реализация</h3>
+          <p class="service__text">Строительство, авторский надзор и контроль каждой детали.</p>
+        </div>
+      </li>
+    </ol>
+
+    <figure class="services__media" data-wipe>
+      <div class="services__crop" id="servicesCrop">
+        <img src="/work/aven/images/services.jpg"
+             srcset="/work/aven/images/services-960.jpg 960w, /work/aven/images/services.jpg 1672w" sizes="(min-width: 1024px) 40vw, 100vw"
+             alt="Интерьер с каменной стеной, бетонной лестницей и панорамным окном на залив"
+             width="1672" height="940" loading="lazy" decoding="async">
+      </div>
+    </figure>
+  </section>
+
+  <!-- ========================================================================
+       ПРОЦЕСС
+       Секция встаёт на место, и по мере прокрутки на фото стройки
+       проступает чертёж: участок, объём, детали. На четвёртом этапе
+       линии уходят и остаётся сам дом.
+       ======================================================================== -->
+  <section class="process" id="process" data-section data-theme="ink" data-label="Процесс">
+    <div class="process__stage" id="processStage">
+      <div class="process__text">
+        <h2 class="display display--section" data-split>От идеи<br>до готового<br>дома</h2>
+        <p class="lede" data-fade>Четыре этапа, через которые проходит каждый проект AVEN.</p>
+      </div>
+
+      <figure class="process__frame" id="processFrame">
+        <img class="process__photo" id="processPhoto"
+             src="/work/aven/images/process.jpg"
+             srcset="/work/aven/images/process-960.jpg 960w, /work/aven/images/process.jpg 1672w" sizes="(min-width: 1024px) 50vw, 100vw"
+             alt="Дом на стадии строительства: открытый бетонный каркас и вынос плиты над долиной"
+             width="1672" height="940" loading="lazy" decoding="async">
+
+        <svg class="drawing" id="drawing" viewBox="0 0 1672 940" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g class="drawing__site">
+            <path pathLength="1" d="M890 452 L960 440 L1040 436 L1100 428 L1150 440 L1195 426 L1240 444 L1290 438 L1340 450 L1400 452 L1470 466 L1560 474 L1672 470"/>
+            <path pathLength="1" d="M890 590 C960 572 1040 555 1110 546 S1230 538 1280 552 S1420 596 1500 610 S1620 632 1672 640"/>
+            <path pathLength="1" d="M1000 812 C1200 815 1420 850 1672 885"/>
+          </g>
+          <g class="drawing__mass">
+            <path pathLength="1" d="M303 0 L303 940"/>
+            <path pathLength="1" d="M698 0 L698 331"/>
+            <path pathLength="1" d="M303 200 L1000 432 L1000 463 L303 238"/>
+            <path pathLength="1" d="M303 760 L890 745 L1190 742 L1190 772"/>
+            <path pathLength="1" d="M1190 742 L600 940"/>
+          </g>
+          <g class="drawing__detail">
+            <path pathLength="1" d="M305 370 L645 425 L890 462"/>
+            <path pathLength="1" d="M405 405 L405 738"/>
+            <path pathLength="1" d="M465 432 L465 736"/>
+            <path pathLength="1" d="M645 425 L645 740"/>
+            <path pathLength="1" d="M700 428 L700 745"/>
+            <path pathLength="1" d="M890 462 L890 745"/>
+            <path pathLength="1" d="M465 432 L645 425"/>
+            <path pathLength="1" d="M935 462 L935 745 M922 462 L948 462 M922 745 L948 745"/>
+            <path pathLength="1" d="M222 790 L300 790 M252 790 L240 770 L264 770 Z"/>
+            <path pathLength="1" d="M820 300 L880 262 L1040 262"/>
+            <path pathLength="1" d="M800 620 L960 620"/>
+            <path pathLength="1" d="M1080 770 L1180 700 L1300 700"/>
+          </g>
+          <g class="drawing__notes">
+            <text x="1050" y="268">Монолитная плита</text>
+            <text x="970" y="626">Опора</text>
+            <text x="1310" y="706">Терраса</text>
+            <text x="222" y="758">±0.000</text>
+          </g>
+        </svg>
+      </figure>
+
+      <div class="phases">
+      <span class="phases__rail" aria-hidden="true"><i id="phasesFill"></i></span>
+      <ol class="phases__list" id="phases">
+        <li class="phase is-active">
+          <span class="phase__num">01</span>
+          <div>
+            <h3 class="phase__title">Консультация</h3>
+            <p class="phase__text">Обсуждаем задачу, участок, образ жизни и бюджет.</p>
+          </div>
+        </li>
+        <li class="phase">
+          <span class="phase__num">02</span>
+          <div>
+            <h3 class="phase__title">Концепция</h3>
+            <p class="phase__text">Формируем объём, направление и ключевые решения.</p>
+          </div>
+        </li>
+        <li class="phase">
+          <span class="phase__num">03</span>
+          <div>
+            <h3 class="phase__title">Проектирование</h3>
+            <p class="phase__text">Прорабатываем конструкции, интерьер и материалы.</p>
+          </div>
+        </li>
+        <li class="phase">
+          <span class="phase__num">04</span>
+          <div>
+            <h3 class="phase__title">Реализация</h3>
+            <p class="phase__text">Контролируем строительство до финальной детали.</p>
+          </div>
+        </li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       ВОПРОСЫ
+       ======================================================================== -->
+  <section class="faq band" id="faq" data-section data-theme="paper" data-label="Вопросы">
+    <h2 class="display display--section faq__title" data-split>Вопросы до<br>первой встречи</h2>
+
+    <div class="faq__list" data-stagger>
+      <details class="qa">
+        <summary class="qa__q"><span>Сколько стоит проект?</span><i class="qa__sign" aria-hidden="true"></i></summary>
+        <div class="qa__a"><p>Считаем после первой встречи. Цена зависит от площади дома, сложности участка и того, что входит в работу. Предварительную смету присылаем в течение недели.</p></div>
+      </details>
+      <details class="qa">
+        <summary class="qa__q"><span>Сколько длится проектирование?</span><i class="qa__sign" aria-hidden="true"></i></summary>
+        <div class="qa__a"><p>Концепция занимает один-два месяца, полный проект с рабочей документацией от четырёх до шести. Точный график фиксируем в договоре.</p></div>
+      </details>
+      <details class="qa">
+        <summary class="qa__q"><span>Можно заказать только проект, без строительства?</span><i class="qa__sign" aria-hidden="true"></i></summary>
+        <div class="qa__a"><p>Да. Передаём полный комплект документации и, если нужно, ведём авторский надзор за вашим подрядчиком.</p></div>
+      </details>
+      <details class="qa">
+        <summary class="qa__q"><span>Вы работаете в других регионах?</span><i class="qa__sign" aria-hidden="true"></i></summary>
+        <div class="qa__a"><p>Да, по всей России. На участок выезжаем сами, проектирование идёт в основном онлайн, а на стройке бываем по графику надзора.</p></div>
+      </details>
+      <details class="qa">
+        <summary class="qa__q"><span>С чего начать?</span><i class="qa__sign" aria-hidden="true"></i></summary>
+        <div class="qa__a"><p>Напишите пару строк об участке и о том, как вы хотите жить. Ответим в течение дня и предложим время для встречи.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       КОНТАКТЫ
+       ======================================================================== -->
+  <section class="cta" id="contact" data-section data-theme="ink" data-label="Контакты">
+    <div class="cta__media" id="ctaMedia">
+      <img src="/work/aven/images/cta.jpg"
+           srcset="/work/aven/images/cta-960.jpg 960w, /work/aven/images/cta.jpg 1672w" sizes="100vw"
+           alt="Дом со светящимися окнами на лесистом склоне в сумерках"
+           width="1672" height="940" loading="lazy" decoding="async">
+    </div>
+    <div class="cta__shade" aria-hidden="true"></div>
+
+    <div class="cta__body">
+      <h2 class="display display--hero" data-split>Давайте создадим<br>что-то настоящее</h2>
+      <p class="hero__lede" data-fade>Расскажите об участке и о том, как вы хотите жить. Ответим в течение дня.</p>
+      <a class="btn btn--light" href="https://t.me/danilskrylev" target="_blank" rel="noopener noreferrer" data-fade>
+        <span class="roll"><span data-text="Обсудить проект">Обсудить проект</span></span>
+      </a>
+    </div>
+
+    <footer class="foot">
+      <p class="foot__copy">© AVEN 2026</p>
+      <a class="foot__studio" href="https://t.me/Dahilchick" target="_blank" rel="noopener noreferrer">Сайт сделан в North Studio</a>
+    </footer>
+  </section>
+
+</main>
+
+<!-- ==========================================================================
+     ДАТУМ: положение на странице как масштабная линейка чертежа
+     ========================================================================== -->
+<div class="datum" id="datum" aria-hidden="true">
+  <p class="datum__read">
+    <span class="datum__index" id="datumIndex">01</span>
+    <span class="datum__sep">/</span>
+    <span class="datum__label" id="datumLabel">Листайте вниз</span>
+  </p>
+  <div class="datum__rule" id="datumRule">
+    <span class="datum__ticks" id="datumTicks"></span>
+    <span class="datum__mark" id="datumMark"></span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     ПРОСМОТР ПРОЕКТА
+     ========================================================================== -->
+<dialog class="viewer" id="viewer" aria-labelledby="viewerTitle" data-lenis-prevent>
+  <div class="viewer__media" id="viewerMedia">
+    <img class="viewer__img" id="viewerImg" src="" alt="">
+  </div>
+  <div class="viewer__body" id="viewerBody">
+    <h2 class="display viewer__title" id="viewerTitle"></h2>
+    <p class="viewer__place" id="viewerPlace"></p>
+    <p class="viewer__text" id="viewerText"></p>
+    <dl class="viewer__facts" id="viewerFacts"></dl>
+    <div class="viewer__nav">
+      <button class="viewer__step" type="button" id="viewerPrev"><span aria-hidden="true">←</span> <span id="viewerPrevName"></span></button>
+      <button class="viewer__step" type="button" id="viewerNext"><span id="viewerNextName"></span> <span aria-hidden="true">→</span></button>
+    </div>
+  </div>
+  <button class="viewer__close" type="button" id="viewerClose">Закрыть</button>
+</dialog>
+
+<script type="application/json" id="worksData">
+[
+  {
+    "name": "Дом в горах",
+    "place": "Сочи, 2026",
+    "image": "project-mountain",
+    "alt": "Дом с длинным бетонным выносом над горной долиной на закате",
+    "text": "Дом стоит на гребне над долиной. Кровельная плита вынесена далеко за стены: днём она закрывает террасу от солнца, а вечером не мешает смотреть на закат.",
+    "facts": [["Площадь", "380 м²"], ["Участок", "Горный склон"], ["Статус", "Построен"]]
+  },
+  {
+    "name": "Вилла у моря",
+    "place": "Крым, 2025",
+    "image": "project-sea",
+    "alt": "Вилла с бассейном-инфинити над морем в час заката",
+    "text": "Вилла спускается к воде уступами. Бассейн продолжает линию горизонта, а гостиная целиком открывается на террасу.",
+    "facts": [["Площадь", "520 м²"], ["Участок", "Скальный берег"], ["Статус", "Построена"]]
+  },
+  {
+    "name": "Дом в лесу",
+    "place": "Подмосковье, 2025",
+    "image": "project-forest",
+    "alt": "Дом со сплошным остеклением на скальном выступе в хвойном лесу",
+    "text": "Стеклянный объём поставлен на скальное основание между соснами. Дом вписали в просвет между деревьями, при стройке не срубили ни одного.",
+    "facts": [["Площадь", "160 м²"], ["Участок", "Сосновый лес"], ["Статус", "Построен"]]
+  }
+]
+</script>
+
+<script src="/work/aven/js/vendor/gsap.min.js" defer></script>
+<script src="/work/aven/js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="/work/aven/js/vendor/SplitText.min.js" defer></script>
+<script src="/work/aven/js/vendor/lenis.min.js" defer></script>
+<script src="/work/aven/js/main.js" defer></script>
+</body>
+</html>

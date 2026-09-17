@@ -537,6 +537,14 @@ export const ru = {
     caseCta: "Открыть",
     projects: [
       {
+        key: "aven",
+        name: "AVEN",
+        discipline: "Сайт архитектурного бюро",
+        summary:
+          "Частные дома в горах, у моря и в лесу. Лента проектов и чертёж, который по ходу прокрутки становится домом.",
+        year: "2026",
+      },
+      {
         key: "domstroy",
         name: "Domstroy",
         discipline: "Сайт строительной компании",

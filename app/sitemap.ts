@@ -8,7 +8,7 @@ import { SITE_URL } from "@/lib/studio";
  * Written out by hand rather than discovered from the filesystem: the route
  * count is small and static, and a hand-written list is the one place where
  * a page that should *not* be indexed can be left off deliberately rather
- * than by accident. It is also the only place the two client cases can be
+ * than by accident. It is also the only place the static client cases can be
  * listed at all — those are static files under `public`, invisible to
  * anything that walks the app directory.
  *
@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     "/work/north-agent",
     "/work/north-flow",
+    "/work/aven",
     "/work/domstroy",
     "/work/dental-clinic",
     "/work/noctura",

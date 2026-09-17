@@ -523,6 +523,14 @@ export const en = {
     caseCta: "Open",
     projects: [
       {
+        key: "aven",
+        name: "AVEN",
+        discipline: "Website for an architecture practice",
+        summary:
+          "Private houses in the mountains, by the sea and in a forest. A ribbon of projects and a drawing that turns into a house as you scroll.",
+        year: "2026",
+      },
+      {
         key: "domstroy",
         name: "Domstroy",
         discipline: "Website for a home builder",
