@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { setScrollLocked } from "@/components/motion/SmoothScroll";
-import { CHANNELS } from "@/lib/channels";
+import { CHANNELS, TELEGRAM_CHANNEL } from "@/lib/channels";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 const FOCUSABLE =
@@ -17,8 +17,8 @@ const EASE = [0.76, 0, 0.24, 1] as const;
  * The channel chooser.
  *
  * A fresh sheet drops over the page from the top edge and the three ways
- * to reach a person are set as a short index, as large as the headings
- * they came from. One dialog for the whole site: focus is trapped, Escape
+ * to reach a person, plus the studio's channel, are set as a short index,
+ * as large as the headings they came from. One dialog for the whole site: focus is trapped, Escape
  * closes, and focus returns to whatever opened it.
  */
 export function ChannelOverlay({
@@ -78,6 +78,28 @@ export function ChannelOverlay({
     };
   }, [isOpen, onClose]);
 
+  // The three direct lines, then the studio's channel as the last row. It is
+  // set exactly like them, but kept out of `CHANNELS` because it is followed
+  // rather than written to (see `lib/channels.ts`).
+  const rows = [
+    ...CHANNELS.map((channel) => ({
+      key: channel.id,
+      href: channel.href,
+      external: channel.external,
+      label: copy.channels.labels[channel.id],
+      handle: channel.handle,
+      note: copy.channels.notes[channel.id],
+    })),
+    {
+      key: "follow",
+      href: TELEGRAM_CHANNEL.href,
+      external: true,
+      label: copy.channels.follow.label,
+      handle: TELEGRAM_CHANNEL.handle,
+      note: copy.channels.follow.note,
+    },
+  ];
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -112,27 +134,27 @@ export function ChannelOverlay({
             </h2>
 
             <ul className="mt-auto border-t-2 border-ink pt-2">
-              {CHANNELS.map((channel, index) => (
+              {rows.map((row, index) => (
                 <motion.li
-                  key={channel.id}
+                  key={row.key}
                   className="border-b border-rule"
                   initial={reduced ? false : { opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: reduced ? 0 : 0.35 + index * 0.07 }}
                 >
                   <a
-                    href={channel.href}
-                    {...(channel.external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+                    href={row.href}
+                    {...(row.external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
                     className="group grid grid-cols-12 items-baseline gap-x-4 gap-y-2 py-5 lg:py-6"
                   >
                     <span className="poster col-span-12 text-[clamp(3rem,7vw,6.5rem)] transition-[color,transform] duration-500 ease-[var(--ease-print)] group-hover:translate-x-3 group-hover:text-cobalt md:col-span-6">
-                      {copy.channels.labels[channel.id]}
+                      {row.label}
                     </span>
                     <span className="col-span-12 text-copy font-semibold break-all md:col-span-3">
-                      {channel.handle}
+                      {row.handle}
                     </span>
                     <span className="col-span-12 text-small text-ink-soft md:col-span-3">
-                      {copy.channels.notes[channel.id]}
+                      {row.note}
                     </span>
                   </a>
                 </motion.li>

@@ -670,6 +670,10 @@ export const en = {
       whatsapp: "If Telegram isn't your thing.",
       email: "For briefs, documents and long letters.",
     },
+    follow: {
+      label: "Channel",
+      note: "New work and how it gets made.",
+    },
   },
 
   intro: {

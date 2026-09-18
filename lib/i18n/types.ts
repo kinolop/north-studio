@@ -355,6 +355,14 @@ export interface Copy {
     readonly back: string;
     readonly labels: Readonly<Record<ChannelId, string>>;
     readonly notes: Readonly<Record<ChannelId, string>>;
+    /**
+     * The studio's Telegram channel, set as the last row of the chooser.
+     * Not a `ChannelId`: it is followed, not written to (see `lib/channels.ts`).
+     */
+    readonly follow: {
+      readonly label: string;
+      readonly note: string;
+    };
   };
 
 
