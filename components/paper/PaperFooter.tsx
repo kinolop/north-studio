@@ -7,7 +7,7 @@ import { useCopy } from "@/components/i18n/CopyProvider";
 import { LocaleSwitch } from "@/components/i18n/LocaleSwitch";
 import { ScrambleLabel } from "@/components/motion/ScrambleLabel";
 import { scrollToSection } from "@/components/motion/SmoothScroll";
-import { CHANNELS } from "@/lib/channels";
+import { CHANNELS, TELEGRAM_CHANNEL } from "@/lib/channels";
 import { SECTIONS } from "@/lib/sections";
 import { LEGAL, STUDIO } from "@/lib/studio";
 
@@ -72,6 +72,22 @@ export function PaperFooter() {
                 </li>
               ))}
             </ul>
+
+            {/* The channel sits under the direct lines, not among them: it is
+                followed, not written to (see `lib/channels.ts`). */}
+            <div className="mt-6 border-t border-rule pt-4">
+              <a
+                href={TELEGRAM_CHANNEL.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="group inline-flex flex-col gap-0.5 text-copy text-ink hover:text-cobalt"
+              >
+                <RollText text={copy.cta.channel} />
+                <span className="text-small text-ink-soft group-hover:text-cobalt">
+                  {TELEGRAM_CHANNEL.handle}
+                </span>
+              </a>
+            </div>
           </div>
         </div>
 

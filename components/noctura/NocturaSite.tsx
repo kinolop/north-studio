@@ -153,12 +153,12 @@ function NocturaFooter() {
                   — kept in the credit block rather than the fictional footer
                   columns, and opened in a new tab like any off-site link. */}
               <a
-                href="https://t.me/Dahilchick"
+                href="https://t.me/danilskrylev"
                 target="_blank"
                 rel="noreferrer noopener"
                 className="n-link n-small"
               >
-                North Studio · Telegram @Dahilchick
+                North Studio · Telegram @danilskrylev
               </a>
               <p
                 className="n-label n-label-dim"

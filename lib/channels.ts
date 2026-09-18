@@ -24,8 +24,8 @@ export interface Channel {
 export const CHANNELS = [
   {
     id: "telegram",
-    handle: "@Dahilchick",
-    href: "https://t.me/Dahilchick",
+    handle: "@danilskrylev",
+    href: "https://t.me/danilskrylev",
     external: true,
   },
   {
