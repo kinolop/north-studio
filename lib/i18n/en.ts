@@ -519,7 +519,6 @@ export const en = {
   work: {
     title: ["Work"],
     lede: "Sites for clients, two brands invented from scratch, and my own products. Every one can be opened and tried.",
-    hint: "Drag the ribbon",
     caseCta: "Open",
     projects: [
       {

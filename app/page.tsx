@@ -7,7 +7,7 @@ import { Process } from "@/components/home/Process";
 import { Questions } from "@/components/home/Questions";
 import { Services } from "@/components/home/Services";
 import { TapeMarquee } from "@/components/home/TapeMarquee";
-import { WorkReel } from "@/components/home/WorkReel";
+import { WorkPlates } from "@/components/home/WorkPlates";
 import { Intro } from "@/components/paper/Intro";
 import { SheetStack } from "@/components/paper/SheetStack";
 
@@ -30,7 +30,7 @@ export default function Page() {
         }
       />
       <Services />
-      <WorkReel />
+      <WorkPlates />
       <PongTable />
       <About />
       <Process />

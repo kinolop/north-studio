@@ -320,8 +320,6 @@ export interface Copy {
   readonly work: {
     readonly title: readonly string[];
     readonly lede: string;
-    /** Tells a visitor the ribbon can be dragged. */
-    readonly hint: string;
     readonly caseCta: string;
     readonly projects: readonly ProjectCopy[];
   };
