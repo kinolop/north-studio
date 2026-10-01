@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/work/domstroy",
     "/work/dental-clinic",
     "/work/noctura",
+    "/work/marshrut",
     "/privacy",
   ].map((path) => ({
     url: new URL(path, SITE_URL).toString(),

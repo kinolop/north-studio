@@ -518,7 +518,7 @@ export const en = {
 
   work: {
     title: ["Work"],
-    lede: "Sites for clients, a brand invented from scratch, and my own products. Every one can be opened and tried.",
+    lede: "Sites for clients, two brands invented from scratch, and my own products. Every one can be opened and tried.",
     hint: "Drag the ribbon",
     caseCta: "Open",
     projects: [
@@ -552,6 +552,14 @@ export const en = {
         discipline: "Hotel brand and site, concept",
         summary:
           "A hotel that does not exist: its own identity, full-screen film and a lift between floors.",
+        year: "2026",
+      },
+      {
+        key: "marshrut",
+        name: "Marshrut",
+        discipline: "Cargo company site, concept",
+        summary:
+          "Freight from China for marketplace sellers. A calculator in one sentence, and the scroll carries the cargo on a night run from Guangzhou to a warehouse outside Moscow.",
         year: "2026",
       },
       {

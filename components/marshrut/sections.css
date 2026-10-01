@@ -1,0 +1,1193 @@
+/*
+ * МАРШРУТ: the chapters of the journey.
+ *
+ * Each chapter is a tall stretch of scroll with its text pinned in it, set
+ * straight on the map like a long-read: no boxes, a darkened field on the
+ * left (drawn by the world layer) for the words to stand on, the picture
+ * playing out on the right. Every chapter starts at a kilometre post, and
+ * that post is the only marker of where the reader is. Words are set in the
+ * plain grotesque, numbers in the condensed face; mono is for what is
+ * measured, amber for what moves or is chosen.
+ */
+
+.mr-chapter {
+  position: relative;
+}
+
+#density,
+#modes {
+  height: 240svh;
+}
+
+#tracking {
+  height: 440svh;
+}
+
+#docs {
+  height: 360svh;
+}
+
+#faq {
+  padding-bottom: 70svh;
+}
+
+#request {
+  height: 140svh;
+}
+
+/* ------------------------------------------------------- kilometre post */
+
+.mr-mile {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.mr-mile::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--line-2) 0 14px, transparent 14px 26px);
+}
+
+.mr-mile-post {
+  position: absolute;
+  left: 58%;
+  top: 14px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 7px 12px 6px;
+  background: var(--bone);
+  color: var(--night);
+  box-shadow: 0 0 0 4px var(--night), 0 10px 30px rgb(0 0 0 / 0.5);
+}
+
+.mr-mile-post b {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 0.9;
+}
+
+.mr-mile-post i {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.mr-mile-place {
+  position: absolute;
+  left: 58%;
+  top: 58px;
+  font-size: 12px;
+  color: var(--bone-2);
+  white-space: nowrap;
+  text-shadow: 0 0 6px var(--night);
+}
+
+/* -------------------------------------------------------------- panels */
+
+.mr-stick {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--head) + 24px) var(--pad) 40px clamp(24px, 5.2vw, 96px);
+}
+
+.mr-chapter[data-pin="false"] .mr-stick {
+  position: relative;
+  height: auto;
+  min-height: 100svh;
+  align-items: flex-start;
+  padding-top: calc(var(--head) + 96px);
+}
+
+.mr-panel {
+  pointer-events: auto;
+  position: relative;
+  width: min(470px, 34vw);
+}
+
+.mr-panel[data-wide="true"] {
+  width: min(560px, 40vw);
+}
+
+.mr-chapter[data-pin="false"] .mr-panel {
+  width: min(600px, 44vw);
+}
+
+.mr-h2 {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(2.3rem, 3.3vw, 3.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.034em;
+  text-wrap: balance;
+}
+
+.mr-h2-small {
+  font-size: clamp(2rem, 2.7vw, 2.9rem);
+}
+
+.mr-lede {
+  margin: 20px 0 0;
+  max-width: 36ch;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--bone-2);
+  text-wrap: pretty;
+}
+
+/* The log entry each chapter opens with: day, hour, place. It types itself in. */
+.mr-diary {
+  margin: 0 0 16px;
+  max-width: 44ch;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--bone-2);
+}
+
+.mr-diary b {
+  font-weight: 600;
+  color: var(--amber-hot);
+}
+
+.mr-chapter[data-seen="true"] .mr-diary {
+  animation: mr-type 1.1s steps(36, end) both;
+}
+
+@keyframes mr-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Contents arrive when their chapter first takes the screen. */
+.mr-panel > * {
+  transition:
+    opacity 0.9s var(--ease),
+    translate 0.9s var(--ease);
+}
+
+.mr-chapter[data-seen="false"] .mr-panel > * {
+  opacity: 0;
+  translate: 0 16px;
+}
+
+.mr-panel > .mr-h2 {
+  transition: none;
+}
+
+.mr-panel > :nth-child(2) {
+  transition-delay: 0.06s;
+}
+
+.mr-panel > :nth-child(3) {
+  transition-delay: 0.12s;
+}
+
+.mr-panel > :nth-child(4) {
+  transition-delay: 0.18s;
+}
+
+.mr-panel > :nth-child(5) {
+  transition-delay: 0.24s;
+}
+
+.mr-panel > :nth-child(n + 6) {
+  transition-delay: 0.3s;
+}
+
+/* Charts share one vocabulary: hairline grid, mono axes, one drawn curve. */
+
+.mr-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.mr-axis {
+  font-family: var(--mono);
+  font-size: 10px;
+  fill: var(--bone-3);
+}
+
+.mr-axis-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  fill: var(--bone-2);
+}
+
+.mr-curve {
+  fill: none;
+  stroke: var(--bone);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.9s var(--ease-io) 0.3s;
+}
+
+.mr-chapter[data-seen="true"] .mr-curve {
+  stroke-dashoffset: 0;
+}
+
+.mr-curve-drawn {
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+}
+
+/* --------------------------------------------------------- 01 the cargo */
+
+.mr-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  margin-top: 36px;
+}
+
+.mr-split p {
+  margin: 0;
+}
+
+.mr-big {
+  display: block;
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(3.8rem, 5.6vw, 5.6rem);
+  line-height: 0.82;
+  letter-spacing: -0.01em;
+}
+
+.mr-split span {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--bone-3);
+}
+
+.mr-note {
+  margin: 18px 0 0;
+  max-width: 44ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--bone-2);
+}
+
+.mr-chart {
+  margin: 34px 0 0;
+}
+
+.mr-chart figcaption {
+  margin-top: 10px;
+  max-width: 46ch;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--bone-3);
+}
+
+.mr-chart svg,
+.mr-odds svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.mr-mine {
+  fill: var(--amber);
+  stroke: var(--night);
+  stroke-width: 2;
+}
+
+.mr-mine-line {
+  stroke: var(--amber);
+  stroke-width: 1.25;
+  stroke-dasharray: 3 4;
+}
+
+.mr-dot {
+  cursor: pointer;
+  outline: none;
+}
+
+.mr-dot-hit {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 1.5;
+}
+
+.mr-dot:focus-visible .mr-dot-hit {
+  stroke: var(--amber);
+}
+
+.mr-dot-mark {
+  fill: var(--bone);
+  transition: r 0.25s var(--ease);
+}
+
+.mr-dot:hover .mr-dot-mark {
+  fill: #fffaf0;
+}
+
+.mr-dot-label {
+  font-size: 11.5px;
+  font-weight: 500;
+  fill: var(--bone-2);
+  paint-order: stroke;
+  stroke: #111214;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  transition: fill 0.25s var(--ease);
+}
+
+.mr-dot:hover .mr-dot-label,
+.mr-dot[data-active="true"] .mr-dot-label {
+  fill: var(--amber-hot);
+}
+
+/* ---------------------------------------------------- 02 the timetable */
+
+.mr-board {
+  margin-top: 22px;
+  padding: 12px 12px 8px;
+  background: #06090f;
+  border: 1px solid var(--line);
+  box-shadow: inset 0 2px 12px rgb(0 0 0 / 0.6);
+}
+
+.mr-board-head,
+.mr-board-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(3, 84px);
+  gap: 14px;
+  align-items: center;
+}
+
+.mr-board-row .mr-flap {
+  justify-self: end;
+}
+
+.mr-board-head {
+  padding: 0 8px 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+}
+
+.mr-board-head span:not(:first-child) {
+  text-align: right;
+}
+
+.mr-board-row {
+  appearance: none;
+  width: 100%;
+  padding: 9px 8px;
+  border: 0;
+  border-top: 1px solid rgb(232 228 218 / 0.06);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  font-size: 19px;
+  transition: background-color 0.25s var(--ease);
+}
+
+.mr-board-row:hover {
+  background: var(--amber-tint);
+}
+
+.mr-board-row[aria-checked="true"]::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--amber);
+}
+
+.mr-board-name {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.mr-board-name small {
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--bone-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mr-flap-cells {
+  display: inline-flex;
+  gap: 1px;
+}
+
+.mr-flap-cell {
+  position: relative;
+  width: 0.8em;
+  height: 1.22em;
+  background: linear-gradient(180deg, #202838 0%, #1a2130 49.5%, #121824 50.5%, #171e2c 100%);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.55),
+    0 1px 0 rgb(255 255 255 / 0.03);
+  perspective: 120px;
+}
+
+.mr-flap-cell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgb(0 0 0 / 0.75);
+}
+
+.mr-flap-face {
+  display: block;
+  height: 100%;
+  text-align: center;
+  font-family: var(--cond);
+  font-weight: 700;
+  line-height: 1.22em;
+  color: var(--bone);
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+}
+
+.mr-board-row[aria-checked="true"] .mr-flap-face {
+  color: var(--amber-hot);
+}
+
+/* ------------------------------------------------------ 03 on the road */
+
+.mr-odometer {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  margin-top: 26px;
+}
+
+.mr-day-huge {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(8.5rem, 14vw, 13.5rem);
+  line-height: 0.74;
+  letter-spacing: -0.02em;
+  color: var(--amber-hot);
+}
+
+.mr-day-cap {
+  padding-bottom: 6px;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--bone-2);
+}
+
+.mr-odo-line {
+  margin: 22px 0 0;
+  font-size: 0.9375rem;
+  color: var(--bone-2);
+}
+
+.mr-odds {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.mr-mark-line {
+  stroke: var(--bone-3);
+  stroke-dasharray: 2 3;
+}
+
+.mr-mark-dot {
+  fill: var(--bone);
+}
+
+.mr-now line {
+  stroke: var(--amber);
+  stroke-width: 1.5;
+}
+
+.mr-now text {
+  font-family: var(--mono);
+  font-size: 10px;
+  fill: var(--amber-hot);
+}
+
+.mr-odds-read {
+  margin: 8px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--bone-2);
+}
+
+.mr-odds-read b {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------- 04 the border */
+
+.mr-docs .mr-panel {
+  width: min(660px, 47vw);
+}
+
+/* The scanner's picture and the consignment note take turns in one place. */
+.mr-border-plate {
+  display: grid;
+  margin-top: 24px;
+}
+
+.mr-border-plate > * {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.7s var(--ease),
+    translate 0.7s var(--ease);
+}
+
+.mr-border-plate[data-phase="scan"] > .mr-cmr,
+.mr-border-plate[data-phase="paper"] > .mr-xray {
+  opacity: 0;
+  translate: 0 18px;
+  pointer-events: none;
+}
+
+.mr-xray {
+  --scan: 0;
+  margin: 0;
+  align-self: start;
+}
+
+.mr-xray-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--bone-3);
+}
+
+.mr-xray-frame {
+  position: relative;
+  border: 1px solid var(--line-2);
+  background: #06070a;
+  font-family: var(--mono);
+  overflow: hidden;
+}
+
+.mr-xray-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  clip-path: inset(0 calc((1 - var(--scan)) * 100%) 0 0);
+  filter: contrast(1.05);
+}
+
+.mr-xray-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--scan) * 100%);
+  width: 2px;
+  margin-left: -1px;
+  background: #e8eef5;
+  box-shadow: 0 0 10px 2px rgb(200 220 240 / 0.35);
+  opacity: 0.9;
+}
+
+.mr-xray[data-done="true"] .mr-xray-line {
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.mr-xray-foot {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--bone-2);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+
+.mr-xray[data-done="true"] .mr-xray-foot {
+  opacity: 1;
+}
+
+.mr-xray-foot::before {
+  content: "✓ ";
+  color: var(--amber-hot);
+}
+
+/* The note is paper: the one light surface on the page, like a sheet under the lamp. */
+.mr-cmr {
+  --form: rgb(58 78 118 / 0.55);
+  --form-ink: #34476e;
+  position: relative;
+  margin-top: 18px;
+  background: linear-gradient(170deg, #efe9da 0%, #e6dfcd 100%);
+  color: #171a20;
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.5);
+}
+
+.mr-cmr-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--form);
+}
+
+.mr-cmr-code {
+  display: block;
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 2.3rem;
+  line-height: 0.9;
+  color: var(--form-ink);
+}
+
+.mr-cmr-title {
+  display: block;
+  margin-top: 5px;
+  max-width: 34ch;
+  font-size: 0.6875rem;
+  line-height: 1.3;
+  color: var(--form-ink);
+}
+
+.mr-cmr-no {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.mr-cmr-no span {
+  color: var(--form-ink);
+}
+
+.mr-cmr-no em {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 0.6875rem;
+  color: var(--form-ink);
+}
+
+.mr-cmr-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--form);
+}
+
+.mr-cmr-box {
+  position: relative;
+  min-height: 58px;
+  padding: 7px 10px 9px 26px;
+  background: #ebe4d3;
+}
+
+.mr-cmr-box[data-span="2"] {
+  grid-column: span 2;
+}
+
+.mr-cmr-box[data-span="3"] {
+  grid-column: span 3;
+  min-height: 0;
+}
+
+.mr-cmr-n {
+  position: absolute;
+  left: 8px;
+  top: 7px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--form-ink);
+}
+
+.mr-cmr-label {
+  display: block;
+  font-size: 0.625rem;
+  line-height: 1.2;
+  color: var(--form-ink);
+}
+
+.mr-cmr-value {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.7s steps(22, end);
+}
+
+.mr-cmr-value[data-filled="true"] {
+  clip-path: inset(0 0 0 0);
+}
+
+.mr-cmr-stamp {
+  position: absolute;
+  right: 22px;
+  bottom: 6px;
+  pointer-events: none;
+}
+
+.mr-cmr-stamp svg {
+  display: block;
+  width: 138px;
+  height: 138px;
+  opacity: 0;
+  scale: 1.9;
+  rotate: -18deg;
+  mix-blend-mode: multiply;
+  transition:
+    opacity 0.1s linear,
+    scale 0.32s cubic-bezier(0.3, 1.5, 0.5, 1),
+    rotate 0.32s var(--ease);
+}
+
+.mr-cmr[data-stamped="true"] .mr-cmr-stamp svg {
+  opacity: 0.86;
+  scale: 1;
+  rotate: -10deg;
+}
+
+.mr-cmr-stamp .mr-stamp-ink circle {
+  stroke: #2f3c8c;
+}
+
+.mr-cmr-stamp .mr-stamp-ring,
+.mr-cmr-stamp .mr-stamp-core,
+.mr-cmr-stamp .mr-stamp-mini {
+  fill: #2f3c8c;
+}
+
+/* -------------------------------------------------------- 05 last stretch */
+
+.mr-faq-list {
+  margin-top: 22px;
+}
+
+.mr-faq-list details {
+  border-top: 1px solid var(--line);
+}
+
+.mr-faq-list details:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.mr-faq-list summary {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 0;
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.3s var(--ease);
+}
+
+.mr-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.mr-faq-n {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--bone-3);
+}
+
+.mr-faq-q {
+  font-weight: 500;
+  font-size: clamp(1.2rem, 1.5vw, 1.45rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.mr-faq-list summary:hover .mr-faq-q {
+  color: #fffaf0;
+}
+
+.mr-faq-list summary i {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.mr-faq-list summary i::before,
+.mr-faq-list summary i::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 16px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.4s var(--ease);
+}
+
+.mr-faq-list summary i::after {
+  transform: rotate(90deg);
+}
+
+.mr-faq-list details[open] summary i::after {
+  transform: rotate(0deg);
+}
+
+.mr-faq-list details p {
+  margin: 0;
+  padding: 0 30px 20px 44px;
+  font-size: 0.9375rem;
+  line-height: 1.58;
+  color: var(--bone-2);
+  animation: mr-open 0.5s var(--ease) both;
+}
+
+@keyframes mr-open {
+  from {
+    opacity: 0;
+    translate: 0 -6px;
+  }
+}
+
+/* ------------------------------------------------------ 06 the warehouse */
+
+.mr-arrived {
+  margin: 0 0 12px;
+  font-size: 0.9375rem;
+  color: var(--bone-2);
+}
+
+.mr-arrived b {
+  font-weight: 600;
+  color: var(--amber-hot);
+}
+
+.mr-request-sum {
+  margin: 16px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--bone-2);
+}
+
+.mr-request-sum b {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 1.45em;
+  color: var(--bone);
+}
+
+.mr-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.mr-field-block label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 0.8125rem;
+  color: var(--bone-2);
+}
+
+.mr-input {
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 0;
+  background: rgb(232 228 218 / 0.04);
+  color: var(--bone);
+  font: inherit;
+  font-size: 1rem;
+  transition: border-color 0.25s var(--ease);
+}
+
+.mr-input:hover {
+  border-color: var(--bone-3);
+}
+
+.mr-input:focus-visible {
+  outline: 2px solid var(--bone);
+  outline-offset: 2px;
+  border-color: var(--bone);
+}
+
+.mr-input[aria-invalid="true"] {
+  border-color: var(--err);
+}
+
+.mr-error {
+  margin: 5px 0 0;
+  min-height: 1.3em;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--err);
+}
+
+.mr-btn-big {
+  align-self: flex-start;
+  padding: 16px 26px;
+  font-size: 1rem;
+}
+
+.mr-sent {
+  margin-top: 20px;
+  padding: 20px 0 20px 22px;
+  border-left: 3px solid var(--bone);
+}
+
+.mr-sent p {
+  margin: 0 0 18px;
+  line-height: 1.5;
+  color: var(--bone-2);
+}
+
+.mr-sent .mr-sent-title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--bone);
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.mr-footer {
+  position: relative;
+  z-index: 3;
+  overflow: hidden;
+  padding: 0 0 32px;
+  background: var(--night);
+  border-top: 1px solid var(--line);
+}
+
+.mr-wrap {
+  max-width: 1600px;
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.mr-footer-mark {
+  margin: clamp(24px, 4vw, 56px) 0 0;
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(6.5rem, 27.5vw, 30rem);
+  line-height: 0.74;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  color: var(--bone);
+}
+
+.mr-footer-base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 18px 48px;
+  margin-top: clamp(28px, 3vw, 44px);
+  padding-top: 20px;
+  border-top: 1px solid var(--line-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--bone-2);
+}
+
+.mr-footer-legal {
+  margin: 0;
+  max-width: 62ch;
+}
+
+.mr-footer-credit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  color: var(--bone);
+}
+
+.mr-link {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.45s var(--ease);
+  padding-bottom: 2px;
+}
+
+.mr-link:hover {
+  background-size: 100% 1px;
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 1180px) and (min-width: 900px) {
+  .mr-panel {
+    width: min(460px, 44vw);
+    padding: 24px 24px 24px;
+  }
+
+  .mr-panel[data-wide="true"] {
+    width: min(540px, 50vw);
+  }
+}
+
+@media (max-height: 820px) and (min-width: 900px) {
+  .mr-chart {
+    display: none;
+  }
+
+  .mr-cmr-box {
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 899px) {
+  #density,
+  #modes {
+    height: 220svh;
+  }
+
+  #tracking {
+    height: 380svh;
+  }
+
+  #docs {
+    height: 320svh;
+  }
+
+  .mr-stick {
+    align-items: flex-end;
+    padding: var(--head) 10px 10px;
+  }
+
+  .mr-panel,
+  .mr-panel[data-wide="true"],
+  .mr-chapter[data-pin="false"] .mr-panel {
+    width: 100%;
+    max-height: 62svh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    padding: 4px 6px 8px;
+  }
+
+  .mr-chapter[data-pin="false"] .mr-panel {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .mr-chapter[data-pin="false"] .mr-stick {
+    padding-top: 40svh;
+  }
+
+  .mr-mile-post,
+  .mr-mile-place {
+    left: auto;
+    right: var(--pad);
+  }
+
+  .mr-mile-place {
+    text-align: right;
+  }
+
+  .mr-h2 {
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+  }
+
+  .mr-chart,
+  .mr-odds svg {
+    display: none;
+  }
+
+  .mr-docs .mr-panel {
+    width: 100%;
+  }
+
+  .mr-lede {
+    font-size: 1rem;
+  }
+
+  .mr-split {
+    margin-top: 22px;
+  }
+
+  .mr-board-row {
+    font-size: 15px;
+  }
+
+  .mr-board-name small {
+    display: none;
+  }
+
+  .mr-day-huge {
+    font-size: 6.5rem;
+  }
+
+  .mr-cmr-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mr-cmr-box[data-span="3"],
+  .mr-cmr-box[data-span="2"] {
+    grid-column: span 2;
+  }
+
+  .mr-cmr-stamp svg {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mr-chapter[data-seen="false"] .mr-panel > * {
+    opacity: 1;
+    translate: none;
+  }
+
+  .mr-curve {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .mr-cmr-value {
+    transition: none;
+  }
+}

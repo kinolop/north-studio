@@ -1,0 +1,1250 @@
+/*
+ * МАРШРУТ: a freight company, seen from a night flight.
+ *
+ * The ground is the neutral dark of asphalt at night, with no blue in it;
+ * everything written is pale bone, at three strengths. There is one light,
+ * the sodium amber of a trunk road, and it belongs to the journey alone: the
+ * route, the cargo's position, the day it is on, and the words the reader
+ * has chosen. Buttons, labels and frames are bone, never amber.
+ *
+ * Corners are square throughout; panels are flat, matte plates laid over the
+ * map. Mono type is for what is measured (days, kilometres, coordinates) and
+ * for objects that are printed that way (the board, the plate, the note),
+ * never for labels. Everything is scoped under `.mr` so none of it can
+ * reach the studio.
+ */
+
+.mr {
+  --night: #0c0d0f;
+  --night-2: #121315;
+  --panel: rgb(17 18 20 / 0.95);
+  --line: rgb(231 227 218 / 0.1);
+  --line-2: rgb(231 227 218 / 0.22);
+  --bone: #e7e3da;
+  --bone-2: #aeaaa2;
+  --bone-3: #7c7973;
+  --amber: #dc9f4b;
+  --amber-hot: #f1d09a;
+  --amber-deep: #a26c29;
+  --amber-tint: rgb(220 159 75 / 0.1);
+  --amber-tint-2: rgb(220 159 75 / 0.2);
+  --steel: #5a6674;
+  --err: #ec8a72;
+
+  --sans: var(--font-sofia), "Segoe UI", system-ui, sans-serif;
+  --cond: var(--font-sofia-xc), "Arial Narrow", "Segoe UI", sans-serif;
+  --mono: var(--font-jbmono), ui-monospace, "Cascadia Mono", monospace;
+  --serif: var(--font-garamond), "Times New Roman", serif;
+
+  --pad: clamp(16px, 2.6vw, 40px);
+  --head: 78px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+
+  position: relative;
+  background: var(--night);
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  font-feature-settings: "kern", "liga", "tnum" 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color-scheme: dark;
+}
+
+.mr *,
+.mr *::before,
+.mr *::after {
+  box-sizing: border-box;
+}
+
+.mr ::selection {
+  background: var(--bone);
+  color: var(--night);
+}
+
+.mr :focus-visible {
+  outline: 2px solid var(--bone);
+  outline-offset: 3px;
+}
+
+/* :where() keeps these at zero specificity, so a class can always win. */
+:where(.mr) a {
+  color: inherit;
+}
+
+:where(.mr) button {
+  font: inherit;
+  color: inherit;
+}
+
+.mr-num {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.mr-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------- buttons */
+
+.mr-btn {
+  appearance: none;
+  border: 1px solid var(--bone);
+  background: var(--bone);
+  color: var(--night);
+  padding: 13px 20px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.mr-btn:hover {
+  background: #fffaf0;
+  border-color: #fffaf0;
+}
+
+.mr-btn:active {
+  transform: translateY(1px);
+}
+
+.mr-btn[data-ghost="true"] {
+  background: transparent;
+  color: var(--bone);
+  border-color: var(--line-2);
+}
+
+.mr-btn[data-ghost="true"]:hover {
+  border-color: var(--bone);
+  background: rgb(232 228 218 / 0.06);
+}
+
+.mr-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* ---------------------------------------------------------------- header */
+
+.mr-header {
+  position: fixed;
+  z-index: 50;
+  inset: 0 0 auto 0;
+  height: var(--head);
+  padding: 0 var(--pad);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: clamp(20px, 3vw, 48px);
+  background: linear-gradient(180deg, rgb(12 13 15 / 0.92) 0%, rgb(12 13 15 / 0.55) 60%, rgb(12 13 15 / 0) 100%);
+  transition: background-color 0.5s var(--ease), border-color 0.5s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+
+.mr-header[data-solid="true"] {
+  background: var(--night);
+  border-bottom-color: var(--line);
+}
+
+.mr-mark {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.mr-rail-nav {
+  justify-self: center;
+  width: min(620px, 100%);
+  padding: 0 44px;
+}
+
+.mr-rail {
+  position: relative;
+  height: 34px;
+}
+
+.mr-rail-line,
+.mr-rail-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10px;
+  height: 1px;
+  background: var(--line-2);
+}
+
+.mr-rail-fill {
+  height: 2px;
+  top: 9.5px;
+  background: var(--amber);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+.mr-rail-stop {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 100%;
+  text-decoration: none;
+}
+
+.mr-rail-stop i {
+  position: absolute;
+  left: -5px;
+  top: 5.5px;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--bone-2);
+  background: var(--night);
+  border-radius: 50%;
+}
+
+.mr-rail-stop[data-kind="gate"] i {
+  border-radius: 0;
+  rotate: 45deg;
+  border-color: var(--amber);
+  width: 9px;
+  height: 9px;
+  left: -4.5px;
+  top: 6px;
+}
+
+.mr-rail-stop[data-kind="dest"] i {
+  border-radius: 0;
+  background: var(--bone-2);
+}
+
+.mr-rail-stop span {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  translate: -50% 0;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--bone-3);
+  transition: color 0.3s var(--ease);
+}
+
+.mr-rail-stop[data-kind="origin"] span {
+  translate: -8px 0;
+}
+
+.mr-rail-stop[data-kind="dest"] span {
+  translate: calc(-100% + 8px) 0;
+}
+
+/* An airport sits almost at the end of the line: its name goes above the rail, out of the destination's way. */
+.mr-rail-stop[data-crowded="true"] span {
+  top: -9px;
+}
+
+.mr-rail-stop:hover span {
+  color: var(--bone);
+}
+
+.mr-rail-head {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  translate: -50% 0;
+  pointer-events: none;
+}
+
+.mr-rail-head::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: var(--amber-hot);
+  box-shadow: 0 0 0 3px rgb(221 160 74 / 0.25);
+}
+
+.mr-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  min-width: 128px;
+}
+
+.mr-clock-chapter {
+  font-size: 11px;
+  line-height: 1;
+  color: var(--bone-3);
+  white-space: nowrap;
+}
+
+.mr-clock-day {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.mr-clock-label {
+  font-size: 11px;
+  color: var(--bone-3);
+}
+
+.mr-clock-n {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 0.9;
+  min-width: 1.1em;
+  text-align: right;
+  color: var(--amber-hot);
+}
+
+.mr-clock-of {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--bone-2);
+}
+
+.mr-btn-cta {
+  padding: 12px 18px;
+}
+
+/* ----------------------------------------------------------------- world */
+
+.mr-world {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.mr-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mr-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 100% at 55% 50%, transparent 58%, rgb(5 5 6 / 0.55) 100%),
+    linear-gradient(180deg, rgb(5 5 6 / 0.35) 0%, transparent 16%);
+}
+
+.mr-veil {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 62%;
+  pointer-events: none;
+  opacity: var(--veil, 1);
+  background: linear-gradient(
+    to top,
+    var(--night) 0%,
+    rgb(12 13 15 / 0.92) 22%,
+    rgb(12 13 15 / 0.6) 46%,
+    rgb(12 13 15 / 0) 100%
+  );
+}
+
+/* The field the chapters' words stand on: the map darkens on the left, never a box. */
+.mr-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgb(12 13 15 / 0.97) 0%,
+    rgb(12 13 15 / 0.94) 30%,
+    rgb(12 13 15 / 0.72) 40%,
+    rgb(12 13 15 / 0.28) 50%,
+    rgb(12 13 15 / 0) 60%
+  );
+  opacity: 0;
+  transition: opacity 0.9s var(--ease);
+}
+
+.mr-world[data-scrim="on"] .mr-scrim {
+  opacity: 1;
+}
+
+.mr-ruler-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--ruler, 1);
+  transition: opacity 0.2s linear;
+}
+
+.mr-ruler,
+.mr-dims {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.mr-ruler {
+  opacity: 0.8;
+}
+
+.mr-readout {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  translate: -50% 0;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--bone-3);
+  white-space: pre;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+  pointer-events: none;
+}
+
+.mr-readout[data-on="true"] {
+  opacity: 1;
+}
+
+.mr-dim-line {
+  stroke: var(--bone-2);
+  stroke-width: 1;
+  fill: none;
+}
+
+.mr-dim-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  fill: var(--bone);
+  paint-order: stroke;
+  stroke: var(--night);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.mr-dim-text-strong {
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------- labels */
+
+.mr-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.4s var(--ease);
+}
+
+.mr-labels > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.mr-place,
+.mr-region,
+.mr-end,
+.mr-tag,
+.mr-station {
+  visibility: hidden;
+}
+
+.mr-place > span {
+  position: absolute;
+  left: 7px;
+  top: -8px;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: var(--bone-2);
+  text-shadow: 0 0 3px var(--night), 0 0 3px var(--night), 0 0 8px var(--night);
+}
+
+.mr-place::before {
+  content: "";
+  position: absolute;
+  left: -1.5px;
+  top: -1.5px;
+  width: 3px;
+  height: 3px;
+  background: var(--bone-2);
+}
+
+.mr-place[data-rank="1"] > span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bone);
+}
+
+.mr-place[data-rank="3"] > span {
+  color: var(--bone-3);
+  font-size: 10.5px;
+}
+
+.mr-region {
+  font-family: var(--serif);
+  font-style: italic;
+  color: rgb(129 127 121 / 0.9);
+  white-space: nowrap;
+  transition: opacity 0.4s var(--ease);
+}
+
+.mr-region > span {
+  display: inline-block;
+  translate: -50% -50%;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+}
+
+.mr-region[data-kind="country"] > span {
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 15px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgb(232 228 218 / 0.2);
+}
+
+.mr-end::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--amber-hot);
+  background: var(--night);
+  border-radius: 50%;
+}
+
+.mr-end[data-end="dest"]::before {
+  background: var(--amber-hot);
+  border-radius: 0;
+}
+
+.mr-end-name,
+.mr-end-note {
+  position: absolute;
+  left: 15px;
+  white-space: nowrap;
+  text-shadow: 0 0 3px var(--night), 0 0 4px var(--night), 0 0 10px var(--night);
+}
+
+.mr-end-name {
+  top: -13px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--bone);
+}
+
+.mr-end-note {
+  top: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--bone-3);
+  line-height: 1;
+}
+
+.mr-end[data-drop="below"] .mr-end-name {
+  top: 14px;
+}
+
+.mr-end[data-drop="below"] .mr-end-note {
+  top: 32px;
+}
+
+.mr-end[data-drop="above"] .mr-end-name {
+  top: -40px;
+}
+
+.mr-end[data-drop="above"] .mr-end-note {
+  top: -22px;
+}
+
+.mr-end[data-flip="true"] .mr-end-name,
+.mr-end[data-flip="true"] .mr-end-note {
+  left: auto;
+  right: 15px;
+  text-align: right;
+}
+
+.mr-tag {
+  pointer-events: auto;
+  translate: -50% -100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 9px 7px;
+  border: 0;
+  border-left: 2px solid var(--bone-2);
+  background: rgb(12 13 15 / 0.92);
+  color: var(--bone);
+  text-align: left;
+  cursor: default;
+  opacity: var(--tags, 1);
+  transition: background-color 0.25s var(--ease);
+}
+
+.mr-world[data-tags="off"] .mr-tag {
+  pointer-events: none;
+}
+
+.mr-tag:hover,
+.mr-tag:focus-visible {
+  background: #17181b;
+  outline-offset: 0;
+}
+
+.mr-tag-name {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.mr-tag-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.15;
+  color: var(--bone-2);
+  white-space: nowrap;
+}
+
+/* Stations on the line, with the day the cargo passes each. */
+.mr-station {
+  opacity: var(--stops, 0);
+}
+
+.mr-station::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--night);
+  border: 1.5px solid var(--amber-hot);
+}
+
+.mr-station[data-gate="true"]::before {
+  border-radius: 0;
+  rotate: 45deg;
+  background: var(--amber);
+  border-color: var(--amber-hot);
+}
+
+.mr-station-name,
+.mr-station-day {
+  position: absolute;
+  left: 11px;
+  white-space: nowrap;
+  line-height: 1;
+  text-shadow: 0 0 3px var(--night), 0 0 4px var(--night), 0 0 10px var(--night);
+}
+
+.mr-station-name {
+  top: -26px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bone);
+}
+
+.mr-station-day {
+  top: -11px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--bone-2);
+}
+
+/* ------------------------------------------------------------ the stamp */
+
+.mr-stamp {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.mr-stamp svg {
+  display: block;
+  translate: -50% -50%;
+  overflow: visible;
+  rotate: -14deg;
+  scale: 1.7;
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition:
+    opacity 0.12s linear,
+    scale 0.34s cubic-bezier(0.3, 1.6, 0.5, 1),
+    rotate 0.34s var(--ease);
+}
+
+.mr-stamp[data-on="true"] svg {
+  rotate: -9deg;
+  scale: 1;
+  opacity: 0.9;
+}
+
+.mr-stamp:not([data-on="true"]) svg {
+  transition: opacity 0.9s var(--ease);
+}
+
+.mr-stamp-ink circle {
+  fill: none;
+  stroke: var(--amber-hot);
+  stroke-width: 2.2;
+}
+
+.mr-stamp-ink circle:nth-of-type(2) {
+  stroke-width: 1;
+}
+
+.mr-stamp-ring {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  fill: var(--amber-hot);
+}
+
+.mr-stamp-core {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 44px;
+  fill: var(--amber-hot);
+}
+
+.mr-stamp-mini {
+  font-family: var(--mono);
+  font-size: 15px;
+  fill: var(--amber-hot);
+}
+
+/* ------------------------------------------------------------ chapters */
+
+.mr-chapters {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------ first screen */
+
+.mr-hero {
+  position: relative;
+  height: 100svh;
+  min-height: 620px;
+}
+
+.mr-copy {
+  position: absolute;
+  left: var(--pad);
+  bottom: 44px;
+  width: min(720px, 52vw);
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.mr-sentence {
+  margin: 0;
+  font-size: clamp(1.75rem, 3.05vw, 3.2rem);
+  line-height: 1.08;
+  font-weight: 500;
+  letter-spacing: -0.024em;
+  text-wrap: balance;
+}
+
+.mr-sub {
+  margin: 20px 0 0;
+  max-width: 46ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--bone-2);
+}
+
+/* Fields: the words that can be changed. */
+
+.mr-fieldwrap {
+  position: relative;
+  display: inline;
+}
+
+.mr-field {
+  appearance: none;
+  display: inline;
+  padding: 0 0.05em;
+  margin: 0 -0.05em;
+  border: 0;
+  border-bottom: 0.075em solid var(--amber);
+  background: transparent;
+  color: var(--bone);
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.mr-field:hover {
+  background: var(--amber-tint-2);
+}
+
+.mr-field[aria-expanded="true"] {
+  background: var(--amber);
+  color: var(--night);
+}
+
+.mr-field-number {
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.mr-field-input {
+  border-radius: 0;
+  outline: none;
+  background: var(--amber-tint-2);
+  width: auto;
+  min-width: 2.4em;
+}
+
+.mr-pop {
+  position: absolute;
+  z-index: 30;
+  left: -0.4em;
+  bottom: calc(100% + 0.5em);
+  min-width: 320px;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: #141517;
+  border: 1px solid var(--line-2);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.3;
+  color: var(--bone);
+  animation: mr-pop 0.28s var(--ease) both;
+}
+
+.mr-pop[data-wide="true"] {
+  min-width: 380px;
+}
+
+@keyframes mr-pop {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+.mr-pop li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 10px 16px 10px 18px;
+  cursor: pointer;
+  position: relative;
+}
+
+.mr-pop li[data-active="true"] {
+  background: var(--amber-tint);
+}
+
+.mr-pop li[aria-selected="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--amber);
+}
+
+.mr-pop-name {
+  font-weight: 500;
+}
+
+.mr-pop-meta {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--bone-2);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------- ticket */
+
+.mr-ticket {
+  position: absolute;
+  right: var(--pad);
+  bottom: 44px;
+  width: min(370px, 30vw);
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.mr-price,
+.mr-days {
+  margin: 0;
+  font-family: var(--cond);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  display: flex;
+  align-items: baseline;
+  color: var(--bone);
+}
+
+.mr-price {
+  font-size: clamp(4rem, 7.2vw, 7.4rem);
+}
+
+.mr-days {
+  margin-top: 22px;
+  font-size: clamp(2.4rem, 3.9vw, 4rem);
+}
+
+.mr-cur {
+  font-size: 0.4em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin-left: 0.12em;
+  color: var(--bone-2);
+}
+
+.mr-price-note {
+  margin: 8px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--bone-2);
+  max-width: 34ch;
+}
+
+.mr-roll {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.mr-digit {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.mr-digit > span {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.9s var(--ease);
+}
+
+.mr-digit i {
+  display: block;
+  height: 1em;
+  line-height: 1;
+  font-style: normal;
+}
+
+.mr-roll-sep {
+  display: inline-block;
+  line-height: 1;
+}
+
+.mr-corridor {
+  position: relative;
+  height: 34px;
+  margin-top: 12px;
+}
+
+.mr-corridor > div {
+  position: absolute;
+  top: 8px;
+  height: 6px;
+  transition: left 0.8s var(--ease), width 0.8s var(--ease);
+}
+
+.mr-corridor-track {
+  left: 0;
+  right: 0;
+  height: 1px !important;
+  top: 11px !important;
+  background: var(--line-2);
+}
+
+.mr-corridor-p95 {
+  background: rgb(231 227 218 / 0.18);
+}
+
+.mr-corridor-p80 {
+  background: var(--bone-2);
+}
+
+.mr-corridor-p50 {
+  width: 2px;
+  height: 16px !important;
+  top: 3px !important;
+  margin-left: -1px;
+  background: var(--amber);
+}
+
+.mr-corridor-tick,
+.mr-corridor-end {
+  position: absolute;
+  top: 20px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1;
+  color: var(--bone-2);
+}
+
+.mr-corridor-tick {
+  translate: -50% 0;
+  transition: left 0.8s var(--ease);
+}
+
+.mr-corridor-end {
+  color: var(--bone-3);
+}
+
+.mr-corridor-end[data-side="lo"] {
+  left: 0;
+}
+
+.mr-corridor-end[data-side="hi"] {
+  right: 0;
+}
+
+.mr-days-note {
+  margin: 6px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--bone-2);
+}
+
+.mr-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* The copy and the ticket wait for the doors, then arrive together. */
+.mr-hero[data-ready="false"] .mr-copy,
+.mr-hero[data-ready="false"] .mr-ticket {
+  opacity: 0;
+  translate: 0 18px;
+}
+
+.mr-copy,
+.mr-ticket {
+  transition:
+    opacity 1.2s var(--ease) 2.6s,
+    translate 1.2s var(--ease) 2.6s;
+}
+
+.mr-ticket {
+  transition-delay: 2.8s;
+}
+
+/* ---------------------------------------------------------------- phones */
+
+@media (max-width: 899px) {
+  .mr {
+    --head: 64px;
+  }
+
+  .mr-header {
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+  }
+
+  .mr-rail-nav {
+    position: absolute;
+    left: var(--pad);
+    right: var(--pad);
+    bottom: -1px;
+    width: auto;
+    padding: 0;
+  }
+
+  .mr-rail {
+    height: 3px;
+  }
+
+  .mr-rail-line,
+  .mr-rail-fill {
+    top: 1px;
+  }
+
+  .mr-rail-stop,
+  .mr-rail-head {
+    display: none;
+  }
+
+  .mr-clock {
+    min-width: 0;
+  }
+
+  .mr-clock-chapter {
+    display: none;
+  }
+
+  .mr-mark {
+    font-size: 1.45rem;
+  }
+
+  .mr-btn {
+    padding: 11px 15px;
+    font-size: 0.875rem;
+  }
+
+  .mr-btn-cta {
+    padding: 10px 12px;
+    font-size: 0.8125rem;
+  }
+
+  .mr-hero {
+    height: auto;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 24px;
+    padding: 0 var(--pad) 56px;
+  }
+
+  .mr-copy,
+  .mr-ticket {
+    position: relative;
+    inset: auto;
+    width: auto;
+  }
+
+  .mr-veil {
+    height: 82%;
+  }
+
+  .mr-sentence {
+    font-size: clamp(1.65rem, 7.4vw, 2.4rem);
+  }
+
+  .mr-sub {
+    margin-top: 14px;
+    font-size: 0.875rem;
+  }
+
+  .mr-actions {
+    margin-top: 18px;
+  }
+
+  .mr-ticket {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "price days"
+      "corr corr"
+      "note note";
+    align-items: end;
+    column-gap: 22px;
+    row-gap: 4px;
+  }
+
+  .mr-price {
+    grid-area: price;
+    font-size: clamp(3.6rem, 17vw, 5rem);
+  }
+
+  .mr-price-note {
+    display: none;
+  }
+
+  .mr-days {
+    grid-area: days;
+    margin: 0;
+    font-size: clamp(2.2rem, 10vw, 3rem);
+  }
+
+  .mr-corridor {
+    grid-area: corr;
+  }
+
+  .mr-days-note {
+    grid-area: note;
+  }
+
+  .mr-tag,
+  .mr-region {
+    display: none;
+  }
+
+  .mr-pop,
+  .mr-pop[data-wide="true"] {
+    min-width: min(340px, calc(100vw - 2 * var(--pad)));
+    max-width: calc(100vw - 2 * var(--pad));
+  }
+
+  .mr-readout {
+    display: none;
+  }
+
+  .mr-scrim {
+    background: linear-gradient(0deg, rgb(12 13 15 / 0.97) 0%, rgb(12 13 15 / 0.88) 46%, rgb(12 13 15 / 0) 72%);
+  }
+}
+
+@media (max-width: 520px) {
+  .mr-btn-cta {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mr-digit > span,
+  .mr-corridor > div,
+  .mr-corridor-tick,
+  .mr-stamp svg {
+    transition: none;
+  }
+
+  .mr-hero[data-ready="false"] .mr-copy,
+  .mr-hero[data-ready="false"] .mr-ticket {
+    opacity: 1;
+    translate: none;
+  }
+}

@@ -36,6 +36,11 @@ export const CASES: Readonly<Record<string, CaseLink>> = {
     cover: "/work/noctura/assets/cover.png",
     isStatic: false,
   },
+  marshrut: {
+    href: "/work/marshrut",
+    cover: "/work/marshrut/assets/cover.png",
+    isStatic: false,
+  },
   "north-agent": {
     href: "/work/north-agent",
     cover: "/work/north-agent/assets/cover.png",
