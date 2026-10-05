@@ -42,7 +42,24 @@ export function PrintLines({
       const el = ref.current;
       if (!el) return;
       const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
+
+      // A phone gets the paragraph in one piece. Split into masked lines,
+      // every paragraph on the page is measured and rebuilt at load and
+      // each line is its own moving layer; a swipe that crosses several of
+      // them at once would start dozens. One block rising is a single layer
+      // the compositor carries alone.
+      mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
+        gsap.from(el, {
+          autoAlpha: 0,
+          y: 18,
+          duration: 1,
+          ease: "power3.out",
+          delay,
+          scrollTrigger: { trigger: el, start, once: true },
+        });
+      });
+
+      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
         const split = SplitText.create(el, {
           type: "lines",
           mask: "lines",

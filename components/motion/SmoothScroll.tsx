@@ -6,6 +6,7 @@ import Lenis from "lenis";
 import { useEffect, useLayoutEffect, useRef } from "react";
 
 import { LOCALE_WILL_CHANGE, useLocale } from "@/components/i18n/CopyProvider";
+import { isTouchScreen } from "@/lib/touch";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -40,15 +41,6 @@ export function scrollToSection(id: string, { immediate = false }: { immediate?:
   const still = immediate || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const top = first ? 0 : target.getBoundingClientRect().top + window.scrollY;
   window.scrollTo({ top, behavior: still ? "auto" : "smooth" });
-}
-
-/**
- * A finger already scrolls with the phone's own momentum, and Lenis leaves
- * touch alone anyway. All it would add there is a frame loop that never
- * sleeps, so a touch screen gets no smooth scroller at all.
- */
-function isTouchScreen() {
-  return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 }
 
 /**
@@ -145,6 +137,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       }, 250);
     });
 
+    // A finger already scrolls with the phone's own momentum, and Lenis
+    // leaves touch alone anyway: all it would add there is a frame loop
+    // that never sleeps.
     if (reduced || isTouchScreen()) {
       // Native scrolling only. Under reduced motion any ScrollTriggers
       // still resolve to their end state immediately because their

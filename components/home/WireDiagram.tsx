@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
+import { isTouchScreen } from "@/lib/touch";
 import { useOnScreen } from "@/lib/useOnScreen";
 
 export type WireGroup = "sites" | "agents" | "automation";
@@ -119,6 +120,27 @@ export function WireDiagram({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref, "0px");
+
+  // A moving dash is a fresh paint of the whole drawing every frame. On a
+  // phone that paint competes with the scroll, so the pulses wait while the
+  // page moves and run on the moment it settles: nobody follows a pulse
+  // mid-swipe anyway.
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || !onScreen || !isTouchScreen()) return;
+    let settle = 0;
+    const onScroll = () => {
+      if (!node.dataset.scrolling) node.dataset.scrolling = "";
+      window.clearTimeout(settle);
+      settle = window.setTimeout(() => delete node.dataset.scrolling, 160);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(settle);
+      delete node.dataset.scrolling;
+    };
+  }, [onScreen]);
 
   return (
     <div ref={ref} role="img" aria-label={label} data-wires={onScreen ? "run" : "held"}>

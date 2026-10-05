@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { useCopy } from "@/components/i18n/CopyProvider";
 import { subscribeScroll } from "@/lib/scroll";
+import { isTouchScreen } from "@/lib/touch";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /** Pixels per frame at rest; scrolling adds to it. */
@@ -33,6 +34,29 @@ export function TapeMarquee() {
     const a = topRef.current;
     const b = bottomRef.current;
     if (!box || !a || !b || reduced) return;
+
+    // On a phone the tape is a plain CSS loop, so it runs on the compositor
+    // beside the scroll and never waits on a busy main thread. It keeps its
+    // pace and its two directions; only the push from the scroll is lost.
+    if (isTouchScreen()) {
+      const pace = () => {
+        a.style.animation = `tapeLeft ${a.scrollWidth / 2 / (DRIFT * 60)}s linear infinite`;
+        b.style.animation = `tapeRight ${b.scrollWidth / 2 / (DRIFT * 0.8 * 60)}s linear infinite`;
+      };
+      pace();
+      document.fonts?.ready.then(pace).catch(() => {});
+      const seen = new IntersectionObserver(([entry]) => {
+        const state = entry?.isIntersecting ? "running" : "paused";
+        a.style.animationPlayState = state;
+        b.style.animationPlayState = state;
+      });
+      seen.observe(box);
+      return () => {
+        seen.disconnect();
+        a.style.animation = "";
+        b.style.animation = "";
+      };
+    }
 
     let offset = 0;
     let boost = 0;

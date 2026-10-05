@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -25,11 +25,17 @@ interface Mark {
 export function PenTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
+  // No canvas at all without a mouse: even empty, a fixed full-screen layer
+  // is one more surface for a phone to composite on every scrolled frame.
+  const [mouse, setMouse] = useState(false);
+
+  useEffect(() => {
+    setMouse(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || reduced) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (!canvas || reduced || !mouse) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -88,7 +94,9 @@ export function PenTrail() {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("resize", size);
     };
-  }, [reduced]);
+  }, [reduced, mouse]);
+
+  if (!mouse) return null;
 
   return (
     <canvas

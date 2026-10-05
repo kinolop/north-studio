@@ -100,8 +100,16 @@ export function TypeText({
     let started = 0;
     let shown = 0;
     let observer: IntersectionObserver | null = null;
+    // Whether the heading has gone off the top. Asked of an observer rather
+    // than measured in every frame: a measurement there forced a fresh
+    // layout of the page per heading per frame, mid-scroll.
+    let passed = false;
+    const past = new IntersectionObserver(([entry]) => {
+      passed = !!entry && !entry.isIntersecting && entry.boundingClientRect.bottom < 0;
+    });
 
     const finish = () => {
+      past.disconnect();
       chars.forEach((ch) => (ch.style.opacity = "1"));
       caret.remove();
       armedRef.current = false;
@@ -111,7 +119,7 @@ export function TypeText({
     const tick = (now: number) => {
       if (!started) started = now;
       // Past the heading already: land the rest immediately.
-      if (root.getBoundingClientRect().bottom < 0) {
+      if (passed) {
         finish();
         return;
       }
@@ -132,6 +140,7 @@ export function TypeText({
 
     const begin = () => {
       observer?.disconnect();
+      past.observe(root);
       frame = window.requestAnimationFrame(tick);
     };
 
@@ -149,6 +158,7 @@ export function TypeText({
 
     return () => {
       observer?.disconnect();
+      past.disconnect();
       window.cancelAnimationFrame(frame);
       caret.remove();
     };

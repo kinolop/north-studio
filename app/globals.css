@@ -409,8 +409,29 @@
   }
 }
 
-[data-wires="held"] [data-wire] {
+[data-wires="held"] [data-wire],
+[data-scrolling] [data-wire] {
   animation-play-state: paused;
+}
+
+/* The marquee's two tapes on a touch screen: each strip holds its items
+   twice, so half its width is one seamless lap. */
+@keyframes tapeLeft {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes tapeRight {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 /* The agent's chat: a message arriving, and the agent thinking. */
