@@ -161,7 +161,7 @@ export const en = {
           "I connect enquiries and analytics, hand over access",
         ],
         result: "A site you're happy to share, with a clear path from the first screen to the enquiry.",
-        term: "A landing page in about two weeks, a full site in four to five.",
+        term: "From 4 days.",
       },
       {
         key: "agents",
@@ -177,7 +177,7 @@ export const en = {
           "It hands you clients who are ready to talk",
         ],
         result: "No client waits for an answer. The people who reach you already know what they want.",
-        term: "Usually quicker than a website.",
+        term: "From 7 days.",
       },
       {
         key: "automation",
@@ -193,7 +193,7 @@ export const en = {
           "I build a report that arrives in Telegram on its own",
         ],
         result: "Every enquiry is in place and has an owner. The report arrives without reminders.",
-        term: "Live within a few days.",
+        term: "From 6 days.",
       },
     ],
     diagram: {
@@ -498,8 +498,8 @@ export const en = {
         },
         {
           key: "launch",
-          name: "Live within a few days",
-          body: "The line runs on your real channels, and for the first week I watch it with you.",
+          name: "Live from 6 days",
+          body: "The line runs on your real channels. After launch I check with you that every enquiry lands where it should.",
         },
         {
           key: "yours",
@@ -595,20 +595,20 @@ export const en = {
       {
         key: "direction",
         name: "Direction",
-        body: "I get to know your business and clients. In week one you see the structure, copy and design on a live screen, not in a slide deck.",
+        body: "I get to know your business and clients. You see the structure, copy and design on a live screen, not in a slide deck, and approve the direction before the build.",
         artifact: "Approved direction",
       },
       {
         key: "build",
         name: "Build",
-        body: "I do design and code myself, with no hand-offs. A link to the working version exists from day one, so you see every step.",
-        artifact: "Working version, updated daily",
+        body: "I do design and code myself, with no hand-offs, so nothing gets lost on the way. You see the finished version before launch.",
+        artifact: "Finished version to review",
       },
       {
         key: "launch",
         name: "Launch",
-        body: "I launch, check that enquiries arrive and hand over every account. For two weeks after launch I stay in touch and fix anything needed.",
-        artifact: "Code, domain, accounts and support",
+        body: "I launch, check that enquiries arrive and hand over every account. After launch I stay in touch if anything needs fixing.",
+        artifact: "Code, domain and every account",
       },
     ],
   },
@@ -619,7 +619,7 @@ export const en = {
       {
         key: "speed",
         q: "How long does it take?",
-        a: "A landing page takes about two weeks, a full site four to five. An agent or automation is usually quicker. I give an exact timeline after our first conversation.",
+        a: "A website from 4 days, automation from 6, an AI agent from 7. The exact timeline depends on the task, and I give it after our first conversation, before any work starts.",
       },
       {
         key: "price",
@@ -629,7 +629,7 @@ export const en = {
       {
         key: "alone",
         q: "You work alone. Isn't that a risk?",
-        a: "You deal directly with the person doing the work, so nothing gets lost between people. Code and accounts are yours from day one.",
+        a: "You deal directly with the person doing the work, so nothing gets lost between people. After launch the code and every account stay with you.",
       },
       {
         key: "agent",
