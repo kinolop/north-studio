@@ -485,15 +485,15 @@ function ProofSentence({
             ? "opacity 200ms ease"
             : `opacity ${ERASE_MS}ms ease, transform ${ERASE_MS}ms cubic-bezier(0.76,0,0.24,1)`,
         cursor: awaiting ? "crosshair" : undefined,
+        // A strike is drawn sideways and the page scrolls up and down, so a
+        // finger on the words can do either: the page keeps vertical
+        // swipes, the pen gets the horizontal ones.
+        touchAction: awaiting ? "pan-y" : undefined,
       }}
     >
       {letters(proof.before.trimEnd())}
       {proof.before.endsWith(" ") && <span data-ch>{" "}</span>}
-      <span
-        ref={struckRef}
-        className="relative inline-block whitespace-nowrap"
-        style={{ touchAction: awaiting ? "none" : undefined }}
-      >
+      <span ref={struckRef} className="relative inline-block whitespace-nowrap">
         <span
           style={{
             color: fixed || stage === "auto" ? "var(--color-ink-mute)" : "var(--color-ink)",

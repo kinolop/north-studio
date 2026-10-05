@@ -37,50 +37,65 @@ export function About() {
       const root = rootRef.current;
       if (!root) return;
       const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const text = root.querySelector<HTMLElement>("[data-statement]");
-        if (text) {
-          gsap.fromTo(
-            text.querySelectorAll<HTMLElement>("[data-word]"),
-            { opacity: 0.12 },
-            {
-              opacity: 1,
-              ease: "none",
-              stagger: 0.08,
-              scrollTrigger: { trigger: text, start: "top 78%", end: "bottom 40%", scrub: 0.6 },
-            },
-          );
-        }
+      mm.add(
+        { wide: "(min-width: 1024px)", motion: "(prefers-reduced-motion: no-preference)" },
+        (context) => {
+          if (!context.conditions?.motion) return;
+          const text = root.querySelector<HTMLElement>("[data-statement]");
+          if (text) {
+            const words = text.querySelectorAll<HTMLElement>("[data-word]");
+            // Scrubbed, the statement is repainted on every scrolled frame
+            // across its whole run; a phone has it ink in once, on arrival.
+            gsap.fromTo(
+              words,
+              { opacity: 0.12 },
+              context.conditions.wide
+                ? {
+                    opacity: 1,
+                    ease: "none",
+                    stagger: 0.08,
+                    scrollTrigger: { trigger: text, start: "top 78%", end: "bottom 40%", scrub: 0.6 },
+                  }
+                : {
+                    opacity: 1,
+                    duration: 0.5,
+                    ease: "none",
+                    stagger: 0.035,
+                    scrollTrigger: { trigger: text, start: "top 75%", once: true },
+                  },
+            );
+          }
 
-        gsap.utils.toArray<SVGPathElement>("[data-tick]", root).forEach((tick, i) => {
-          const length = tick.getTotalLength();
-          gsap.fromTo(
-            tick,
-            { strokeDasharray: length, strokeDashoffset: length },
-            {
-              strokeDashoffset: 0,
-              duration: 0.8,
-              delay: i * 0.25,
-              ease: "power2.inOut",
-              scrollTrigger: { trigger: tick, start: "top 85%", once: true },
-            },
-          );
-        });
+          gsap.utils.toArray<SVGPathElement>("[data-tick]", root).forEach((tick, i) => {
+            const length = tick.getTotalLength();
+            gsap.fromTo(
+              tick,
+              { strokeDasharray: length, strokeDashoffset: length },
+              {
+                strokeDashoffset: 0,
+                duration: 0.8,
+                delay: i * 0.25,
+                ease: "power2.inOut",
+                scrollTrigger: { trigger: tick, start: "top 85%", once: true },
+              },
+            );
+          });
 
-        const signature = root.querySelector<HTMLElement>("[data-signature]");
-        if (signature) {
-          gsap.fromTo(
-            signature,
-            { clipPath: "inset(-20% 100% -20% -5%)" },
-            {
-              clipPath: "inset(-20% -5% -20% -5%)",
-              duration: 1.6,
-              ease: "power2.inOut",
-              scrollTrigger: { trigger: signature, start: "top 85%", once: true },
-            },
-          );
-        }
-      });
+          const signature = root.querySelector<HTMLElement>("[data-signature]");
+          if (signature) {
+            gsap.fromTo(
+              signature,
+              { clipPath: "inset(-20% 100% -20% -5%)" },
+              {
+                clipPath: "inset(-20% -5% -20% -5%)",
+                duration: 1.6,
+                ease: "power2.inOut",
+                scrollTrigger: { trigger: signature, start: "top 85%", once: true },
+              },
+            );
+          }
+        },
+      );
       return () => mm.revert();
     },
     { scope: rootRef, dependencies: [about], revertOnUpdate: true },

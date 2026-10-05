@@ -218,12 +218,16 @@
   }
 }
 
-/* The typing caret. Sized in ems so it matches whatever it types. */
+/* The typing caret. Sized in ems so it matches whatever it types.
+   It is drawn over the line and takes no room in it: the negative margins
+   cancel its box, so the line never grows taller or pushes a word on while
+   a heading types. A caret that did changed the page's height twice per
+   heading, and every change re-measured every scroll animation. */
 .type-caret {
   display: inline-block;
   width: 0.07em;
   height: 0.8em;
-  margin-left: 0.04em;
+  margin: -0.8em -0.11em 0 0.04em;
   vertical-align: baseline;
   transform: translateY(0.06em);
   animation: caretBlink 900ms steps(1) infinite;
@@ -254,6 +258,21 @@
 
 .halftone[data-printed="true"] {
   --dot: 7px;
+}
+
+/* A phone repaints a masked, full-width photograph on every frame of that
+   transition. There the print simply fades in on the compositor. */
+@media (max-width: 1023px) {
+  .halftone {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: 0;
+    transition: opacity 900ms var(--ease-print);
+  }
+
+  .halftone[data-printed="true"] {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -310,6 +329,15 @@
   opacity: 0.32;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .34 0 0 0 0 .31 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* On a phone the blend has to be recomputed over the whole screen on every
+   scrolled frame. Laid over normally, this dark a grain on this light a
+   paper comes out within a shade of the multiplied one, for nothing. */
+@media (max-width: 1023px), (hover: none) {
+  .paper-grain {
+    mix-blend-mode: normal;
+  }
 }
 
 /* The system diagram: a dash of cobalt travelling a wire. Every wire is

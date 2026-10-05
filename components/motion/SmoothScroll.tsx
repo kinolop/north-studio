@@ -33,12 +33,30 @@ export function scrollToSection(id: string, { immediate = false }: { immediate?:
 
   if (lenis) {
     lenis.scrollTo(first ? 0 : target, { offset: 0, duration: 1.4, immediate, force: immediate });
-  } else if (first) {
-    window.scrollTo(0, 0);
-  } else {
-    target.scrollIntoView({ behavior: "auto", block: "start" });
+    return;
   }
+  // A touch screen scrolls natively, and glides there natively too. Reduced
+  // motion jumps.
+  const still = immediate || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const top = first ? 0 : target.getBoundingClientRect().top + window.scrollY;
+  window.scrollTo({ top, behavior: still ? "auto" : "smooth" });
 }
+
+/**
+ * A finger already scrolls with the phone's own momentum, and Lenis leaves
+ * touch alone anyway. All it would add there is a frame loop that never
+ * sleeps, so a touch screen gets no smooth scroller at all.
+ */
+function isTouchScreen() {
+  return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+}
+
+/**
+ * Page-height changes smaller than this are not worth re-measuring every
+ * scroll animation for: a trigger a few pixels off is invisible, while a
+ * refresh is a full pass over every one of them.
+ */
+const REFRESH_THRESHOLD = 24;
 
 /**
  * Freeze the page behind a full-screen overlay.
@@ -107,11 +125,37 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   }, [locale]);
 
   useEffect(() => {
-    if (reduced) {
-      // Native scrolling only. Any ScrollTriggers still resolve to their
-      // end state immediately because their animations are disabled.
-      ScrollTrigger.refresh();
-      return;
+    // Pinned sections measure wrong if fonts land after layout.
+    const refresh = () => ScrollTrigger.refresh();
+
+    // So do triggers below anything that opens and closes (a service row, a
+    // question): once the page has settled at its new height, measure again,
+    // or a reveal near the end could wait for a scroll position that no
+    // longer exists.
+    let height = document.body.offsetHeight;
+    let settle = 0;
+    const grew = new ResizeObserver(() => {
+      const next = document.body.offsetHeight;
+      if (Math.abs(next - height) < REFRESH_THRESHOLD) return;
+      height = next;
+      window.clearTimeout(settle);
+      settle = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+        height = document.body.offsetHeight;
+      }, 250);
+    });
+
+    if (reduced || isTouchScreen()) {
+      // Native scrolling only. Under reduced motion any ScrollTriggers
+      // still resolve to their end state immediately because their
+      // animations are disabled.
+      if (reduced) ScrollTrigger.refresh();
+      document.fonts?.ready.then(refresh).catch(() => {});
+      grew.observe(document.body);
+      return () => {
+        grew.disconnect();
+        window.clearTimeout(settle);
+      };
     }
 
     const instance = new Lenis({
@@ -131,27 +175,8 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     // GSAP's lag smoothing fights a virtual scroller; the ticker must stay honest.
     gsap.ticker.lagSmoothing(0);
 
-    // Pinned sections measure wrong if fonts land after layout.
-    const refresh = () => ScrollTrigger.refresh();
     document.fonts?.ready.then(refresh).catch(() => {});
     window.addEventListener("load", refresh);
-
-    // So do triggers below anything that opens and closes (a service row, a
-    // question): once the page has settled at its new height, measure again,
-    // or a reveal near the end could wait for a scroll position that no
-    // longer exists.
-    let height = document.body.offsetHeight;
-    let settle = 0;
-    const grew = new ResizeObserver(() => {
-      const next = document.body.offsetHeight;
-      if (Math.abs(next - height) < 2) return;
-      height = next;
-      window.clearTimeout(settle);
-      settle = window.setTimeout(() => {
-        ScrollTrigger.refresh();
-        height = document.body.offsetHeight;
-      }, 250);
-    });
     grew.observe(document.body);
 
     return () => {

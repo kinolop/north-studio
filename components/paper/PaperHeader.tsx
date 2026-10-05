@@ -72,8 +72,10 @@ export function PaperHeader() {
       className={[
         "fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-500 ease-[var(--ease-print)]",
         hidden ? "-translate-y-full" : "translate-y-0",
+        // A phone would re-blur the page under the bar on every scrolled
+        // frame, so there the bar is simply opaque enough to read on.
         lifted
-          ? "border-b border-rule bg-paper/90 backdrop-blur-md"
+          ? "border-b border-rule bg-paper/95 lg:bg-paper/90 lg:backdrop-blur-md"
           : "border-b border-transparent bg-transparent",
       ].join(" ")}
     >

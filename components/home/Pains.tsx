@@ -36,7 +36,28 @@ export function Pains() {
       if (!root) return;
       const mm = gsap.matchMedia();
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // A phone reads the four as a column. Pinned, the screen would stand
+      // still under the thumb for four screens of scrolling while hundreds
+      // of letters were rewritten every frame; instead each situation
+      // settles in once as it arrives and its cobalt mark is drawn under it.
+      mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
+        gsap.utils.toArray<HTMLElement>("[data-pain]", root).forEach((item) => {
+          const mark = item.querySelector<HTMLElement>("[data-mark]");
+          const arrive = gsap.timeline({
+            scrollTrigger: { trigger: item, start: "top 85%", once: true },
+          });
+          arrive.from(item, { autoAlpha: 0, y: 28, duration: 0.8, ease: "power3.out" });
+          if (mark) {
+            arrive.from(
+              mark,
+              { backgroundSize: "0% 0.78em", duration: 0.7, ease: "power2.inOut" },
+              "-=0.4",
+            );
+          }
+        });
+      });
+
+      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
         const stage = root.querySelector<HTMLElement>("[data-stage]");
         const items = gsap.utils.toArray<HTMLElement>("[data-pain]", root);
         const bars = gsap.utils.toArray<HTMLElement>("[data-bar]", root);
