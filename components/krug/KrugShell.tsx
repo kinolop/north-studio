@@ -11,13 +11,13 @@ import "./krug.css";
  * «Круг», whole: its own header and footer around the page.
  *
  * The studio's chrome is suppressed for this route in `StudioChrome`. The
- * body is repainted the colour of dry stoneware while the page is open, so
+ * body is repainted cobalt while the page is open, so
  * overscroll never flashes the studio's paper through.
  */
 export function KrugShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     const previous = document.body.style.backgroundColor;
-    document.body.style.backgroundColor = "#d9d7d1";
+    document.body.style.backgroundColor = "#1b2f6e";
     return () => {
       document.body.style.backgroundColor = previous;
     };

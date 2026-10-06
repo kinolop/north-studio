@@ -153,9 +153,9 @@ function look(stage: number, sec: Section, glaze: Glaze): Look {
         // Glass pools in the grooves and on the floor, and breaks thin on
         // the ridges and over the rim.
         const crest = Math.max(0, rv);
-        tmp.copy(g.base).lerp(g.pool, Math.min(1, groove * 0.32 + (k === 4 ? 0.55 : 0) + (k === 3 ? 0.12 : 0)));
+        tmp.copy(g.base).lerp(g.pool, Math.min(1, groove * 0.18 + (k === 4 ? 0.55 : 0) + (k === 3 ? 0.12 : 0)));
         tmp2.copy(g.thin);
-        tmp.lerp(tmp2, Math.min(1, crest * 0.12 + nearRim * 0.7 + (k === 2 ? 0.25 : 0)));
+        tmp.lerp(tmp2, Math.min(1, crest * 0.05 + nearRim * 0.7 + (k === 2 ? 0.25 : 0)));
         // A line where the glaze stopped, just above the waxed foot.
         if (k === 1 && y < 0.85) tmp.lerp(g.pool, 0.6);
       }
@@ -184,6 +184,23 @@ export interface EngineOptions {
   readonly anchorX?: number;
 }
 
+/** Where on the screen the pot stands, as fractions of the canvas, and how close the camera is. */
+export interface Layout {
+  readonly x: number;
+  readonly y: number;
+  readonly zoom: number;
+}
+
+/**
+ * The light the pot is seen in. `kiln` is the orange underglow of the
+ * firing chamber; `porcelain` is the flat, bright light of the glazing
+ * room. Both zero is the studio by the window.
+ */
+export interface Mood {
+  readonly kiln: number;
+  readonly porcelain: number;
+}
+
 export class VesselEngine {
   private renderer: THREE.WebGLRenderer;
   private scene = new THREE.Scene();
@@ -210,6 +227,14 @@ export class VesselEngine {
   private frameY = 6;
   private width = 1;
   private height = 1;
+  private layout = { x: 0.5, y: 0.5, zoom: 1 };
+  private layoutTarget: Layout = { x: 0.5, y: 0.5, zoom: 1 };
+  private mood = { kiln: 0, porcelain: 0 };
+  private moodTarget: Mood = { kiln: 0, porcelain: 0 };
+  private key!: THREE.DirectionalLight;
+  private fill!: THREE.HemisphereLight;
+  private ember!: THREE.DirectionalLight;
+  private rim!: THREE.DirectionalLight;
 
   /** Called after each rendered frame; the hero uses it to keep the handles on the wall. */
   onFrame: (() => void) | null = null;
@@ -240,11 +265,20 @@ export class VesselEngine {
     this.scene.environmentIntensity = 0.45;
 
     // A window to the left and above, as in a studio with its wheels along the glass.
-    const key = new THREE.DirectionalLight(0xfff6ea, 1.7);
-    key.position.set(-30, 40, 24);
-    this.scene.add(key);
-    const fill = new THREE.HemisphereLight(0xe9eef2, 0x8a8178, 0.55);
-    this.scene.add(fill);
+    this.key = new THREE.DirectionalLight(0xfff6ea, 1.7);
+    this.key.position.set(-30, 40, 24);
+    this.scene.add(this.key);
+    this.fill = new THREE.HemisphereLight(0xe9eef2, 0x8a8178, 0.55);
+    this.scene.add(this.fill);
+    // A cool edge from behind, so the pot separates from a coloured ground
+    // the way a product does on seamless paper.
+    this.rim = new THREE.DirectionalLight(0xc9d6ff, 0.9);
+    this.rim.position.set(26, 18, -30);
+    this.scene.add(this.rim);
+    // The kiln: orange heat from below and in front, off until asked for.
+    this.ember = new THREE.DirectionalLight(0xff7a3c, 0);
+    this.ember.position.set(8, -14, 22);
+    this.scene.add(this.ember);
 
     const geometry = new THREE.BufferGeometry();
     const material = new THREE.MeshPhysicalMaterial({
@@ -346,6 +380,31 @@ export class VesselEngine {
     this.glaze = next;
     this.looks.clear();
     this.rebuild();
+  }
+
+  setLayout(next: Layout, immediate = false) {
+    this.layoutTarget = next;
+    if (immediate) {
+      this.layout = { ...next };
+      this.frame(0, true);
+    }
+  }
+
+  setMood(next: Mood, immediate = false) {
+    this.moodTarget = next;
+    if (immediate) {
+      this.mood = { ...next };
+      this.applyMood();
+    }
+  }
+
+  private applyMood() {
+    const { kiln, porcelain } = this.mood;
+    this.key.intensity = 1.7 * (1 - 0.72 * kiln) + 0.25 * porcelain;
+    this.fill.intensity = 0.55 * (1 - 0.5 * kiln) + 0.35 * porcelain;
+    this.rim.intensity = 0.9 * (1 - kiln) * (1 - 0.6 * porcelain);
+    this.ember.intensity = 3.6 * kiln;
+    this.scene.environmentIntensity = 0.45 * (1 - 0.5 * kiln) + 0.2 * porcelain;
   }
 
   setStage(s: number, immediate = false) {
@@ -494,9 +553,13 @@ export class VesselEngine {
   private frame(dt: number, immediate = false) {
     const p = this.profile;
     const widest = Math.max(...this.section.pts.map(([r]) => r)) * 2;
-    const air = this.options.air ?? 2.2;
+    const air = (this.options.air ?? 2.2) / this.layout.zoom;
     // Tall enough for the pot, and wide enough for it on a narrow screen.
-    const wantH = Math.max(p.lip.y * air, (widest * air * (this.camera.aspect < 1 ? 1.05 : 0.8)) / Math.min(1, this.camera.aspect), 17);
+    const wantH = Math.max(
+      p.lip.y * air,
+      (widest * air * (this.camera.aspect < 1 ? 1.05 : 0.8)) / Math.min(1, this.camera.aspect),
+      17 / this.layout.zoom,
+    );
     const wantY = p.lip.y * 0.4;
     const k = immediate ? 1 : 1 - Math.exp(-dt * 6);
     this.frameH += (wantH - this.frameH) * k;
@@ -505,12 +568,13 @@ export class VesselEngine {
     const fov = THREE.MathUtils.degToRad(this.camera.fov);
     const dist = this.frameH / 2 / Math.tan(fov / 2);
     const tilt = THREE.MathUtils.degToRad(14);
-    const cx = this.options.anchorX ?? 0.5;
-    // Shift the view so the pot stands at anchorX across the canvas.
-    const halfW = (this.frameH / 2) * this.camera.aspect;
-    const shift = (0.5 - cx) * 2 * halfW;
-    this.camera.position.set(shift, this.frameY + Math.sin(tilt) * dist, Math.cos(tilt) * dist);
-    this.camera.lookAt(shift, this.frameY, 0);
+    // Aim the camera off the pot so that it stands at (x, y) on the canvas.
+    const halfH = this.frameH / 2;
+    const halfW = halfH * this.camera.aspect;
+    const shiftX = (0.5 - this.layout.x) * 2 * halfW;
+    const lookY = this.frameY - (0.5 - this.layout.y) * 2 * halfH;
+    this.camera.position.set(shiftX, lookY + Math.sin(tilt) * dist, Math.cos(tilt) * dist);
+    this.camera.lookAt(shiftX, lookY, 0);
   }
 
   /**
@@ -568,6 +632,19 @@ export class VesselEngine {
       if (Math.abs(this.target - this.stage) < 0.002) this.stage = this.target;
     }
     if (this.builtFor.stage !== this.stage || this.builtFor.profile !== this.profile) this.rebuild();
+
+    // Layout and light ease towards their targets at the same unhurried pace.
+    const e = 1 - Math.exp(-dt * 3.5);
+    const L = this.layout;
+    const T = this.layoutTarget;
+    L.x += (T.x - L.x) * e;
+    L.y += (T.y - L.y) * e;
+    L.zoom += (T.zoom - L.zoom) * e;
+    const M = this.mood;
+    const N = this.moodTarget;
+    M.kiln += (N.kiln - M.kiln) * e;
+    M.porcelain += (N.porcelain - M.porcelain) * e;
+    this.applyMood();
 
     // The wheel slows to a stop once the pot is off it.
     const onWheel = this.options.wheelAlways ? 1 : Math.max(0, 1 - this.stage);

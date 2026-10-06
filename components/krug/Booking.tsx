@@ -72,7 +72,7 @@ export function Booking() {
   // Keep a valid day selected when the format changes.
   useEffect(() => {
     if (!slots) return;
-    if (date && forClass.some((s) => s.date === date)) return;
+    if (date && forClass.some((s) => s.date === date && s.taken < s.seats)) return;
     const firstOpen = forClass.find((s) => s.taken < s.seats);
     setDate(firstOpen?.date ?? null);
     setSlot(null);
@@ -97,15 +97,15 @@ export function Booking() {
   return (
     <section id="classes" className="kr-classes" aria-labelledby="kr-classes-title">
       <div className="kr-wrap">
-        <header className="kr-head">
+        <div className="kr-section-head">
           <h2 id="kr-classes-title" className="kr-h2">
             Занятия
           </h2>
-          <p className="kr-head-note">
+          <p className="kr-lead">
             Все форматы с мастером, глина и фартук наши. Приходите в одежде, которую не жалко: глина отстирывается, но
             не с первого раза.
           </p>
-        </header>
+        </div>
 
         <div className="kr-classes-grid">
           <div className="kr-formats" role="radiogroup" aria-label="Формат занятия">

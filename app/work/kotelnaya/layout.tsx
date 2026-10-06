@@ -38,8 +38,8 @@ const ptMono = PT_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#ecebe6",
-  colorScheme: "light",
+  themeColor: "#141211",
+  colorScheme: "dark",
 };
 
 export default function KotelnayaLayout({ children }: { children: ReactNode }) {

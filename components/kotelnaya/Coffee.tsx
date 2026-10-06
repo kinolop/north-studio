@@ -1,24 +1,28 @@
 import { COFFEE, rub } from "@/lib/kotelnaya/data";
 
-import { Photo, hasPhoto } from "./Photo";
+import { Photo } from "./Photo";
 
 /**
- * Coffee, as a short board: eight lines, dotted leaders to the price, the
- * way it is chalked above the counter. A photograph of a cup on the window
- * sill sits beside it when there is one.
+ * Coffee, set on the window sill it is drunk at. The photograph takes the
+ * whole screen and the board is chalked over its dark side: eight lines,
+ * dotted leaders to the price, the way it hangs over the counter.
  */
 export function Coffee() {
-  const pic = hasPhoto("coffee");
   return (
-    <section id="coffee" className="kt-coffee" aria-labelledby="kt-coffee-title" data-pic={pic}>
-      <div className="kt-wrap kt-coffee-grid">
-        <div>
-          <h2 id="kt-coffee-title" className="kt-h2">
+    <section id="coffee" className="kt-coffee" aria-labelledby="kt-coffee-title">
+      <figure className="kt-coffee-pic" data-kt-speed="12">
+        <Photo
+          slug="coffee"
+          alt="Капучино и булочка с кардамоном на каменном подоконнике арочного окна, за стеклом двор"
+          sizes="100vw"
+        />
+      </figure>
+      <div className="kt-wrap kt-coffee-in">
+        <div className="kt-coffee-board">
+          <h2 id="kt-coffee-title" className="kt-h2" data-kt-split>
             Кофе
           </h2>
-          <p className="kt-head-note kt-coffee-note">
-            Зерно обжаривают в двух кварталах отсюда, раз в неделю. Молоко можно заменить на овсяное, без доплаты.
-          </p>
+          <p className="kt-lead">Зерно обжаривают в двух кварталах отсюда. Овсяное молоко без доплаты.</p>
           <ul className="kt-board">
             {COFFEE.map((c) => (
               <li key={c.name}>
@@ -32,11 +36,6 @@ export function Coffee() {
             ))}
           </ul>
         </div>
-        {pic && (
-          <figure className="kt-coffee-pic">
-            <Photo slug="coffee" alt="Капучино и булочка с кардамоном на каменном подоконнике арочного окна" sizes="(max-width: 900px) 100vw, 40vw" />
-          </figure>
-        )}
       </div>
     </section>
   );

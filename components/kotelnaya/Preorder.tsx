@@ -63,11 +63,11 @@ export function Preorder() {
   return (
     <section id="order" className="kt-order" aria-labelledby="kt-order-title">
       <div className="kt-wrap kt-order-grid">
-        <div>
-          <h2 id="kt-order-title" className="kt-h2">
+        <div className="kt-order-head">
+          <h2 id="kt-order-title" className="kt-h2" data-kt-split>
             Отложить к&nbsp;своему часу
           </h2>
-          <p className="kt-head-note">
+          <p className="kt-lead">
             Ржаной к вечеру заканчивается. Отложите заранее: подпишем пакет и оставим на кассе, оплата на месте.
           </p>
         </div>

@@ -40,8 +40,8 @@ const plex = IBM_Plex_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#d9d7d1",
-  colorScheme: "light",
+  themeColor: "#1b2f6e",
+  colorScheme: "dark",
 };
 
 export default function KrugLayout({ children }: { children: ReactNode }) {

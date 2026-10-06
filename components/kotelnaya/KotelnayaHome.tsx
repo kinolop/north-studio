@@ -1,24 +1,28 @@
 "use client";
 
-import { Breads } from "./Breads";
 import { Coffee } from "./Coffee";
-import { Hero } from "./Hero";
+import { Counter } from "./Counter";
+import { Craft } from "./Craft";
+import { Entrance } from "./Entrance";
 import { Oven } from "./Oven";
 import { Place } from "./Place";
 import { Preorder } from "./Preorder";
-import { Visit } from "./Visit";
 
-/** The page, top to bottom: the building, the oven's day, the bread, coffee, the place, setting bread aside, the way in. */
+/**
+ * The page, top to bottom: walking in, the oven's day, the counter, how the
+ * bread is made, the building, coffee, setting bread aside. The way back
+ * to the door is the footer.
+ */
 export function KotelnayaHome() {
   return (
     <>
-      <Hero />
+      <Entrance />
       <Oven />
-      <Breads />
-      <Coffee />
+      <Counter />
+      <Craft />
       <Place />
+      <Coffee />
       <Preorder />
-      <Visit />
     </>
   );
 }

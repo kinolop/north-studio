@@ -13,17 +13,16 @@ const LINKS = [
 ] as const;
 
 /**
- * The bar across the top. Over the photograph it is light and has no
- * ground; once the photograph has gone it sits on flour-white like the
- * rest of the page.
+ * The bar across the top. Over the opening film it has no ground at all;
+ * once the film has passed it takes the page's coal, with a hairline.
  */
 export function KotelnayaHeader() {
   const bar = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
-      const hero = document.querySelector<HTMLElement>(".kt-hero-photo");
-      const edge = hero ? hero.getBoundingClientRect().bottom - 64 : 0;
+      const film = document.querySelector<HTMLElement>(".kt-film");
+      const edge = film ? film.getBoundingClientRect().bottom - 64 : 0;
       bar.current?.setAttribute("data-over", edge > 0 ? "photo" : "page");
     };
     onScroll();

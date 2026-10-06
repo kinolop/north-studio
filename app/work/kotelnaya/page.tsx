@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title,
     description,
     locale: "ru_RU",
-    images: [{ url: "/work/kotelnaya/cover.jpg", width: 1536, height: 1024 }],
+    images: [{ url: "/work/kotelnaya/cover.jpg", width: 1500, height: 1000 }],
   },
   twitter: { card: "summary_large_image", title, description },
 };

@@ -51,16 +51,6 @@ export function Oven() {
   return (
     <section id="oven" className="kt-oven" aria-labelledby="kt-oven-title">
       <div className="kt-wrap">
-        <header className="kt-head">
-          <h2 id="kt-oven-title" className="kt-h2">
-            Из печи
-          </h2>
-          <p className="kt-head-note">
-            Печь растапливаем в шесть утра. Хлеб выходит партиями до вечера, и здесь всегда видно, что тёплое прямо
-            сейчас.
-          </p>
-        </header>
-
         <div className="kt-oven-grid">
           <figure className="kt-gauge">
             <svg
@@ -68,8 +58,20 @@ export function Oven() {
               role="img"
               aria-label={min === null ? "Циферблат печи" : `Циферблат печи, сейчас ${clock(min)} по Москве`}
             >
-              <circle cx={CX} cy={CY} r={176} className="kt-g-bezel" />
-              <circle cx={CX} cy={CY} r={166} className="kt-g-face" />
+              <defs>
+                <radialGradient id="kt-g-steel" cx="50%" cy="38%" r="62%">
+                  <stop offset="0%" stopColor="#4a4540" />
+                  <stop offset="70%" stopColor="#24201d" />
+                  <stop offset="100%" stopColor="#0f0d0c" />
+                </radialGradient>
+                <radialGradient id="kt-g-enamel" cx="46%" cy="40%" r="70%">
+                  <stop offset="0%" stopColor="#f3ecdf" />
+                  <stop offset="100%" stopColor="#ddd2bf" />
+                </radialGradient>
+              </defs>
+              <circle cx={CX} cy={CY} r={179} fill="url(#kt-g-steel)" />
+              <circle cx={CX} cy={CY} r={168} className="kt-g-lip" />
+              <circle cx={CX} cy={CY} r={164} fill="url(#kt-g-enamel)" />
               <path d={arc(150, A0, A0 + SWEEP)} className="kt-g-track" />
               {/* The red line: still warm. */}
               {live && min !== null && <path d={arc(150, angle(min - WARM_MIN), angle(min))} className="kt-g-red" />}
@@ -126,6 +128,14 @@ export function Oven() {
             </svg>
           </figure>
 
+          <div className="kt-oven-log">
+            <h2 id="kt-oven-title" className="kt-h2" data-kt-split>
+              Из печи
+            </h2>
+            <p className="kt-lead">
+              Печь растапливаем в шесть утра, и хлеб выходит партиями до вечера. Стрелка показывает московское время,
+              красная черта отмечает то, что ещё тёплое.
+            </p>
           <ol className="kt-bakes">
             {BAKES.map((b, i) => {
               const s = states?.[i];
@@ -143,6 +153,7 @@ export function Oven() {
               );
             })}
           </ol>
+          </div>
         </div>
       </div>
     </section>
