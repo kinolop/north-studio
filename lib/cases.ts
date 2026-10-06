@@ -2,7 +2,7 @@
  * Where each case lives and what it looks like, keyed by the project key in
  * the dictionaries. Kept out of the copy because a path is not translatable.
  *
- * Three cases are not routes in this app: they are static pages built as
+ * Two cases are not routes in this app: they are static pages built as
  * standalone sites, served whole out of `public/work/<slug>/` and
  * rewritten onto clean URLs in `next.config.ts`. Links to them must ask the
  * browser for a full page load rather than the router for a payload that
@@ -21,20 +21,20 @@ export const CASES: Readonly<Record<string, CaseLink>> = {
     cover: "/work/aven/images/hero.jpg",
     isStatic: true,
   },
+  kotelnaya: {
+    href: "/work/kotelnaya",
+    cover: "/work/kotelnaya/cover.jpg",
+    isStatic: false,
+  },
+  krug: {
+    href: "/work/krug",
+    cover: "/work/krug/cover.png",
+    isStatic: false,
+  },
   domstroy: {
     href: "/work/domstroy",
     cover: "/work/domstroy/images/hero.jpg",
     isStatic: true,
-  },
-  "dental-clinic": {
-    href: "/work/dental-clinic",
-    cover: "/work/dental-clinic/images/hero-clinic.png",
-    isStatic: true,
-  },
-  noctura: {
-    href: "/work/noctura",
-    cover: "/work/noctura/assets/cover.png",
-    isStatic: false,
   },
   marshrut: {
     href: "/work/marshrut",

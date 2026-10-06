@@ -26,9 +26,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/work/north-agent",
     "/work/north-flow",
     "/work/aven",
+    "/work/kotelnaya",
+    "/work/krug",
     "/work/domstroy",
-    "/work/dental-clinic",
-    "/work/noctura",
     "/work/marshrut",
     "/privacy",
   ].map((path) => ({

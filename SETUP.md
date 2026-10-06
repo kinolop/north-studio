@@ -27,7 +27,7 @@ there is no way to ship without noticing it.
 
 `/work/north-agent` is the one React case that carries artwork; `north-flow`
 is drawn in code and needs no files, and the two client cases
-(`domstroy`, `dental-clinic`) bring their own pictures with them. A missing
+(`aven`, `domstroy`) bring their own pictures with them. A missing
 file never shows a broken image — the frame falls back to a labelled
 placeholder. All of these go in `public/work/north-agent/assets/`:
 

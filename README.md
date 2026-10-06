@@ -245,19 +245,22 @@ agent, 285° for the flow. Both are labelled a demo concept in both locales,
 and every figure on them says so beside itself; nothing on either asserts a
 measured client result.
 
-**One is an invented brand**, `/work/noctura`: a five-star hotel that does
-not exist, presented the way it would present itself. It shares nothing
-visual with the rest of this site — its own tokens
-(`components/noctura/noctura.css`, all namespaced `--n-*` under a
-`.noctura` scope), its own faces loaded on that route only, its own header
-and footer. The studio's fixed chrome — preloader, atmosphere, header,
-compass, scroll rail, footer, sound — is suppressed for the route in
+**Three are invented brands**, presented the way each would present
+itself: `/work/marshrut`, a cargo company; `/work/krug`, a pottery studio
+whose cup is turned in WebGL and has no photographs at all; and
+`/work/kotelnaya`, a bakery in a former boiler house, whose photographs
+live in `public/work/kotelnaya/photos/` and are listed in
+`lib/kotelnaya/photos.ts` (a frame missing from that list is simply not
+drawn). None of them shares anything visual with the rest of this site:
+each has its own tokens, scoped and namespaced (`.mr`, `.kr` / `--k-*`,
+`.kt` / `--t-*`), its own faces loaded on that route only, its own header
+and footer. The studio's chrome is suppressed for these routes in
 `components/chrome/StudioChrome.tsx`, so none of it renders at all.
 
-If you are editing that page and reach for a `--color-*`, `label-mono`,
-`Section`, `Reveal` or `--ease-north`, you are on the wrong page.
+If you are editing one of those pages and reach for a studio token or
+component, you are on the wrong page.
 
-**Two are real client work**, `/work/domstroy` and `/work/dental-clinic`,
+**Two are real client work**, `/work/aven` and `/work/domstroy`,
 and they are not React at all. Both were built and delivered as standalone
 static pages — one HTML file, one stylesheet, one script each — and they
 ship here exactly as the clients received them, under
@@ -316,7 +319,9 @@ app/
   globals.css       ALL design tokens (@theme) + primitives + keyframes
   work/north-agent/ the AI-agent product case
   work/north-flow/  the automation product case
-  work/noctura/     the hotel case — an invented brand, its own site
+  work/marshrut/    the cargo case — an invented brand, its own site
+  work/krug/        the pottery case — an invented brand, drawn in code
+  work/kotelnaya/   the bakery case — an invented brand, photographed
 components/
   atmosphere/       fog, cursor light, grain, dither — the lit room
   scene/            the chrome N and its rig
@@ -327,7 +332,9 @@ components/
   sections/         the eleven movements
   agent/            the North Agent case's sections
   flow/             the North Flow case's sections, and the conveyor
-  noctura/          NOCTURA's sections, its lift, its floors
+  marshrut/         МАРШРУТ's sections and its night-run engine
+  krug/             «Круг»: the wheel, the kiln, the shelf, the plan
+  kotelnaya/        «Котельная»: the oven gauge, the bread, pre-order
   ui/               Reveal, SplitLines, MagneticButton, Eyebrow, GhostWord
 lib/
   i18n/             types.ts (the contract) + en.ts + ru.ts

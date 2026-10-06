@@ -518,7 +518,7 @@ export const en = {
 
   work: {
     title: ["Work"],
-    lede: "Sites for clients, two brands invented from scratch, and my own products. Every one can be opened and tried.",
+    lede: "Sites for clients, three brands invented from scratch, and my own products. Every one can be opened and tried.",
     caseCta: "Open",
     projects: [
       {
@@ -530,27 +530,27 @@ export const en = {
         year: "2026",
       },
       {
+        key: "kotelnaya",
+        name: "Kotelnaya",
+        discipline: "Bakery site, concept",
+        summary:
+          "A bakery in a former boiler house. The oven's gauge shows what is warm right now, and bread can be set aside for a chosen hour.",
+        year: "2026",
+      },
+      {
+        key: "krug",
+        name: "Krug",
+        discipline: "Pottery studio site, concept",
+        summary:
+          "Pull a cup on the wheel right on the first screen, then take it through drying, firing and glaze. Not one photograph: all of it drawn in code.",
+        year: "2026",
+      },
+      {
         key: "domstroy",
         name: "Domstroy",
         discipline: "Website for a home builder",
         summary:
           "Turnkey houses outside Moscow. A cost calculator, a map of finished builds and an open estimate.",
-        year: "2026",
-      },
-      {
-        key: "dental-clinic",
-        name: "Dental Clinic",
-        discipline: "Website for a dental clinic",
-        summary:
-          "Treatments, doctors, prices, a before-and-after slider and booking from anywhere on the page.",
-        year: "2026",
-      },
-      {
-        key: "noctura",
-        name: "Noctura",
-        discipline: "Hotel brand and site, concept",
-        summary:
-          "A hotel that does not exist: its own identity, full-screen film and a lift between floors.",
         year: "2026",
       },
       {

@@ -10,15 +10,16 @@ import { PenTrail } from "@/components/paper/PenTrail";
 /**
  * Routes that are not North Studio and must not wear its chrome.
  *
- * `/work/noctura` presents an invented hotel with its own dark-and-gold
- * identity, its own header and its own footer. `/work/marshrut` is an
- * invented cargo company, a night run with its own header and footer.
+ * `/work/marshrut` is an invented cargo company, a night run with its own
+ * header and footer. `/work/krug` is an invented pottery studio and
+ * `/work/kotelnaya` an invented bakery, each with its own faces, colours,
+ * header and footer.
  *
- * The static client cases need no entry here. `/work/aven`,
- * `/work/domstroy` and `/work/dental-clinic` are documents served straight
- * out of `public`, so this layout never runs for them at all.
+ * The static client cases need no entry here. `/work/aven` and
+ * `/work/domstroy` are documents served straight out of `public`, so this
+ * layout never runs for them at all.
  */
-const FOREIGN_ROUTES = ["/work/noctura", "/work/marshrut"] as const;
+const FOREIGN_ROUTES = ["/work/marshrut", "/work/krug", "/work/kotelnaya"] as const;
 
 /**
  * Every studio page is printed on the same sheet. `usePathname` resolves
