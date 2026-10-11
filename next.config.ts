@@ -17,8 +17,13 @@ import type { NextConfig } from "next";
  *
  * Their assets are referenced from the site root rather than relatively, so
  * the rewritten URL and the direct one both resolve identically.
+ *
+ * MIKRON and Dvor are standalone Next.js sites of their own (their sources
+ * live outside this repo), exported by `next build` as static files under
+ * the basePath `/work/<slug>`. Their `_next/` folder belongs to them, not
+ * to this app, and every URL inside them already carries the prefix.
  */
-const STATIC_CASES = ["aven", "domstroy"] as const;
+const STATIC_CASES = ["aven", "domstroy", "mikron", "dvor"] as const;
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,

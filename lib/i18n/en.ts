@@ -530,6 +530,14 @@ export const en = {
         year: "2026",
       },
       {
+        key: "mikron",
+        name: "MIKRON",
+        discipline: "Car detailing site, concept",
+        summary:
+          "Polishing and ceramic coating with the paint measured. A before-and-after shutter, the car mapped by zones and a day-by-day schedule that shows how long the ceramic really cures.",
+        year: "2026",
+      },
+      {
         key: "kotelnaya",
         name: "Kotelnaya",
         discipline: "Bakery site, concept",
@@ -543,6 +551,14 @@ export const en = {
         discipline: "Pottery studio site, concept",
         summary:
           "Pull a cup on the wheel right on the first screen, then take it through drying, firing and glaze. Not one photograph: all of it drawn in code.",
+        year: "2026",
+      },
+      {
+        key: "dvor",
+        name: "Dvor",
+        discipline: "Coffee shop site, concept",
+        summary:
+          "A coffee shop in a Petersburg courtyard. The menu changes with the time of day, orders go to a Telegram bot, and a map of the yard leads to the yellow door.",
         year: "2026",
       },
       {

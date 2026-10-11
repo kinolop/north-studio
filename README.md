@@ -260,6 +260,14 @@ and footer. The studio's chrome is suppressed for these routes in
 If you are editing one of those pages and reach for a studio token or
 component, you are on the wrong page.
 
+**Two more invented brands are static exports**, `/work/mikron` (car
+detailing: a before-and-after shutter, the car mapped by zones, a
+day-by-day schedule computed from step hours) and `/work/dvor` (a coffee
+shop in a Petersburg courtyard). Each is its own Next.js site, kept
+outside this repo, built with `npm run export` (basePath `/work/<slug>`)
+and copied whole from its `out/` into `public/work/<slug>/`. To update
+one, rebuild it there and replace the folder; `cover.jpg` comes with it.
+
 **Two are real client work**, `/work/aven` and `/work/domstroy`,
 and they are not React at all. Both were built and delivered as standalone
 static pages — one HTML file, one stylesheet, one script each — and they
