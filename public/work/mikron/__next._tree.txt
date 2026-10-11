@@ -10,4 +10,4 @@
 :HL["/work/mikron/_next/static/media/cfdfbee4d6cf0a93-s.p.1jwcpm6w583_v.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/work/mikron/_next/static/media/effe91970fc4db64-s.p.0oace-s_gkfks.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"zYJExZIPCdNeAZUcZENvd","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"I_MDhsHF-giq6leoff3ay","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
