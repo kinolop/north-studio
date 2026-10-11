@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef } from "react";
 
 import { LOCALE_WILL_CHANGE, useLocale } from "@/components/i18n/CopyProvider";
@@ -18,6 +19,14 @@ let lenis: Lenis | null = null;
  * miss the request.
  */
 let locked = false;
+
+/**
+ * Where the reader stood on the home page when they followed a link out of
+ * it, so the back button can put them in front of the same work again.
+ */
+let homeY = 0;
+/** The route change in progress came from the back or forward button. */
+let fromHistory = false;
 
 /**
  * Anchor navigation routed through Lenis so nav jumps share the page's
@@ -70,6 +79,79 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const firstLocale = useRef(true);
   /** Where the reader was when the language was switched: a section and how far into it. */
   const anchor = useRef<{ id: string; offset: number } | null>(null);
+  const pathname = usePathname();
+  const firstPath = useRef(true);
+
+  useEffect(() => {
+    const leave = (event: MouseEvent) => {
+      if (window.location.pathname !== "/") return;
+      if ((event.target as Element | null)?.closest?.("a[href]")) homeY = window.scrollY;
+    };
+    const pop = () => {
+      fromHistory = true;
+    };
+    document.addEventListener("click", leave, true);
+    window.addEventListener("popstate", pop);
+    return () => {
+      document.removeEventListener("click", leave, true);
+      window.removeEventListener("popstate", pop);
+    };
+  }, []);
+
+  // One scroller serves every page, and it keeps the position of whatever
+  // page it last moved. Next.js only lifts a new page to the top when the
+  // page's first element is out of view, and a case opens on a fixed stage
+  // that is always in view, so a case used to open wherever the previous
+  // page had stopped: halfway down, or at its end. Every page now opens at
+  // its top. The home page, reached with the back button, opens where the
+  // reader left it, once its pinned sections have been measured again.
+  useLayoutEffect(() => {
+    if (firstPath.current) {
+      firstPath.current = false;
+      return;
+    }
+    const back = fromHistory;
+    fromHistory = false;
+    if (window.location.hash && !back) return;
+
+    const jump = (top: number) => {
+      window.scrollTo(0, top);
+      if (!lenis) return;
+      // Lenis still holds the height of the page it came from, and may still
+      // be gliding towards a spot on it. It measures the new page, and a stop
+      // and start drops the glide and takes up the native position as its own.
+      lenis.resize();
+      if (!lenis.isStopped) {
+        lenis.stop();
+        lenis.start();
+      }
+    };
+    jump(0);
+    if (pathname !== "/" || !back || homeY === 0) {
+      ScrollTrigger.refresh();
+      return;
+    }
+    // The rebuilt page grows over a few frames while its sections mount and
+    // pin, so wait until it is tall enough to hold the old position (with a
+    // fresh measure every few frames), and give up after about a second.
+    const target = homeY;
+    let frame = 0;
+    let tries = 0;
+    const settle = () => {
+      const max = () => document.documentElement.scrollHeight - window.innerHeight;
+      if (max() < target && tries < 60) {
+        tries += 1;
+        if (tries % 10 === 0) ScrollTrigger.refresh();
+        frame = requestAnimationFrame(settle);
+        return;
+      }
+      ScrollTrigger.refresh();
+      jump(Math.min(target, max()));
+      ScrollTrigger.update();
+    };
+    frame = requestAnimationFrame(settle);
+    return () => cancelAnimationFrame(frame);
+  }, [pathname]);
 
   useEffect(() => {
     const remember = () => {
