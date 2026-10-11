@@ -10,7 +10,7 @@
  */
 export interface CaseLink {
   readonly href: string;
-  /** Original file under /public. Never served raw: see `coverSrc`. */
+  /** The print on the home wall: a 1500x1000 key picture in `public/work/covers/`. */
   readonly cover: string;
   readonly isStatic: boolean;
 }
@@ -18,47 +18,47 @@ export interface CaseLink {
 export const CASES: Readonly<Record<string, CaseLink>> = {
   aven: {
     href: "/work/aven",
-    cover: "/work/aven/images/hero.jpg",
+    cover: "/work/covers/aven.jpg",
     isStatic: true,
   },
   mikron: {
     href: "/work/mikron",
-    cover: "/work/mikron/cover.jpg",
+    cover: "/work/covers/mikron.jpg",
     isStatic: true,
   },
   kotelnaya: {
     href: "/work/kotelnaya",
-    cover: "/work/kotelnaya/cover.jpg",
+    cover: "/work/covers/kotelnaya.jpg",
     isStatic: false,
   },
   krug: {
     href: "/work/krug",
-    cover: "/work/krug/cover.png",
+    cover: "/work/covers/krug.jpg",
     isStatic: false,
   },
   dvor: {
     href: "/work/dvor",
-    cover: "/work/dvor/cover.jpg",
+    cover: "/work/covers/dvor.jpg",
     isStatic: true,
   },
   domstroy: {
     href: "/work/domstroy",
-    cover: "/work/domstroy/images/hero.jpg",
+    cover: "/work/covers/domstroy.jpg",
     isStatic: true,
   },
   marshrut: {
     href: "/work/marshrut",
-    cover: "/work/marshrut/assets/cover.png",
+    cover: "/work/covers/marshrut.jpg",
     isStatic: false,
   },
   "north-agent": {
     href: "/work/north-agent",
-    cover: "/work/north-agent/assets/cover.png",
+    cover: "/work/covers/north-agent.jpg",
     isStatic: false,
   },
   "north-flow": {
     href: "/work/north-flow",
-    cover: "/work/north-flow/assets/cover.png",
+    cover: "/work/covers/north-flow.jpg",
     isStatic: false,
   },
 };

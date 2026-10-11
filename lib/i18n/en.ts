@@ -518,7 +518,7 @@ export const en = {
 
   work: {
     title: ["Work"],
-    lede: "Sites for clients, three brands invented from scratch, and my own products. Every one can be opened and tried.",
+    lede: "Sites for clients, brands invented from scratch, and my own products. Every one can be opened and tried.",
     caseCta: "Open",
     projects: [
       {

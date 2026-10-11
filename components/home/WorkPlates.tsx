@@ -16,78 +16,13 @@ import type { ProjectCopy } from "@/lib/i18n/types";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-interface Slot {
-  /** Grid columns, plus the drop that keeps it off its neighbour's line. */
-  readonly place: string;
-  readonly frame: string;
-  readonly sizes: string;
-  /** Dropped plates rise against the scroll to meet their neighbour. */
-  readonly drift?: boolean;
-}
-
-const WIDE = "(min-width: 1024px) 50vw, 100vw";
-const NARROW = "(min-width: 1024px) 34vw, 100vw";
-const TALL = "(min-width: 1024px) 34vw, 75vw";
-
 /**
- * The hang, row by row, the way an architect pins prints to a wall: two to
- * a row and never level with each other, so the eye zig-zags down the sheet
- * instead of reading a grid. Rows take the projects in the order the copy
- * lists them; a project past the last row starts the pattern again.
- *
- * Below `lg` every plate stacks; the portraits alternate sides so the
- * column still walks.
+ * The hang: two equal columns of prints, all cut to the same 3:2. The right
+ * column hangs a fixed drop lower than the left, so every pair zig-zags the
+ * same way, the numbers read in order down the sheet, and no plate is left
+ * floating in a hole. Below `lg` the prints simply stack.
  */
-const ROWS: readonly (readonly Slot[])[] = [
-  [
-    { place: "col-span-12 lg:col-span-6", frame: "aspect-[3/2]", sizes: WIDE },
-    { place: "col-span-12 lg:col-start-8 lg:col-span-5 lg:mt-[16vw]", frame: "aspect-[3/2]", sizes: WIDE, drift: true },
-  ],
-  [
-    { place: "col-span-12 lg:col-start-3 lg:col-span-5 lg:mt-[12vw]", frame: "aspect-[3/2]", sizes: WIDE, drift: true },
-    { place: "col-span-12 lg:col-start-9 lg:col-span-4", frame: "aspect-[3/2]", sizes: NARROW },
-  ],
-  [
-    {
-      place: "col-span-12 lg:col-start-5 lg:col-span-8",
-      // A screen, not a photograph: framed at its own proportion so no
-      // edge of the interface is cropped away.
-      frame: "aspect-[27/16]",
-      sizes: "(min-width: 1024px) 66vw, 100vw",
-    },
-  ],
-  [
-    { place: "col-span-9 lg:col-start-2 lg:col-span-4", frame: "aspect-[4/5]", sizes: TALL },
-    {
-      place: "col-span-9 col-start-4 lg:col-start-8 lg:col-span-4 lg:mt-[18vw]",
-      frame: "aspect-[4/5]",
-      sizes: TALL,
-      drift: true,
-    },
-  ],
-];
-
-interface Hung {
-  readonly plate: Slot;
-  readonly project: ProjectCopy;
-  readonly index: number;
-}
-
-function hang(projects: readonly ProjectCopy[]): Hung[][] {
-  const rows: Hung[][] = [];
-  for (let start = 0, r = 0; start < projects.length; r += 1) {
-    const pattern = ROWS[r % ROWS.length]!;
-    rows.push(
-      projects.slice(start, start + pattern.length).map((project, k) => ({
-        plate: pattern[k]!,
-        project,
-        index: start + k,
-      })),
-    );
-    start += pattern.length;
-  }
-  return rows;
-}
+const SIZES = "(min-width: 1024px) 46vw, 100vw";
 
 /**
  * The work, hung large.
@@ -96,16 +31,14 @@ function hang(projects: readonly ProjectCopy[]): Hung[][] {
  * underneath like a plate in a monograph: number, name, what it is. Each
  * one prints onto the sheet dot by dot the first time it comes into view.
  * The plates hung low rise a little faster than the page, so a row closes
- * up as you read it. The prints themselves are never cropped by the
- * motion: half the covers are screens, and a cut-off headline reads as
- * a mistake.
+ * up as you read it. Every cover is the case's own key picture rather than
+ * a screenshot of its interface, so the wall reads as one set of prints.
  */
 export function WorkPlates() {
   const copy = useCopy();
   const rootRef = useRef<HTMLDivElement>(null);
 
   const projects = copy.work.projects.filter((project) => CASES[project.key]);
-  const rows = hang(projects);
 
   useGSAP(
     () => {
@@ -171,43 +104,29 @@ export function WorkPlates() {
           />
         </div>
 
-        {rows.map((row, r) => (
-          <div
-            key={r}
-            className={`sheet-grid items-start gap-y-16 lg:gap-y-0 ${r === 0 ? "mt-14 lg:mt-[7vw]" : "mt-16 lg:mt-[9vw]"}`}
-          >
-            {row.map(({ plate, project, index }) => (
-              <Plate key={project.key} plate={plate} project={project} index={index} cta={copy.work.caseCta} />
-            ))}
-          </div>
-        ))}
+        <ol className="sheet-grid mt-14 gap-y-14 lg:mt-[7vw] lg:gap-y-[5vw] lg:pb-[10vw]">
+          {projects.map((project, index) => (
+            <Plate key={project.key} project={project} index={index} cta={copy.work.caseCta} />
+          ))}
+        </ol>
       </div>
     </Section>
   );
 }
 
-function Plate({
-  plate,
-  project,
-  index,
-  cta,
-}: {
-  plate: Slot;
-  project: ProjectCopy;
-  index: number;
-  cta: string;
-}) {
+function Plate({ project, index, cta }: { project: ProjectCopy; index: number; cta: string }) {
+  const right = index % 2 === 1;
   const entry = CASES[project.key]!;
 
   const body = (
     <>
-      <span className={`relative block overflow-hidden bg-paper-deep ${plate.frame}`}>
+      <span className="relative block aspect-[3/2] overflow-hidden bg-paper-deep">
         <span data-print className="halftone absolute inset-0 block">
           <Image
             src={entry.cover}
             alt=""
             fill
-            sizes={plate.sizes}
+            sizes={SIZES}
             className="object-cover transition-[scale] duration-[1100ms] ease-[var(--ease-print)] group-hover:scale-[1.035]"
           />
         </span>
@@ -239,16 +158,20 @@ function Plate({
     </>
   );
 
-  const className = `group block ${plate.place}`;
-  const drift = plate.drift ? "" : undefined;
+  const className = `group block ${right ? "lg:translate-y-[10vw] lg:pl-[2vw]" : "lg:pr-[2vw]"}`;
+  const drift = right ? "" : undefined;
 
-  return entry.isStatic ? (
-    <a href={entry.href} className={className} data-drift={drift}>
-      {body}
-    </a>
-  ) : (
-    <Link href={entry.href} className={className} data-drift={drift}>
-      {body}
-    </Link>
+  return (
+    <li className="col-span-12 lg:col-span-6">
+      {entry.isStatic ? (
+        <a href={entry.href} className={className} data-drift={drift}>
+          {body}
+        </a>
+      ) : (
+        <Link href={entry.href} className={className} data-drift={drift}>
+          {body}
+        </Link>
+      )}
+    </li>
   );
 }

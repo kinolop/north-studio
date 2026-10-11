@@ -266,7 +266,8 @@ day-by-day schedule computed from step hours) and `/work/dvor` (a coffee
 shop in a Petersburg courtyard). Each is its own Next.js site, kept
 outside this repo, built with `npm run export` (basePath `/work/<slug>`)
 and copied whole from its `out/` into `public/work/<slug>/`. To update
-one, rebuild it there and replace the folder; `cover.jpg` comes with it.
+one, rebuild it there and replace the folder. The print each case hangs
+on the home wall is a 1500x1000 key picture in `public/work/covers/`.
 
 **Two are real client work**, `/work/aven` and `/work/domstroy`,
 and they are not React at all. Both were built and delivered as standalone
