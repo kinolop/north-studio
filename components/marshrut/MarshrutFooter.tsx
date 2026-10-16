@@ -24,8 +24,8 @@ export function MarshrutFooter() {
             <Link href="/#work" className="mr-link">
               Вернуться в North Studio
             </Link>
-            <a href="https://t.me/danilskrylev" target="_blank" rel="noreferrer noopener" className="mr-link">
-              North Studio, Telegram @danilskrylev
+            <a href="https://t.me/danilskrilev" target="_blank" rel="noreferrer noopener" className="mr-link">
+              North Studio, Telegram @danilskrilev
             </a>
           </div>
         </div>
